@@ -35,3 +35,14 @@ git push origin username/feature-name
 Once feature branch is push to Github website you can create pull request and merge the code here https://github.com/chrisrauch193/HEAL-frontend/pulls
 
 Be careful when resoving conflicts
+
+## View extra useful features
+View git commit history
+```bash
+git log
+```
+
+View differences between different files, commits, etc...
+```bash
+git diff
+```
