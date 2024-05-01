@@ -3,6 +3,7 @@ Fronend for HEAL Project will be written in React Native
 
 ## Quick Start
 ```bash
+npm install
 npx expo
 ```
 
