@@ -23,7 +23,7 @@ const Chat: React.FC = () => {
 
     useLayoutEffect(() => {
         function fetchGroups() {
-            fetch("http://localhost:4000/api")
+            fetch("http://192.168.0.12:4000/api")
                 .then((res) => res.json())
                 .then((data) => setRooms(data))
                 .catch((err) => console.error(err));
