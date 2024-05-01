@@ -1,45 +1,28 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, TextInput, Text, FlatList, Pressable } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import socket from "../utils/socket";
 import MessageComponent from "../component/MessageComponent";
 import { styles } from "../utils/styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// Define types for navigation and route props
-import { RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../App";
-
-interface MessagingProps {
-    route: RouteProp<RootStackParamList, 'Messaging'>;
-    navigation: StackNavigationProp<RootStackParamList, 'Messaging'>;
-}
-
-interface Message {
+interface ChatMessage {
     id: string;
     text: string;
     time: string;
     user: string;
 }
 
-const Messaging: React.FC<MessagingProps> = ({ route, navigation }) => {
-    const [chatMessages, setChatMessages] = useState<Message[]>([
-        {
-            id: "1",
-            text: "You have COVID",
-            time: "07:50",
-            user: "Doctor",
-        },
-        {
-            id: "2",
-            text: "SAD",
-            time: "08:50",
-            user: "Patient",
-        },
-    ]);
-    const [message, setMessage] = useState<string>("");
-    const [user, setUser] = useState<string>("");
+interface RouteParams {
+    name: string;
+    id: string;
+}
 
-    const { name, id } = route.params as { name: string; id: string };
+const Messaging: React.FC<{ route: { params: RouteParams }, navigation: any }> = ({ route, navigation }) => {
+    const [user, setUser] = useState<string>("");
+    const { name, id } = route.params;
+
+    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+    const [message, setMessage] = useState<string>("");
 
     const getUsername = async () => {
         try {
@@ -52,42 +35,71 @@ const Messaging: React.FC<MessagingProps> = ({ route, navigation }) => {
         }
     };
 
+    const handleNewMessage = () => {
+        const hour =
+            new Date().getHours() < 10
+                ? `0${new Date().getHours()}`
+                : `${new Date().getHours()}`;
+
+        const mins =
+            new Date().getMinutes() < 10
+                ? `0${new Date().getMinutes()}`
+                : `${new Date().getMinutes()}`;
+
+        if (user) {
+            socket.emit("newMessage", {
+                message,
+                room_id: id,
+                user,
+                timestamp: { hour, mins },
+            });
+        }
+    };
+
     useLayoutEffect(() => {
         navigation.setOptions({ title: name });
         getUsername();
-    }, [navigation, name]);
+        socket.emit("findRoom", id);
+        socket.on("foundRoom", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
+    }, []);
 
-    const handleNewMessage = () => {
-        const hour = new Date().getHours().toString().padStart(2, '0');
-        const mins = new Date().getMinutes().toString().padStart(2, '0');
-
-        console.log({
-            message,
-            user,
-            timestamp: { hour, mins },
-        });
-    };
+    useEffect(() => {
+        socket.on("foundRoom", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
+    }, [socket]);
 
     return (
         <View style={styles.messagingscreen}>
-            <FlatList
-                data={chatMessages}
-                renderItem={({ item }) => <MessageComponent item={item} user={user} />}
-                keyExtractor={(item) => item.id}
-                style={{ flex: 1 }}
-            />
+            <View
+                style={[
+                    styles.messagingscreen,
+                    { paddingVertical: 15, paddingHorizontal: 10 },
+                ]}
+            >
+                {chatMessages[0] ? (
+                    <FlatList
+                        data={chatMessages}
+                        renderItem={({ item }) => (
+                            <MessageComponent item={item} user={user} />
+                        )}
+                        keyExtractor={(item) => item.id}
+                    />
+                ) : (
+                    ""
+                )}
+            </View>
+
             <View style={styles.messaginginputContainer}>
                 <TextInput
                     style={styles.messaginginput}
-                    placeholder="Type your message here..."
-                    value={message}
-                    onChangeText={setMessage}
+                    onChangeText={(value) => setMessage(value)}
                 />
                 <Pressable
                     style={styles.messagingbuttonContainer}
                     onPress={handleNewMessage}
                 >
-                    <Text style={{ color: "#fff", fontSize: 16 }}>SEND</Text>
+                    <View>
+                        <Text style={{ color: "#f2f0f1", fontSize: 20 }}>SEND</Text>
+                    </View>
                 </Pressable>
             </View>
         </View>
