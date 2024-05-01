@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import {
     Text,
     SafeAreaView,
@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // TypeScript types for navigation prop
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../App'; // Adjust the import based on your file structure
+import { RootStackParamList } from '../App';
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
