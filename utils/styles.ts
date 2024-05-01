@@ -188,4 +188,9 @@ export const styles = StyleSheet.create({
     ctime: {
         opacity: 0.5,
     },
+    // New style for medical terms
+    medicalTerm: {
+        color: "blue", // Change color as desired
+        textDecorationLine: "underline", // Add underline
+    },
 });

@@ -36,22 +36,16 @@ const Messaging: React.FC<{ route: { params: RouteParams }, navigation: any }> =
     };
 
     const handleNewMessage = () => {
-        const hour =
-            new Date().getHours() < 10
-                ? `0${new Date().getHours()}`
-                : `${new Date().getHours()}`;
-
-        const mins =
-            new Date().getMinutes() < 10
-                ? `0${new Date().getMinutes()}`
-                : `${new Date().getMinutes()}`;
+        const timestamp = new Date().toISOString();
 
         if (user) {
-            socket.emit("newMessage", {
-                message,
+            socket.emit("send_message", {
                 room_id: id,
-                user,
-                timestamp: { hour, mins },
+                sender_user_id: user,
+                timestamp,
+                content: {
+                    text: message
+                }
             });
         }
     };
@@ -59,12 +53,12 @@ const Messaging: React.FC<{ route: { params: RouteParams }, navigation: any }> =
     useLayoutEffect(() => {
         navigation.setOptions({ title: name });
         getUsername();
-        socket.emit("findRoom", id);
-        socket.on("foundRoom", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
+        socket.emit("join_room", id);
+        socket.on("joined_room", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
     }, []);
 
     useEffect(() => {
-        socket.on("foundRoom", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
+        socket.on("joined_room", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
     }, [socket]);
 
     return (
