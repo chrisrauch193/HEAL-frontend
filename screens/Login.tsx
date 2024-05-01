@@ -11,6 +11,8 @@ import {
 // Import the app styles
 import { styles } from '../utils/styles';
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 // TypeScript types for navigation prop
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App'; // Adjust the import based on your file structure
@@ -24,6 +26,15 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ navigation }) => {
     const [username, setUsername] = useState<string>('');
 
+    const storeUsername = async () => {
+        try {
+            await AsyncStorage.setItem("username", username);
+            navigation.navigate("Chat");
+        } catch (e) {
+            Alert.alert("Error! While saving username");
+        }
+    };
+
     // Checks if the input field is empty
     const handleSignIn = () => {
         if (username.trim()) {
@@ -34,6 +45,20 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
         }
     };
 
+    useLayoutEffect(() => {
+        const getUsername = async () => {
+            try {
+                const value = await AsyncStorage.getItem("username");
+                if (value !== null) {
+                    navigation.navigate("Chat");
+                }
+            } catch (e) {
+                console.error("Error while loading username!");
+            }
+        };
+        getUsername();
+    }, [navigation]); // Added navigation as a dependency
+
     return (
         <SafeAreaView style={styles.loginscreen}>
             <View style={styles.loginscreen}>
@@ -41,9 +66,9 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
                 <View style={styles.logininputContainer}>
                     <TextInput
                         autoCorrect={false}
-                        placeholder='Enter your username'
+                        placeholder="Enter your username"
                         style={styles.logininput}
-                        onChangeText={(value: string) => setUsername(value)}
+                        onChangeText={setUsername}
                     />
                 </View>
 
