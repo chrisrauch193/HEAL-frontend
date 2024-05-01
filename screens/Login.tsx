@@ -39,7 +39,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
     const handleSignIn = () => {
         if (username.trim()) {
             // Logs the username to the console
-            console.log({ username });
+            storeUsername();
         } else {
             Alert.alert('Username is required.');
         }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState }  from "react";
 import { View, Text, Pressable, SafeAreaView, FlatList } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
