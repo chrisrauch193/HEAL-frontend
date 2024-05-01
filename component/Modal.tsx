@@ -2,21 +2,27 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Pressable } from "react-native";
 import { styles } from "../utils/styles";
 
+// Import the Socket instance from the utils folder
+import socket from "../utils/socket";
+
 // Define the type for props
 interface ModalProps {
     setVisible: (visible: boolean) => void;
 }
 
 const Modal: React.FC<ModalProps> = ({ setVisible }) => {
-    const [groupName, setGroupName] = useState<string>(""); // Specify the type for state
+    const [groupName, setGroupName] = useState<string>("");
 
-    // Function that closes the Modal component
     const closeModal = () => setVisible(false);
 
-    // Logs the group name to the console and closes the modal
     const handleCreateRoom = () => {
-        console.log({ groupName });
-        closeModal();
+        if (groupName.trim()) {
+            // Sends a message containing the group name to the server
+            socket.emit("createRoom", groupName);
+            closeModal();
+        } else {
+            console.log("Group name is required."); // Optionally, use an alert or a state to show an error message in the UI
+        }
     };
 
     return (
@@ -25,9 +31,9 @@ const Modal: React.FC<ModalProps> = ({ setVisible }) => {
             <TextInput
                 style={styles.modalinput}
                 placeholder="Group name"
-                onChangeText={setGroupName}  // Directly set the state without wrapping
+                value={groupName}
+                onChangeText={setGroupName}
             />
-
             <View style={styles.modalbuttonContainer}>
                 <Pressable style={styles.modalbutton} onPress={handleCreateRoom}>
                     <Text style={styles.modaltext}>CREATE</Text>
