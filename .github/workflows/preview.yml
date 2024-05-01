@@ -33,6 +33,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Initialize EAS
+        run: eas init --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
