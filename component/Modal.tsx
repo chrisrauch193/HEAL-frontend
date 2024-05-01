@@ -10,15 +10,32 @@ interface ModalProps {
     setVisible: (visible: boolean) => void;
 }
 
+interface Room {
+    id: string;
+    name: string;
+    messages: Array<{
+        id: string;
+        text: string;
+        time: string;
+        user: string;
+    }>;
+}
+
 const Modal: React.FC<ModalProps> = ({ setVisible }) => {
     const [groupName, setGroupName] = useState<string>("");
+    const [rooms, setRooms] = useState<Room[]>([]);
 
     const closeModal = () => setVisible(false);
+
+    const handleRoomsUpdate = (rooms: Room[]) => {
+        setRooms(rooms);
+    };
 
     const handleCreateRoom = () => {
         if (groupName.trim()) {
             // Sends a message containing the group name to the server
-            socket.emit("createRoom", groupName);
+            socket.emit("create_room", groupName);
+            socket.on("rooms_list", handleRoomsUpdate);
             closeModal();
         } else {
             console.log("Group name is required."); // Optionally, use an alert or a state to show an error message in the UI

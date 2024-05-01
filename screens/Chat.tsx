@@ -36,10 +36,10 @@ const Chat: React.FC = () => {
             setRooms(rooms);
         };
 
-        socket.on("roomsList", handleRoomsUpdate);
+        socket.on("rooms_list", handleRoomsUpdate);
 
         return () => {
-            socket.off("roomsList", handleRoomsUpdate);
+            socket.off("rooms_list", handleRoomsUpdate);
         };
     }, []);
 
