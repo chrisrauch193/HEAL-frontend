@@ -37,4 +37,34 @@ export const chatStyles = StyleSheet.create({
         fontSize: 24,
         paddingBottom: 30,
     },
+    chat: {
+        width: "100%",
+        flexDirection: "row",
+        alignItems: "center",
+        borderRadius: 5,
+        paddingHorizontal: 15,
+        backgroundColor: "#fff",
+        height: 80,
+        marginBottom: 10,
+    },
+    avatar: {
+        marginRight: 15,
+    },
+    rightContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        flex: 1,
+    },
+    username: {
+        fontSize: 18,
+        marginBottom: 5,
+        fontWeight: "bold",
+    },
+    message: {
+        fontSize: 14,
+        opacity: 0.7,
+    },
+    time: {
+        opacity: 0.5,
+    },
 });
