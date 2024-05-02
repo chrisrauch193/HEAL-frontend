@@ -4,7 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import Modal from "../components/Modal";
 import ChatComponent from "../components/ChatComponent";
 import socket from "../utils/socket";
-import { styles } from "../utils/styles";
+import { chatStyles } from "../styles/chatStyles";
 
 interface Room {
     id: string;
@@ -46,17 +46,15 @@ const Chat: React.FC = () => {
     const handleCreateGroup = () => setVisible(true);
 
     return (
-        <SafeAreaView style={styles.chatscreen}>
-            <View style={styles.chattopContainer}>
-                <View style={styles.chatheader}>
-                    <Text style={styles.chatheading}>Chats</Text>
-                    <Pressable onPress={handleCreateGroup}>
-                        <Feather name='edit' size={24} color='green' />
-                    </Pressable>
-                </View>
+        <SafeAreaView style={chatStyles.container}>
+            <View style={chatStyles.header}>
+                <Text style={chatStyles.heading}>Chats</Text>
+                <Pressable onPress={handleCreateGroup}>
+                    <Feather name='edit' size={24} color='green' />
+                </Pressable>
             </View>
 
-            <View style={styles.chatlistContainer}>
+            <View style={chatStyles.listContainer}>
                 {rooms.length > 0 ? (
                     <FlatList
                         data={rooms}
@@ -64,8 +62,8 @@ const Chat: React.FC = () => {
                         keyExtractor={(item) => item.id}
                     />
                 ) : (
-                    <View style={styles.chatemptyContainer}>
-                        <Text style={styles.chatemptyText}>No rooms created!</Text>
+                    <View style={chatStyles.emptyContainer}>
+                        <Text style={chatStyles.emptyText}>No rooms created!</Text>
                         <Text>Click the icon above to create a Chat room</Text>
                     </View>
                 )}
