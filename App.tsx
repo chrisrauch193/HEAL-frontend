@@ -4,6 +4,7 @@ import store from './store';
 
 // Screens
 import Login from './screens/Login';
+import Register from './screens/Register';
 import Messaging from './screens/Messaging';
 import Chat from './screens/Chat';
 
@@ -13,6 +14,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 type RootStackParamList = {
     Login: undefined;
+    Register: undefined;
     Chat: undefined;
     Messaging: undefined;
 };
@@ -28,6 +30,11 @@ const App: React.FC = () => {
                         name='Login'
                         component={Login}
                         options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name='Register'
+                        component={Register}
+                        options={{ title: 'Register' }}
                     />
                     <Stack.Screen
                         name='Chat'

@@ -40,6 +40,10 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
         }
     };
 
+    const handleRegister = () => {
+        navigation.navigate('Register');
+    };
+
     return (
         <SafeAreaView style={loginStyles.container}>
             <Text style={loginStyles.heading}>Sign in</Text>
@@ -68,6 +72,9 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
                 ) : (
                     <Text style={loginStyles.buttonText}>Get Started</Text>
                 )}
+            </Pressable>
+            <Pressable onPress={handleRegister}>
+                <Text style={{ color: 'blue' }}>Don't have an account? Register here</Text>
             </Pressable>
         </SafeAreaView>
     );

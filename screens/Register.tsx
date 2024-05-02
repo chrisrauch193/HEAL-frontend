@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, TextInput, Pressable, Alert, Picker } from 'react-native';
+import { ScrollView, View, Text, TextInput, Pressable, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { registerNewUser } from '../store/slices/userSlice';
 import { registerStyles } from '../styles/registerStyles';
+import { Picker } from '@react-native-picker/picker';
 
 const Register = ({ navigation }) => {
     const [userType, setUserType] = useState('PATIENT');
