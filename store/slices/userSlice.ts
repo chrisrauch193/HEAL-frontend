@@ -1,30 +1,45 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { UserProfile } from '../../types/userTypes';
+import { fetchUserProfile } from '../../services/userService';
 
 interface UserState {
-  isAuthenticated: boolean;
-  userData: any | null;
+  profile: UserProfile | null;
+  status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: UserState = {
-  isAuthenticated: false,
-  userData: null
+  profile: null,
+  status: 'idle',
 };
+
+export const getUserProfile = createAsyncThunk(
+  'user/getUserProfile',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      return await fetchUserProfile(userId);
+    } catch (error) {
+      return rejectWithValue('Failed to fetch profile');
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    setUser(state, action: PayloadAction<any>) {
-      state.isAuthenticated = true;
-      state.userData = action.payload;
-    },
-    logoutUser(state) {
-      state.isAuthenticated = false;
-      state.userData = null;
-    }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(getUserProfile.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.profile = action.payload;
+        state.status = 'idle';
+      })
+      .addCase(getUserProfile.rejected, (state) => {
+        state.status = 'failed';
+      });
   }
 });
-
-export const { setUser, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

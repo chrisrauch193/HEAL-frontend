@@ -7,6 +7,9 @@ import {
     Pressable,
     Alert,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/slices/userSlice'; // Ensure the path to userSlice is correct
+
 
 // Import the app styles
 import { styles } from '../utils/styles';
@@ -25,10 +28,13 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ navigation }) => {
     const [username, setUsername] = useState<string>('');
+    const dispatch = useDispatch();
+
 
     const storeUsername = async () => {
         try {
             await AsyncStorage.setItem("username", username);
+            dispatch(setUser({ username }));
             navigation.navigate("Chat");
         } catch (e) {
             Alert.alert("Error! While saving username");
@@ -50,6 +56,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
             try {
                 const value = await AsyncStorage.getItem("username");
                 if (value !== null) {
+                    dispatch(setUser({ username: value }));
                     navigation.navigate("Chat");
                 }
             } catch (e) {
@@ -57,7 +64,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
             }
         };
         getUsername();
-    }, [navigation]); // Added navigation as a dependency
+    }, [navigation, dispatch]);
 
     return (
         <SafeAreaView style={styles.loginscreen}>
