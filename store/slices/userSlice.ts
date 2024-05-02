@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchUserProfile, loginUser, registerUser } from '../../services/userService';
+import { fetchUserProfile, loginUser, registerUser, updateUserProfile } from '../../services/userService';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../types/userTypes';
 
 interface UserState {
@@ -52,6 +52,17 @@ export const getUserProfile = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async ({ userId, userData }: { userId: string; userData: Partial<UserProfile> }, { rejectWithValue }) => {
+    try {
+      return await updateUserProfile(userId, userData);
+    } catch (error) {
+      return rejectWithValue('Failed to update profile');
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -94,8 +105,16 @@ const userSlice = createSlice({
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.profile = action.payload;
         state.status = 'idle';
+      }).addCase(getUserProfile.rejected, (state) => {
+        state.status = 'failed';
+      })      .addCase(updateUser.pending, (state) => {
+        state.status = 'loading';
       })
-      .addCase(getUserProfile.rejected, (state) => {
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.profile = action.payload;
+        state.status = 'idle';
+      })
+      .addCase(updateUser.rejected, (state) => {
         state.status = 'failed';
       });
   }

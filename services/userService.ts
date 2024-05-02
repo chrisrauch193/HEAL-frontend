@@ -15,3 +15,8 @@ export const fetchUserProfile = async (userId: string): Promise<UserProfile> => 
   const response = await axiosInstance.get<UserProfile>(`/users/${userId}`);
   return response.data;
 };
+
+export const updateUserProfile = async (userId: string, userData: Partial<UserProfile>): Promise<UserProfile> => {
+  const response = await axiosInstance.put<UserProfile>(`/users/${userId}`, userData);
+  return response.data;
+};
