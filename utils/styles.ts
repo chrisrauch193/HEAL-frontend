@@ -37,6 +37,40 @@ export const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "600",
     },
+    registerScreen: {
+        flex: 1,
+        backgroundColor: "#F7F7F8",
+        padding: 20,
+    },
+    registerInput: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 10,
+        marginBottom: 10,
+        width: '90%',
+    },
+    registerButton: {
+        backgroundColor: 'blue',
+        padding: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 10,
+        borderRadius: 50,
+    },
+    registerButtonText: {
+        color: 'white',
+        fontWeight: '600',
+    },
+    pickerStyle: {
+        height: 50,
+        marginBottom: 20,
+        width: '90%',
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+    },
     chatscreen: {
         backgroundColor: "#F7F7F7",
         flex: 1,

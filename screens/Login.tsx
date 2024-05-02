@@ -1,17 +1,11 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-    Text,
-    SafeAreaView,
-    View,
-    TextInput,
-    Pressable,
-    Alert,
+    Text, SafeAreaView, View, TextInput, Pressable, Alert, ActivityIndicator
 } from 'react-native';
-
-// Import the app styles
-import { styles } from '../utils/styles';
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from 'react-redux';
+import { authenticateUser } from '../store/slices/userSlice'; // Adjust path if necessary
+import { RootState } from '../store'; // Adjust path if necessary
+import { loginStyles } from '../styles/loginStyles';
 
 // TypeScript types for navigation prop
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -24,60 +18,64 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ navigation }) => {
-    const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const dispatch = useDispatch();
+    const { status } = useSelector((state: RootState) => state.user);
 
-    const storeUsername = async () => {
-        try {
-            await AsyncStorage.setItem("username", username);
-            navigation.navigate("Chat");
-        } catch (e) {
-            Alert.alert("Error! While saving username");
-        }
-    };
-
-    // Checks if the input field is empty
-    const handleSignIn = () => {
-        if (username.trim()) {
-            // Logs the username to the console
-            storeUsername();
-        } else {
-            Alert.alert('Username is required.');
-        }
-    };
-
-    useLayoutEffect(() => {
-        const getUsername = async () => {
+    const handleSignIn = async () => {
+        if (email.trim() && password.trim()) {
             try {
-                const value = await AsyncStorage.getItem("username");
-                if (value !== null) {
+                const actionResult = await dispatch(authenticateUser({ email, password }));
+                if (authenticateUser.fulfilled.match(actionResult)) {
                     navigation.navigate("Chat");
+                } else {
+                    throw new Error('Login failed');
                 }
-            } catch (e) {
-                console.error("Error while loading username!");
+            } catch (error) {
+                Alert.alert("Login Error", error.message || "Unable to login");
             }
-        };
-        getUsername();
-    }, [navigation]); // Added navigation as a dependency
+        } else {
+            Alert.alert('Error', 'Both email and password are required.');
+        }
+    };
+
+    const handleRegister = () => {
+        navigation.navigate('Register');
+    };
 
     return (
-        <SafeAreaView style={styles.loginscreen}>
-            <View style={styles.loginscreen}>
-                <Text style={styles.loginheading}>Sign in</Text>
-                <View style={styles.logininputContainer}>
-                    <TextInput
-                        autoCorrect={false}
-                        placeholder="Enter your username"
-                        style={styles.logininput}
-                        onChangeText={setUsername}
-                    />
-                </View>
-
-                <Pressable onPress={handleSignIn} style={styles.loginbutton}>
-                    <View>
-                        <Text style={styles.loginbuttonText}>Get Started</Text>
-                    </View>
-                </Pressable>
+        <SafeAreaView style={loginStyles.container}>
+            <Text style={loginStyles.heading}>Sign in</Text>
+            <View style={loginStyles.inputContainer}>
+                <TextInput
+                    autoCorrect={false}
+                    placeholder="Enter your email"
+                    style={loginStyles.input}
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    secureTextEntry={true}
+                    placeholder="Enter your password"
+                    style={loginStyles.input}
+                    value={password}
+                    onChangeText={setPassword}
+                    autoCapitalize="none"
+                />
             </View>
+            <Pressable onPress={handleSignIn} style={loginStyles.button} disabled={status === 'loading'}>
+                {status === 'loading' ? (
+                    <ActivityIndicator size="small" color="#FFF" />
+                ) : (
+                    <Text style={loginStyles.buttonText}>Get Started</Text>
+                )}
+            </Pressable>
+            <Pressable onPress={handleRegister}>
+                <Text style={{ color: 'blue' }}>Don't have an account? Register here</Text>
+            </Pressable>
         </SafeAreaView>
     );
 };
