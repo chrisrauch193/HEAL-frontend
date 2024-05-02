@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from './store';
 
 // Screens
 import Login from './screens/Login';
@@ -19,24 +21,26 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App: React.FC = () => {
     return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen
-                    name='Login'
-                    component={Login}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='Chat'
-                    component={Chat}
-                    options={{
-                        title: 'Chats',
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen name='Messaging' component={Messaging} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Provider store={store}>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen
+                        name='Login'
+                        component={Login}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name='Chat'
+                        component={Chat}
+                        options={{
+                            title: 'Chats',
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen name='Messaging' component={Messaging} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </Provider>
     );
 };
 
