@@ -1,6 +1,8 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { useEffect } from 'react';
+import { Provider, useDispatch } from 'react-redux';
 import store from './store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { loadUserToken } from './store/slices/userSlice';
 
 // Screens
 import Login from './screens/Login';
@@ -22,6 +24,12 @@ type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App: React.FC = () => {
+    // const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     dispatch(loadUserToken()); // Load user token when the app starts
+    // }, []); // Empty dependency array to run only once on app startup
+
     return (
         <Provider store={store}>
             <NavigationContainer>

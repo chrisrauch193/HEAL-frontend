@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchUserProfile, loginUser, registerUser, updateUserProfile } from '../../services/userService';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../types/userTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserState {
   profile: UserProfile | null;
@@ -14,12 +15,24 @@ const initialState: UserState = {
   status: 'idle',
 };
 
+// Load token from AsyncStorage
+const loadToken = async () => {
+  try {
+    const token = await AsyncStorage.getItem('userToken');
+    return token;
+  } catch (error) {
+    console.error('Error loading token from AsyncStorage:', error);
+    return null;
+  }
+};
+
 // Async thunk for user login
 export const authenticateUser = createAsyncThunk(
   'user/authenticate',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const token = await loginUser(credentials);
+      await AsyncStorage.setItem('userToken', token);
       return token;
     } catch (error) {
       return rejectWithValue('Login failed');
@@ -36,6 +49,23 @@ export const registerNewUser = createAsyncThunk(
       return newUserProfile;
     } catch (error) {
       return rejectWithValue('Registration failed');
+    }
+  }
+);
+
+// Load token from AsyncStorage when app starts
+export const loadUserToken = createAsyncThunk(
+  'user/loadToken',
+  async () => {
+    try {
+      const token = await loadToken();
+      console.log("HIHIHIHI")
+      console.log(token)
+      console.log("HIHIHIHI")
+      return token;
+    } catch (error) {
+      console.error('Error loading token:', error);
+      return null;
     }
   }
 );
