@@ -1,49 +1,27 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
-import { View, Text, Pressable, SafeAreaView, FlatList } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import React, { useState, useEffect } from "react";
+import { View, Text, Pressable, SafeAreaView, FlatList, ActivityIndicator } from "react-native";
+import { Feather } from '@expo/vector-icons'; // Import Feather icons
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRooms } from '../store/slices/chatSlice';  // Ensure you have this action in chatSlice
+import { RootState } from '../store';
 import Modal from "../components/Modal";
 import ChatComponent from "../components/ChatComponent";
-import socket from "../utils/socket";
 import { chatStyles } from "../styles/chatStyles";
-
-interface Room {
-    id: string;
-    name: string;
-    messages: Array<{
-        id: string;
-        text: string;
-        time: string;
-        user: string;
-    }>;
-}
+import { UserProfile } from '../types/userTypes'; // Import UserProfile type
 
 const Chat: React.FC = () => {
+    const dispatch = useDispatch();
+    const { rooms, loading, error } = useSelector((state: RootState) => state.chat);
     const [visible, setVisible] = useState<boolean>(false);
-    const [rooms, setRooms] = useState<Room[]>([]);
-
-    useLayoutEffect(() => {
-        function fetchGroups() {
-            fetch("http://192.168.0.16:4000/api")
-                .then((res) => res.json())
-                .then((data) => setRooms(data))
-                .catch((err) => console.error(err));
-        }
-        fetchGroups();
-    }, []);
 
     useEffect(() => {
-        const handleRoomsUpdate = (rooms: Room[]) => {
-            setRooms(rooms);
-        };
-
-        socket.on("rooms_list", handleRoomsUpdate);
-
-        return () => {
-            socket.off("rooms_list", handleRoomsUpdate);
-        };
-    }, []);
+        dispatch(fetchRooms());  // Fetch rooms on component mount
+    }, [dispatch]);
 
     const handleCreateGroup = () => setVisible(true);
+
+    if (loading) return <ActivityIndicator size="large" color="#0000ff" />;  // Loading indicator
+    if (error) return <Text>Error fetching rooms: {error}</Text>;  // Error message
 
     return (
         <SafeAreaView style={chatStyles.container}>
@@ -55,11 +33,12 @@ const Chat: React.FC = () => {
             </View>
 
             <View style={chatStyles.listContainer}>
-                {rooms.length > 0 ? (
+                {rooms && rooms.length > 0 ? (
                     <FlatList
                         data={rooms}
-                        renderItem={({ item }) => <ChatComponent item={item} />}
-                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => <Text>{item.room}</Text>}
+                        // renderItem={({ item }) => <ChatComponent room={item} />}
+                        keyExtractor={(item) => item.room_id.toString()}
                     />
                 ) : (
                     <View style={chatStyles.emptyContainer}>
@@ -68,7 +47,7 @@ const Chat: React.FC = () => {
                     </View>
                 )}
             </View>
-            {visible ? <Modal setVisible={setVisible} /> : null}
+            {visible && <Modal setVisible={setVisible} />}
         </SafeAreaView>
     );
 };
