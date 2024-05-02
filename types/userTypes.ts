@@ -8,15 +8,16 @@ export interface BaseUser {
 }
 
 export interface Patient extends BaseUser {
-    type: 'PATIENT';
     height: number;
     weight: number;
 }
 
 export interface Doctor extends BaseUser {
-    type: 'DOCTOR';
     hospital: string;
     specialisation: string;
 }
+
+export interface RegisterPatientInfo extends Omit<Patient, 'user_id'> { }
+export interface RegisterDoctorInfo extends Omit<Doctor, 'user_id'> { }
 
 export type UserProfile = Patient | Doctor;
