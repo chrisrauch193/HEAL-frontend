@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchUserProfile, loginUser, registerUser, updateUserProfile } from '../../services/userService';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { fetchUserProfile, loginUser, registerUser, updateUserProfile, verifyToken } from '../../services/userService';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../types/userTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserState {
   profile: UserProfile | null;
-  token: string | null; // Store the auth token
+  token: string | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -15,26 +15,34 @@ const initialState: UserState = {
   status: 'idle',
 };
 
-// Load token from AsyncStorage
-const loadToken = async () => {
-  try {
+// Async thunk for verifying the token
+export const verifyUserToken = createAsyncThunk(
+  'user/verifyToken',
+  async (_, { rejectWithValue }) => {
     const token = await AsyncStorage.getItem('userToken');
-    return token;
-  } catch (error) {
-    console.error('Error loading token from AsyncStorage:', error);
-    return null;
+    if (!token) return rejectWithValue('No token found');
+    const result = await verifyToken();
+    if (result.isValid) {
+      console.log("herere");
+      return { user: result.user, token: token };
+    } else {
+      await AsyncStorage.removeItem('userToken');
+      await AsyncStorage.removeItem('userProfile'); // Assuming you store user profile data
+      return rejectWithValue('Token invalid');
+    }
   }
-};
+);
 
 // Async thunk for user login
 export const authenticateUser = createAsyncThunk(
   'user/authenticate',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const token = await loginUser(credentials);
+      const { user, token } = await loginUser(credentials);
       await AsyncStorage.setItem('userToken', token);
-      return token;
+      return { user, token };
     } catch (error) {
+      console.log(error);
       return rejectWithValue('Login failed');
     }
   }
@@ -45,27 +53,11 @@ export const registerNewUser = createAsyncThunk(
   'user/register',
   async (userInfo: RegisterPatientInfo | RegisterDoctorInfo, { rejectWithValue }) => {
     try {
-      const newUserProfile = await registerUser(userInfo);
-      return newUserProfile;
+      const { user, token } = await registerUser(userInfo);
+      await AsyncStorage.setItem('userToken', token);
+      return { user, token };
     } catch (error) {
       return rejectWithValue('Registration failed');
-    }
-  }
-);
-
-// Load token from AsyncStorage when app starts
-export const loadUserToken = createAsyncThunk(
-  'user/loadToken',
-  async () => {
-    try {
-      const token = await loadToken();
-      console.log("HIHIHIHI")
-      console.log(token)
-      console.log("HIHIHIHI")
-      return token;
-    } catch (error) {
-      console.error('Error loading token:', error);
-      return null;
     }
   }
 );
@@ -98,6 +90,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
+      AsyncStorage.removeItem('userToken');
       state.profile = null;
       state.token = null;
       state.status = 'idle';
@@ -109,11 +102,24 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(verifyUserToken.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(verifyUserToken.fulfilled, (state, action) => {
+        state.token = action.payload.token;
+        state.profile = action.payload.user;
+        state.status = 'idle';  // Successfully verified
+        console.log(state);
+      })
+      .addCase(verifyUserToken.rejected, (state) => {
+        state.status = 'failed';  // Verification failed
+      })
       .addCase(authenticateUser.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
-        state.token = action.payload;
+        state.token = action.payload.token;
+        state.profile = action.payload.user;
         state.status = 'idle';
       })
       .addCase(authenticateUser.rejected, (state) => {
@@ -123,7 +129,8 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(registerNewUser.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.profile = action.payload.user;
+        state.token = action.payload.token;
         state.status = 'idle';
       })
       .addCase(registerNewUser.rejected, (state) => {
@@ -135,9 +142,11 @@ const userSlice = createSlice({
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.profile = action.payload;
         state.status = 'idle';
-      }).addCase(getUserProfile.rejected, (state) => {
+      })
+      .addCase(getUserProfile.rejected, (state) => {
         state.status = 'failed';
-      })      .addCase(updateUser.pending, (state) => {
+      })
+      .addCase(updateUser.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(updateUser.fulfilled, (state, action) => {

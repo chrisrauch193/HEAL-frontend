@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'https://b054dd89-38a5-44e9-aed1-b3d6a985edfb.mock.pstmn.io';
+export const API_BASE_URL = 'https://41a922ad-b90c-40fe-b885-261398b6b4eb.mock.pstmn.io';
