@@ -43,4 +43,8 @@ export const messagingStyles = StyleSheet.create({
     avatar: {
         marginRight: 5,
     },
+    medicalTerm: {
+        color: "blue",
+        textDecorationLine: "underline",
+    },
 });

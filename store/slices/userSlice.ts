@@ -23,7 +23,6 @@ export const verifyUserToken = createAsyncThunk(
     if (!token) return rejectWithValue('No token found');
     const result = await verifyToken();
     if (result.isValid) {
-      console.log("herere");
       return { user: result.user, token: token };
     } else {
       await AsyncStorage.removeItem('userToken');
@@ -109,7 +108,6 @@ const userSlice = createSlice({
         state.token = action.payload.token;
         state.profile = action.payload.user;
         state.status = 'idle';  // Successfully verified
-        console.log(state);
       })
       .addCase(verifyUserToken.rejected, (state) => {
         state.status = 'failed';  // Verification failed
