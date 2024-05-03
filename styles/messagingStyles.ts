@@ -1,50 +1,39 @@
+// styles/messagingStyles.ts
 import { StyleSheet } from "react-native";
 
 export const messagingStyles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 10,
+        backgroundColor: "#ffffff", // Assuming a white background for the chat screen
     },
     inputContainer: {
-        width: "100%",
-        minHeight: 100,
-        backgroundColor: "white",
-        paddingVertical: 30,
-        paddingHorizontal: 15,
-        justifyContent: "center",
         flexDirection: "row",
+        padding: 15,
+        borderTopWidth: 1,
+        borderColor: "#ccc",
+        backgroundColor: "#f5f5f5",
     },
     input: {
-        borderWidth: 1,
-        padding: 15,
         flex: 1,
-        marginRight: 10,
+        height: 40,
+        borderColor: "#ddd",
+        borderWidth: 1,
         borderRadius: 20,
+        padding: 10,
+        marginRight: 10,
+        backgroundColor: "#ffffff",
     },
     buttonContainer: {
-        width: "30%",
-        backgroundColor: "green",
-        borderRadius: 3,
-        alignItems: "center",
+        width: 50,
+        height: 40,
+        backgroundColor: "#007BFF",
+        borderRadius: 20,
         justifyContent: "center",
-        borderRadius: 50,
+        alignItems: "center",
     },
-    messageWrapper: {
-        width: "100%",
-        alignItems: "flex-start",
-        marginBottom: 15,
-    },
-    message: {
-        maxWidth: "50%",
-        backgroundColor: "#f5ccc2",
-        padding: 15,
-        borderRadius: 10,
-        marginBottom: 2,
-    },
-    avatar: {
-        marginRight: 5,
-    },
-    medicalTerm: {
-        color: "blue",
-        textDecorationLine: "underline",
+    buttonText: {
+        color: "#ffffff",
+        fontSize: 16,
     },
 });

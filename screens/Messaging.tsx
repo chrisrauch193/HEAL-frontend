@@ -19,6 +19,9 @@ const Messaging = ({ route, navigation }) => {
         socket.emit('join_room', room_id);  // Ensure the user joins the room
 
         socket.on('new_message', (message) => {
+            console.log(currentUser);
+            console.log(messages);
+            console.log(message);
             dispatch(receivedMessage({ roomId: room_id, message }));
         });
 
