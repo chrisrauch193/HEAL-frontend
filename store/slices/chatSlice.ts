@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import * as chatService from '../../services/chatService';
 import { ChatRoom, ChatMessage } from '../../types/chatRoomTypes';
 
@@ -34,6 +34,13 @@ export const chatSlice = createSlice({
             }
             state.messages[roomId].push(message);
         },
+        addOptimisticMessage: (state, action: PayloadAction<{ roomId: string; message: ChatMessage }>) => {
+            const { roomId, message } = action.payload;
+            if (!state.messages[roomId]) {
+                state.messages[roomId] = [];
+            }
+            state.messages[roomId].push(message);
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -61,5 +68,5 @@ export const chatSlice = createSlice({
     }
 });
 
-export const { receivedMessage } = chatSlice.actions;
+export const { receivedMessage, addOptimisticMessage } = chatSlice.actions;
 export default chatSlice.reducer;

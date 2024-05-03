@@ -4,10 +4,13 @@ import { View, Text } from "react-native";
 import HighlightedText from './HighlightedText';
 import messageStyles from '../styles/messageStyles'; // Ensure the path is correct
 
-const MessageComponent = ({ item, current_user_id }) => {
+const MessageComponent = ({ item, current_user_id, userLanguage }) => {
     const isCurrentUser = item.sender_user_id === current_user_id;
-    const messageText = item.content.text; // Default text
-    const medicalTerms = item.content.metadata?.medical_terms?.map(term => term.name) || [];
+    const translations = item.content.metadata.translations;
+    // Determine the message text based on user's language or default to English if unavailable
+    const messageText = isCurrentUser ? item.content.text : translations[userLanguage] || translations['en'] || item.content.text;
+    // const medicalTerms = item.content.metadata?.medical_terms?.map(term => term.name) || [];
+    const medicalTerms = item.content.metadata?.medical_terms || [];
 
     // Function to format timestamp using the user's local timezone
     const formatTime = (timestamp) => {

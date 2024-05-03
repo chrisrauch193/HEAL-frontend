@@ -41,4 +41,39 @@ export const modalStyles = StyleSheet.create({
     modaltext: {
         color: "#fff",
     },
+    tooltipContainer: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 20,
+        alignItems: "left",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    closeButton: {
+        backgroundColor: "#2196F3",
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        width: "100%",
+    },
+    closeButtonText: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    },
+    link: {
+        color: 'blue',
+        textDecorationLine: 'underline'
+    }
 });

@@ -16,7 +16,8 @@ export const messagingStyles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        height: 40,
+        minHeight: 40, // Minimum height
+        maxHeight: 120, // Maximum height as needed
         borderColor: "#ddd",
         borderWidth: 1,
         borderRadius: 20,

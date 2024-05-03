@@ -20,6 +20,9 @@ const messageStyles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 15,
+        backgroundColor: "white",
+        maxWidth: "80%", // Ensure it doesn't stretch too far
+        flexDirection: "column", // Stack text and timestamp vertically
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.22,
@@ -34,11 +37,13 @@ const messageStyles = StyleSheet.create({
     },
     myMessageText: {
         color: "black",
-        textAlign: "left"
+        textAlign: "left",
+        flexWrap: 'wrap', // Wrap text to new line
     },
     otherMessageText: {
         color: "black",
-        textAlign: "left"
+        textAlign: "left",
+        flexWrap: 'wrap', // Wrap text to new line
     },
     avatar: {
         padding: 5,
