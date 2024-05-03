@@ -1,99 +1,49 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+// screens/Messaging.tsx
+import React, { useEffect } from "react";
 import { View, TextInput, Text, FlatList, Pressable } from "react-native";
-import socket from "../utils/socket";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMessages } from '../store/slices/chatSlice';
+import { RootState } from '../store';
 import MessageComponent from "../components/MessageComponent";
 import { messagingStyles } from "../styles/messagingStyles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-interface ChatMessage {
-    id: string;
-    text: string;
-    time: string;
-    user: string;
-}
 
 interface RouteParams {
     name: string;
-    id: string;
+    room_id: string;
 }
 
 const Messaging: React.FC<{ route: { params: RouteParams }, navigation: any }> = ({ route, navigation }) => {
-    const [user, setUser] = useState<string>("");
-    const { name, id } = route.params;
-
-    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
-    const [message, setMessage] = useState<string>("");
-
-    const getUsername = async () => {
-        try {
-            const value = await AsyncStorage.getItem("username");
-            if (value !== null) {
-                setUser(value);
-            }
-        } catch (e) {
-            console.error("Error while loading username!");
-        }
-    };
-
-    const handleNewMessage = () => {
-        const timestamp = new Date().toISOString();
-
-        if (user) {
-            socket.emit("send_message", {
-                room_id: id,
-                sender_user_id: user,
-                timestamp,
-                content: {
-                    text: message
-                }
-            });
-        }
-    };
-
-    useLayoutEffect(() => {
-        navigation.setOptions({ title: name });
-        getUsername();
-        socket.emit("join_room", id);
-        socket.on("joined_room", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
-    }, []);
+    const { name, room_id } = route.params;
+    const dispatch = useDispatch();
+    const messages = useSelector((state: RootState) => state.chat.messages[room_id] || []);
+    const [messageText, setMessageText] = React.useState<string>("");
 
     useEffect(() => {
-        socket.on("joined_room", (roomChats: ChatMessage[]) => setChatMessages(roomChats));
-    }, [socket]);
+        dispatch(fetchMessages(room_id));
+    }, [dispatch, room_id]);
+
+    const handleSend = () => {
+        // Implement the logic to send a message
+        console.log("Sending message:", messageText);
+        setMessageText(""); // Reset input after sending
+    };
 
     return (
         <View style={messagingStyles.container}>
-            <View
-                style={[
-                    messagingStyles.container,
-                    { paddingVertical: 15, paddingHorizontal: 10 },
-                ]}
-            >
-                {chatMessages[0] ? (
-                    <FlatList
-                        data={chatMessages}
-                        renderItem={({ item }) => (
-                            <MessageComponent item={item} user={user} />
-                        )}
-                        keyExtractor={(item) => item.id}
-                    />
-                ) : (
-                    ""
-                )}
-            </View>
-
+            <FlatList
+                data={messages}
+                renderItem={({ item }) => <MessageComponent item={item} current_user_id="123" />} // Adjust current_user_id accordingly
+                keyExtractor={(item) => item.message_id}
+            />
             <View style={messagingStyles.inputContainer}>
                 <TextInput
                     style={messagingStyles.input}
-                    onChangeText={(value) => setMessage(value)}
+                    value={messageText}
+                    onChangeText={setMessageText}
+                    placeholder="Type a message"
                 />
-                <Pressable
-                    style={messagingStyles.buttonContainer}
-                    onPress={handleNewMessage}
-                >
-                    <View>
-                        <Text style={{ color: "#f2f0f1", fontSize: 20 }}>SEND</Text>
-                    </View>
+                <Pressable style={messagingStyles.buttonContainer} onPress={handleSend}>
+                    <Text style={{ color: "#f2f0f1", fontSize: 20 }}>SEND</Text>
                 </Pressable>
             </View>
         </View>
