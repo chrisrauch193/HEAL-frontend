@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { View, TextInput, Text, FlatList, Pressable } from "react-native";
 import socket from "../utils/socket";
 import MessageComponent from "../components/MessageComponent";
-import { styles } from "../utils/styles";
+import { messagingStyles } from "../styles/messagingStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface ChatMessage {
@@ -62,10 +62,10 @@ const Messaging: React.FC<{ route: { params: RouteParams }, navigation: any }> =
     }, [socket]);
 
     return (
-        <View style={styles.messagingscreen}>
+        <View style={messagingStyles.container}>
             <View
                 style={[
-                    styles.messagingscreen,
+                    messagingStyles.container,
                     { paddingVertical: 15, paddingHorizontal: 10 },
                 ]}
             >
@@ -82,13 +82,13 @@ const Messaging: React.FC<{ route: { params: RouteParams }, navigation: any }> =
                 )}
             </View>
 
-            <View style={styles.messaginginputContainer}>
+            <View style={messagingStyles.inputContainer}>
                 <TextInput
-                    style={styles.messaginginput}
+                    style={messagingStyles.input}
                     onChangeText={(value) => setMessage(value)}
                 />
                 <Pressable
-                    style={styles.messagingbuttonContainer}
+                    style={messagingStyles.buttonContainer}
                     onPress={handleNewMessage}
                 >
                     <View>
