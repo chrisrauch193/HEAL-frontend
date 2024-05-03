@@ -18,14 +18,23 @@ export const fetchRooms = createAsyncThunk('chat/fetchChatRooms', async (userId:
     return await chatService.getUserChatRooms(userId);
 });
 
-export const fetchMessages = createAsyncThunk('chat/fetchMessages', async (roomId: string) => {
-    return await chatService.getChatRoomMessages(roomId);
+export const fetchInitialMessages = createAsyncThunk('chat/fetchInitialMessages', async (roomId: string) => {
+    const messages = await chatService.getChatRoomMessages(roomId);
+    return { roomId, messages };
 });
 
 export const chatSlice = createSlice({
     name: 'chat',
     initialState,
-    reducers: {},
+    reducers: {
+        receivedMessage: (state, action) => {
+            const { roomId, message } = action.payload;
+            if (!state.messages[roomId]) {
+                state.messages[roomId] = [];
+            }
+            state.messages[roomId].push(message);
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchRooms.pending, (state) => {
@@ -38,18 +47,19 @@ export const chatSlice = createSlice({
             .addCase(fetchRooms.rejected, (state) => {
                 state.status = 'failed';
             })
-            .addCase(fetchMessages.pending, (state) => {
+            .addCase(fetchInitialMessages.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(fetchMessages.fulfilled, (state, action) => {
-                const roomId = action.meta.arg; // Assuming the room ID is passed as an argument
-                state.messages[roomId] = action.payload;
+            .addCase(fetchInitialMessages.fulfilled, (state, action) => {
+                const { roomId, messages } = action.payload;
+                state.messages[roomId] = messages;
                 state.status = 'idle';
             })
-            .addCase(fetchMessages.rejected, (state) => {
+            .addCase(fetchInitialMessages.rejected, (state) => {
                 state.status = 'failed';
             });
     }
 });
 
+export const { receivedMessage } = chatSlice.actions;
 export default chatSlice.reducer;
