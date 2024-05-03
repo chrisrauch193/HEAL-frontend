@@ -2,30 +2,30 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import Login from './screens/Login';
 import Register from './screens/Register';
-import Messaging from './screens/Messaging';
 import Chat from './screens/Chat';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Messaging from './screens/Messaging';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const App = () => {
-    return (
-        <Provider store={store}>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                    <Stack.Screen name="Register" component={Register} options={{ title: 'Register' }} />
-                    <Stack.Screen name="Chat" component={Chat} options={{ title: 'Chats', headerShown: false }} />
-                    <Stack.Screen name="Messaging" component={Messaging} />
-                </Stack.Navigator>
-            </NavigationContainer>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="AuthLoading">
+          <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="Messaging" component={Messaging} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
 };
 
 export default App;

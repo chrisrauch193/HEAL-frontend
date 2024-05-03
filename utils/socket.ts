@@ -1,8 +1,19 @@
-// Import the necessary module from socket.io-client
+// utils/socket.ts
 import { io } from "socket.io-client";
+import store from '../store';
+import { receivedMessage } from '../store/slices/chatSlice';
+import { SOCKET_URL } from "../config";
 
-// Create a socket connection
-const socket = io.connect("http://192.168.0.16:4000");
+const socket = io(SOCKET_URL);
 
-// Export the socket
+export const initializeChat = (roomId) => {
+  socket.on('message', message => {
+    if (message.room_id === roomId) {
+      store.dispatch(receivedMessage({ roomId: message.room_id, message }));
+    }
+  });
+
+  return socket;
+};
+
 export default socket;

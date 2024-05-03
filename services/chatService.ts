@@ -65,10 +65,21 @@ export const getUserChatRooms = async (userId: string) => {
         const response = await axiosInstance.get(`/users/${userId}/chats`, {
             headers: {'x-mock-response-name': 'Get User Chat Rooms Success'}
         });
-        console.log(response.data.rooms);
         return response.data.rooms;
     } catch (error) {
         console.error('Failed to get user chat rooms:', error);
+        throw error;
+    }
+};
+
+export const getChatRoomMessages = async (roomId: string) => {
+    try {
+        const response = await axiosInstance.get(`/chats/${roomId}/messages`, {
+            headers: {'x-mock-response-name': 'Get Chat Room Messages Success'}
+        });
+        return response.data.messages;
+    } catch (error) {
+        console.error('Failed to get chat room messages:', error);
         throw error;
     }
 };
