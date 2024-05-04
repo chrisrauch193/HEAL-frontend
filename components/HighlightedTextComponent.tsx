@@ -15,13 +15,8 @@ const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medica
     const [selectedTerm, setSelectedTerm] = React.useState<MedicalTerm | null>(null);
 
     const handlePressTerm = (medicalTerm: MedicalTerm) => {
-        console.log("PRESSING");
-        console.log(medicalTerm)
-        console.log("THANKS");
         setSelectedTerm(medicalTerm);
         setModalVisible(true);
-        console.log(selectedTerm);
-        console.log("DONE");
     };
 
     const closeModal = () => {
