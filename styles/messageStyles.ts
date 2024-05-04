@@ -1,64 +1,38 @@
-// styles/messageStyles.ts
-import { StyleSheet } from 'react-native';
+// src/styles/chatStyles.ts
+import { StyleSheet } from "react-native";
+import { colors, spacing, fonts } from './globalStyles';
 
-const messageStyles = StyleSheet.create({
+export const messageStyles = StyleSheet.create({
     myMessage: {
         flexDirection: "row",
-        justifyContent: "flex-end", // Aligns this to the right
-        padding: 10,
-        marginVertical: 4,
-        marginLeft: 10,
+        justifyContent: "flex-end",
+        padding: spacing.small,
+        marginVertical: spacing.small,
     },
     otherMessage: {
         flexDirection: "row",
-        justifyContent: "flex-start", // Aligns this to the left
-        padding: 10,
-        marginVertical: 4,
-        marginRight: 10,
+        justifyContent: "flex-start",
+        padding: spacing.small,
+        marginVertical: spacing.small,
     },
     messageContent: {
-        paddingHorizontal: 12,
-        paddingVertical: 8,
+        paddingHorizontal: spacing.small,
+        paddingVertical: spacing.small,
         borderRadius: 15,
-        backgroundColor: "white",
-        maxWidth: "80%", // Ensure it doesn't stretch too far
-        flexDirection: "column", // Stack text and timestamp vertically
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
+        backgroundColor: colors.white,
+        maxWidth: "80%",
+        flexDirection: "column",
     },
     myMessageContent: {
-        backgroundColor: "#DCF8C6", // Light green background for current user
+        backgroundColor: colors.lightGreen,
     },
     otherMessageContent: {
-        backgroundColor: "#ECECEC", // Light gray background for other users
-    },
-    myMessageText: {
-        color: "black",
-        textAlign: "left",
-        flexWrap: 'wrap', // Wrap text to new line
-    },
-    otherMessageText: {
-        color: "black",
-        textAlign: "left",
-        flexWrap: 'wrap', // Wrap text to new line
-    },
-    avatar: {
-        padding: 5,
-        alignSelf: "flex-end"
-    },
-    medicalTermHighlight: {
-        color: "blue",
-        textDecorationLine: "underline",
+        backgroundColor: colors.lightGray,
     },
     timestamp: {
-        fontSize: 12,
-        color: "#555",
+        fontSize: fonts.small,
+        color: colors.grey,
         alignSelf: "flex-end",
-        paddingTop: 5
+        paddingTop: spacing.small,
     },
 });
-
-export default messageStyles;

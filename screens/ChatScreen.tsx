@@ -1,22 +1,26 @@
+// src/screens/ChatScreen.tsx
 import React, { useEffect } from "react";
 import { View, Text, Pressable, SafeAreaView, FlatList, ActivityIndicator } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRooms } from '../store/slices/chatSlice';  // Assuming this action exists
+import { fetchRooms } from '../store/slices/chatSlice';
 import { RootState } from '../store';
-import Modal from "../components/Modal";
 import ChatComponent from "../components/ChatComponent";
 import { chatStyles } from "../styles/chatStyles";
+import ModalComponent from "../components/ModalComponent";
 
-const Chat: React.FC = () => {
+const ChatScreen: React.FC = () => {
     const dispatch = useDispatch();
     const { rooms, status } = useSelector((state: RootState) => state.chat);
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     useEffect(() => {
-        dispatch(fetchRooms());  // Fetch rooms on component mount
+        dispatch(fetchRooms());
     }, [dispatch]);
 
-    const handleCreateGroup = () => {/* Implement group creation logic */};
+    const handleCreateGroup = () => {
+        setModalVisible(true);
+    };
 
     if (status === 'loading') {
         return <ActivityIndicator size="large" color="#0000ff" />;
@@ -39,7 +43,7 @@ const Chat: React.FC = () => {
                     <FlatList
                         data={rooms}
                         renderItem={({ item }) => <ChatComponent item={item} />}
-                        keyExtractor={(item) => item.room_id.toString()}
+                        keyExtractor={(item) => item.roomId.toString()}
                     />
                 ) : (
                     <View style={chatStyles.emptyContainer}>
@@ -47,8 +51,9 @@ const Chat: React.FC = () => {
                     </View>
                 )}
             </View>
+            {modalVisible && <ModalComponent setVisible={setModalVisible} />}
         </SafeAreaView>
     );
 };
 
-export default Chat;
+export default ChatScreen;

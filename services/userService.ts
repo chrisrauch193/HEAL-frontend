@@ -1,3 +1,4 @@
+// services/userService.ts
 import axiosInstance from '../api/axiosInstance';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../types/userTypes';
 

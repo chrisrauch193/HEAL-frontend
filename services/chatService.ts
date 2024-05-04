@@ -1,3 +1,4 @@
+// services/chatService.ts
 import axiosInstance from '../api/axiosInstance';
 
 export const createChatRoom = async () => {

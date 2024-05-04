@@ -1,3 +1,4 @@
+// store/slices/userSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { fetchUserProfile, loginUser, registerUser, updateUserProfile, verifyToken } from '../../services/userService';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../types/userTypes';

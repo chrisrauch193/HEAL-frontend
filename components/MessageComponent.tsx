@@ -1,16 +1,16 @@
 // components/MessageComponent.tsx
 import React from 'react';
 import { View, Text } from "react-native";
-import HighlightedText from './HighlightedText';
-import messageStyles from '../styles/messageStyles'; // Ensure the path is correct
+import HighlightedTextComponent from './HighlightedTextComponent'
+import { messageStyles } from "../styles/messageStyles";
+import { highlightedTextStyles } from "../styles/highlightedTextStyles";
 
-const MessageComponent = ({ item, current_user_id, userLanguage }) => {
-    const isCurrentUser = item.sender_user_id === current_user_id;
+const MessageComponent = ({ item, currentUserId, userLanguage }) => {
+    const isCurrentUser = item.senderUserId === currentUserId;
     const translations = item.content.metadata.translations;
     // Determine the message text based on user's language or default to English if unavailable
     const messageText = isCurrentUser ? item.content.text : translations[userLanguage] || translations['en'] || item.content.text;
-    // const medicalTerms = item.content.metadata?.medical_terms?.map(term => term.name) || [];
-    const medicalTerms = item.content.metadata?.medical_terms || [];
+    const medicalTerms = item.content.metadata?.medicalTerms || [];
 
     // Function to format timestamp using the user's local timezone
     const formatTime = (timestamp) => {
@@ -21,10 +21,10 @@ const MessageComponent = ({ item, current_user_id, userLanguage }) => {
     return (
         <View style={isCurrentUser ? messageStyles.myMessage : messageStyles.otherMessage}>
             <View style={[messageStyles.messageContent, isCurrentUser ? messageStyles.myMessageContent : messageStyles.otherMessageContent]}>
-                <HighlightedText
+                <HighlightedTextComponent
                     text={messageText}
                     medicalTerms={medicalTerms}
-                    style={messageStyles.medicalTermHighlight}
+                    style={highlightedTextStyles.medicalTermHighlight}
                 />
                 <Text style={messageStyles.timestamp}>{formatTime(item.timestamp)}</Text>
             </View>

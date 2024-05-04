@@ -1,3 +1,4 @@
+// screens/Login.tsx
 import React, { useState } from 'react';
 import {
     Text, SafeAreaView, View, TextInput, Pressable, Alert, ActivityIndicator
@@ -11,13 +12,13 @@ import { loginStyles } from '../styles/loginStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
 
-type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
 
 interface LoginProps {
     navigation: LoginScreenNavigationProp;
 }
 
-const Login: React.FC<LoginProps> = ({ navigation }) => {
+const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
             try {
                 const actionResult = await dispatch(authenticateUser({ email, password }));
                 if (authenticateUser.fulfilled.match(actionResult)) {
-                    navigation.navigate("Chat");
+                    navigation.navigate("ChatScreen");
                 } else {
                     throw new Error('Login failed');
                 }
@@ -41,7 +42,7 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
     };
 
     const handleRegister = () => {
-        navigation.navigate('Register');
+        navigation.navigate('RegisterScreen');
     };
 
     return (
@@ -80,4 +81,4 @@ const Login: React.FC<LoginProps> = ({ navigation }) => {
     );
 };
 
-export default Login;
+export default LoginScreen;

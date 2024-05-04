@@ -1,70 +1,61 @@
+// src/styles/chatStyles.ts
 import { StyleSheet } from "react-native";
+import { colors, spacing, fonts } from './globalStyles';
 
 export const chatStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F7F7F7",
-        padding: 10,
-        position: "relative",
+        backgroundColor: colors.background,
+        padding: spacing.medium,
     },
     header: {
-        backgroundColor: "#F7F7F7",
         height: 70,
         width: "100%",
-        padding: 20,
-        justifyContent: "center",
-        marginBottom: 15,
-        elevation: 2,
-        flexDirection: "row",
+        padding: spacing.medium,
         justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
     },
     heading: {
-        fontSize: 24,
+        fontSize: fonts.title,
         fontWeight: "bold",
-        color: "green",
+        color: colors.primary,
     },
     listContainer: {
-        paddingHorizontal: 10,
+        paddingHorizontal: spacing.small,
     },
     emptyContainer: {
-        width: "100%",
-        height: "80%",
+        flex: 1,
         alignItems: "center",
         justifyContent: "center",
     },
     emptyText: {
         fontWeight: "bold",
-        fontSize: 24,
-        paddingBottom: 30,
+        fontSize: fonts.title,
+        color: colors.text,
     },
     chat: {
-        width: "100%",
         flexDirection: "row",
         alignItems: "center",
-        borderRadius: 5,
-        paddingHorizontal: 15,
-        backgroundColor: "#fff",
+        backgroundColor: colors.white,
         height: 80,
-        marginBottom: 10,
+        marginVertical: spacing.small,
+        paddingHorizontal: spacing.medium,
+        borderRadius: 10,
     },
     avatar: {
-        marginRight: 15,
+        marginRight: spacing.medium,
     },
     rightContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
         flex: 1,
+        justifyContent: "center",
     },
     username: {
-        fontSize: 18,
-        marginBottom: 5,
+        fontSize: fonts.text,
         fontWeight: "bold",
     },
     message: {
-        fontSize: 14,
-        opacity: 0.7,
-    },
-    time: {
-        opacity: 0.5,
+        fontSize: fonts.small,
+        color: colors.grey,
     },
 });

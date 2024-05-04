@@ -1,19 +1,20 @@
+// src/components/HighlightedTextComponent.tsx
 import React from 'react';
 import { Text, TouchableOpacity, Modal, View, ScrollView, Linking } from 'react-native';
-import { modalStyles } from '../styles/modalStyles'; // Adjust the path as necessary
-import { ChatMessageContentMetadataTerm } from '../types/chatRoomTypes'; // Adjust the path as necessary
+import { modalStyles } from '../styles/modalStyles';
+import { MedicalTerm } from '../types/medicalTypes';
 
 interface HighlightedTextProps {
     text: string;
-    medicalTerms: ChatMessageContentMetadataTerm[];
+    medicalTerms: MedicalTerm[];
     style: TextStyle;
 }
 
-const HighlightedText: React.FC<HighlightedTextProps> = ({ text, medicalTerms, style }) => {
+const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medicalTerms, style }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
-    const [selectedTerm, setSelectedTerm] = React.useState<ChatMessageContentMetadataTerm | null>(null);
+    const [selectedTerm, setSelectedTerm] = React.useState<MedicalTerm | null>(null);
 
-    const handlePressTerm = (medicalTerm: ChatMessageContentMetadataTerm) => {
+    const handlePressTerm = (medicalTerm: MedicalTerm) => {
         setSelectedTerm(medicalTerm);
         setModalVisible(true);
     };
@@ -55,7 +56,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = ({ text, medicalTerms, s
                             <View style={modalStyles.tooltipContainer}>
                                 <Text style={modalStyles.modalsubheading}>{selectedTerm.name}</Text>
                                 <Text>{selectedTerm.description}</Text>
-                                {selectedTerm.medical_term_links.map((link, index) => (
+                                {selectedTerm.medicalTermLinks.map((link, index) => (
                                     <TouchableOpacity key={index} onPress={() => handleLinkPress(link)}>
                                         <Text style={modalStyles.link}>{link}</Text>
                                     </TouchableOpacity>
@@ -72,4 +73,4 @@ const HighlightedText: React.FC<HighlightedTextProps> = ({ text, medicalTerms, s
     );
 };
 
-export default HighlightedText;
+export default HighlightedTextComponent;

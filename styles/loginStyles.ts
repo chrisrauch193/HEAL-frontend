@@ -1,3 +1,4 @@
+// styles/loginStyles.ts
 import { StyleSheet } from "react-native";
 
 export const loginStyles = StyleSheet.create({
