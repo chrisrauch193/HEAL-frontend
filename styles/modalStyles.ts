@@ -1,79 +1,83 @@
+// src/styles/modalStyles.ts
 import { StyleSheet } from "react-native";
+import { colors, spacing, fonts } from './globalStyles';
 
 export const modalStyles = StyleSheet.create({
     modalContainer: {
-        width: "100%",
-        borderTopColor: "#ddd",
-        borderTopWidth: 1,
-        elevation: 1,
-        height: 400,
-        backgroundColor: "#fff",
-        position: "absolute",
-        bottom: 0,
-        zIndex: 10,
-        paddingVertical: 50,
-        paddingHorizontal: 20,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background for the modal backdrop
+        padding: spacing.large,
     },
-    modalsubheading: {
-        fontSize: 20,
-        fontWeight: "bold",
-        marginBottom: 15,
-        textAlign: "center",
-    },
-    modalinput: {
-        borderWidth: 2,
-        padding: 15,
-    },
-    modalbuttonContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 10,
-    },
-    modalbutton: {
-        width: "40%",
-        height: 45,
-        backgroundColor: "green",
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#fff",
-    },
-    modaltext: {
-        color: "#fff",
-    },
-    tooltipContainer: {
-        margin: 20,
-        backgroundColor: "white",
+    modalContent: {
+        backgroundColor: colors.white,
         borderRadius: 20,
-        padding: 20,
-        alignItems: "left",
-        shadowColor: "#000",
+        padding: spacing.large,
+        width: '80%', // Adjust width as per design requirement
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2
         },
         shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5
+        shadowRadius: 3.84,
+        elevation: 5,
     },
-    closeButton: {
-        backgroundColor: "#2196F3",
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        width: "100%",
-    },
-    closeButtonText: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
+    modalHeader: {
+        fontSize: fonts.title,
+        marginBottom: spacing.medium,
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
     modalText: {
-        marginBottom: 15,
-        textAlign: "center"
+        fontSize: fonts.text,
+        color: colors.text,
+        marginBottom: spacing.small,
+    },
+    modalButtonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: spacing.medium,
+    },
+    modalButton: {
+        backgroundColor: colors.primary,
+        padding: spacing.medium,
+        borderRadius: 10,
+        minWidth: 100, // Ensures all buttons are of equal size
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalButtonText: {
+        color: colors.white,
+        fontSize: fonts.text,
+    },
+    closeButton: {
+        position: 'absolute',
+        top: spacing.medium,
+        right: spacing.medium,
+        backgroundColor: colors.secondary,
+        borderRadius: 20,
+        padding: spacing.small,
+    },
+    closeButtonText: {
+        color: colors.white,
+        fontSize: fonts.small,
     },
     link: {
-        color: 'blue',
-        textDecorationLine: 'underline'
-    }
+        color: colors.primary,
+        textDecorationLine: 'underline',
+    },
+    tooltipContainer: {
+        padding: spacing.medium,
+        backgroundColor: colors.background,
+        borderRadius: 15,
+    },
+    modalsubheading: {
+        fontSize: fonts.text,
+        fontWeight: 'bold',
+        marginBottom: spacing.small,
+        textAlign: 'center',
+    },
 });
+

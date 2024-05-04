@@ -1,8 +1,9 @@
 // components/MessageComponent.tsx
 import React from 'react';
 import { View, Text } from "react-native";
-import HighlightedText from './HighlightedText';
-import messageStyles from '../styles/messageStyles'; // Ensure the path is correct
+import HighlightedTextComponent from './HighlightedTextComponent'
+import { messageStyles } from "../styles/messageStyles";
+import { highlightedTextStyles } from "../styles/highlightedTextStyles";
 
 const MessageComponent = ({ item, current_user_id, userLanguage }) => {
     const isCurrentUser = item.sender_user_id === current_user_id;
@@ -21,10 +22,10 @@ const MessageComponent = ({ item, current_user_id, userLanguage }) => {
     return (
         <View style={isCurrentUser ? messageStyles.myMessage : messageStyles.otherMessage}>
             <View style={[messageStyles.messageContent, isCurrentUser ? messageStyles.myMessageContent : messageStyles.otherMessageContent]}>
-                <HighlightedText
+                <HighlightedTextComponent
                     text={messageText}
                     medicalTerms={medicalTerms}
-                    style={messageStyles.medicalTermHighlight}
+                    style={highlightedTextStyles.medicalTermHighlight}
                 />
                 <Text style={messageStyles.timestamp}>{formatTime(item.timestamp)}</Text>
             </View>

@@ -1,6 +1,7 @@
+// store/slices/chatSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import * as chatService from '../../services/chatService';
-import { ChatRoom, ChatMessage } from '../../types/chatRoomTypes';
+import { ChatRoom, ChatMessage } from '../../types/chatTypes';
 
 interface ChatState {
     rooms: ChatRoom[];

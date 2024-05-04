@@ -1,3 +1,4 @@
+// screens/Register.tsx
 import React, { useState } from 'react';
 import { ScrollView, View, Text, TextInput, Pressable, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -5,7 +6,7 @@ import { registerNewUser } from '../store/slices/userSlice';
 import { registerStyles } from '../styles/registerStyles';
 import { Picker } from '@react-native-picker/picker';
 
-const Register = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
     const [userType, setUserType] = useState('PATIENT');
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
@@ -23,7 +24,7 @@ const Register = ({ navigation }) => {
             ...(userType === 'PATIENT' ? { height: parseInt(height), weight: parseInt(weight) } : { hospital, specialisation })
         };
         await dispatch(registerNewUser({ ...userInfo, type: userType }));
-        navigation.navigate("Chat");
+        navigation.navigate("ChatScreen");
     };
 
     return (
@@ -56,4 +57,4 @@ const Register = ({ navigation }) => {
     );
 };
 
-export default Register;
+export default RegisterScreen;

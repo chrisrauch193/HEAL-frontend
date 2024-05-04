@@ -1,9 +1,14 @@
+// /components/ModalComponent.tsx
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable } from "react-native";
 import { modalStyles } from "../styles/modalStyles";
 import socket from "../utils/socket";
 
-const Modal: React.FC<ModalProps> = ({ setVisible }) => {
+interface ModalProps {
+    setVisible: (visible: boolean) => void;
+}
+
+const ModalComponent: React.FC<ModalProps> = ({ setVisible }) => {
     const [groupName, setGroupName] = useState<string>("");
 
     const closeModal = () => setVisible(false);
@@ -40,4 +45,4 @@ const Modal: React.FC<ModalProps> = ({ setVisible }) => {
     );
 };
 
-export default Modal;
+export default ModalComponent;

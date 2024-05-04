@@ -1,21 +1,27 @@
+// src/components/HighlightedTextComponent.tsx
 import React from 'react';
 import { Text, TouchableOpacity, Modal, View, ScrollView, Linking } from 'react-native';
-import { modalStyles } from '../styles/modalStyles'; // Adjust the path as necessary
-import { ChatMessageContentMetadataTerm } from '../types/chatRoomTypes'; // Adjust the path as necessary
+import { modalStyles } from '../styles/modalStyles';
+import { MedicalTerm } from '../types/medicalTypes';
 
 interface HighlightedTextProps {
     text: string;
-    medicalTerms: ChatMessageContentMetadataTerm[];
+    medicalTerms: MedicalTerm[];
     style: TextStyle;
 }
 
-const HighlightedText: React.FC<HighlightedTextProps> = ({ text, medicalTerms, style }) => {
+const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medicalTerms, style }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
-    const [selectedTerm, setSelectedTerm] = React.useState<ChatMessageContentMetadataTerm | null>(null);
+    const [selectedTerm, setSelectedTerm] = React.useState<MedicalTerm | null>(null);
 
-    const handlePressTerm = (medicalTerm: ChatMessageContentMetadataTerm) => {
+    const handlePressTerm = (medicalTerm: MedicalTerm) => {
+        console.log("PRESSING");
+        console.log(medicalTerm)
+        console.log("THANKS");
         setSelectedTerm(medicalTerm);
         setModalVisible(true);
+        console.log(selectedTerm);
+        console.log("DONE");
     };
 
     const closeModal = () => {
@@ -72,4 +78,4 @@ const HighlightedText: React.FC<HighlightedTextProps> = ({ text, medicalTerms, s
     );
 };
 
-export default HighlightedText;
+export default HighlightedTextComponent;

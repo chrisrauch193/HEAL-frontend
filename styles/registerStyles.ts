@@ -1,3 +1,4 @@
+// styles/registerStyles.ts
 import { StyleSheet } from "react-native";
 
 export const registerStyles = StyleSheet.create({

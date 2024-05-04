@@ -1,4 +1,4 @@
-// AuthLoadingScreen.js
+// screens/AuthLoadingScreen.js
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,9 +15,9 @@ const AuthLoadingScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (status === 'idle' && profile) {
-            navigation.navigate('Chat');
+            navigation.navigate('ChatScreen');
         } else if (status === 'failed') {
-            navigation.navigate('Login');
+            navigation.navigate('LoginScreen');
         }
     }, [status, profile, navigation]);
 
