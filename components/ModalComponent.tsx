@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable } from "react-native";
 import { modalStyles } from "../styles/modalStyles";
-import socket from "../utils/socket";
+import socket from "../api/socket";
 
 interface ModalProps {
     setVisible: (visible: boolean) => void;

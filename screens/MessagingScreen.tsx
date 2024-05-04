@@ -6,7 +6,7 @@ import { fetchInitialMessages, receivedMessage, addOptimisticMessage } from '../
 import { RootState } from '../store';
 import MessageComponent from "../components/MessageComponent";
 import { messagingStyles } from "../styles/messagingStyles";
-import socket from '../utils/socket';
+import socket from '../api/socket';
 
 const MessagingScreen = ({ route }) => {
     const { roomId } = route.params;
@@ -46,6 +46,7 @@ const MessagingScreen = ({ route }) => {
                 }
             };
             dispatch(addOptimisticMessage({ roomId: roomId, message: messageData }));
+            socket.emit('sendMessage', messageData);
             setMessageText("");
         }
     };

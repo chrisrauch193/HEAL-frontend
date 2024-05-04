@@ -4,7 +4,7 @@ import { View, Text, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { receivedMessage, fetchMessages } from '../store/slices/chatSlice';
 import { RootState } from '../store';
-import socket from '../utils/socket';
+import socket from '../api/socket';
 import { ChatMessage } from '../types/chatTypes';
 
 const ChatRoomComponent = ({ roomId }: { roomId: string }) => {
