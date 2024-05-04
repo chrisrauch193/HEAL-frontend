@@ -58,4 +58,11 @@ export const chatStyles = StyleSheet.create({
         fontSize: fonts.small,
         color: colors.grey,
     },
+    headerIcons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    iconButton: {
+        marginLeft: spacing.small,
+    }
 });

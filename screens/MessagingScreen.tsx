@@ -11,7 +11,7 @@ import socket from '../api/socket';
 const MessagingScreen = ({ route }) => {
     const { roomId } = route.params;
     const dispatch = useDispatch();
-    const currentUser = useSelector((state: RootState) => state.user.profile);
+    const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
     const messages = useSelector((state: RootState) => state.chat.messages[roomId] || []);
     const [messageText, setMessageText] = useState("");
 
@@ -31,11 +31,11 @@ const MessagingScreen = ({ route }) => {
     }, [dispatch, roomId]);
 
     const handleSend = () => {
-        if (messageText.trim() && currentUser && currentUser.userId) {
+        if (messageText.trim() && currentUserProfile && currentUserProfile.userId) {
             const messageData = {
                 messageId: Math.random().toString(36).substr(2, 9), // Generate a temporary ID
                 roomId: roomId,
-                senderUserId: currentUser.userId,
+                senderUserId: currentUserProfile.userId,
                 timestamp: new Date().toISOString(),
                 content: {
                     text: messageText,
@@ -55,7 +55,7 @@ const MessagingScreen = ({ route }) => {
         <View style={messagingStyles.container}>
             <FlatList
                 data={messages}
-                renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUser?.userId || "unknownUser"} userLanguage={currentUser?.language || "en"} />}
+                renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />}
                 keyExtractor={(item) => item.messageId ? item.messageId.toString() : 'unknownId'}
             />
             <View style={messagingStyles.inputContainer}>

@@ -1,5 +1,5 @@
 // types/userTypes.ts
-export type UserType = 'patient' | 'doctor';
+export type UserType = 'PATIENT' | 'DOCTOR';
 
 export interface BaseUser {
     userId: string;

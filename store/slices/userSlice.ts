@@ -5,16 +5,19 @@ import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../type
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserState {
-  profile: UserProfile | null;
+  currentUserProfile: UserProfile | null;
+  viewedProfiles: Record<string, UserProfile>; // For storing multiple viewed profiles by userId
   token: string | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: UserState = {
-  profile: null,
+  currentUserProfile: null,
+  viewedProfiles: {},
   token: null,
   status: 'idle',
 };
+
 
 // Async thunk for verifying the token
 export const verifyUserToken = createAsyncThunk(
@@ -84,18 +87,32 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+// Thunk for fetching a specific user profile to view
+export const fetchUserProfileById = createAsyncThunk(
+  'user/fetchUserProfileById',
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const profile = await fetchUserProfile(userId);
+      return { userId, profile };
+    } catch (error) {
+      return rejectWithValue('Failed to fetch profile');
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     logoutUser: (state) => {
       AsyncStorage.removeItem('userToken');
-      state.profile = null;
+      state.currentUserProfile = null;
+      state.viewedProfiles = {};
       state.token = null;
       state.status = 'idle';
     },
     clearUserProfile: (state) => {
-      state.profile = null;
+      state.currentUserProfile = null;
       state.status = 'idle';
     }
   },
@@ -106,7 +123,7 @@ const userSlice = createSlice({
       })
       .addCase(verifyUserToken.fulfilled, (state, action) => {
         state.token = action.payload.token;
-        state.profile = action.payload.user;
+        state.currentUserProfile = action.payload.user;
         state.status = 'idle';  // Successfully verified
       })
       .addCase(verifyUserToken.rejected, (state) => {
@@ -117,7 +134,7 @@ const userSlice = createSlice({
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         state.token = action.payload.token;
-        state.profile = action.payload.user;
+        state.currentUserProfile = action.payload.user;
         state.status = 'idle';
       })
       .addCase(authenticateUser.rejected, (state) => {
@@ -127,7 +144,7 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(registerNewUser.fulfilled, (state, action) => {
-        state.profile = action.payload.user;
+        state.currentUserProfile = action.payload.user;
         state.token = action.payload.token;
         state.status = 'idle';
       })
@@ -138,7 +155,7 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(getUserProfile.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.currentUserProfile = action.payload;
         state.status = 'idle';
       })
       .addCase(getUserProfile.rejected, (state) => {
@@ -148,10 +165,20 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.currentUserProfile = action.payload;
         state.status = 'idle';
       })
       .addCase(updateUser.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(fetchUserProfileById.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUserProfileById.fulfilled, (state, action) => {
+        state.viewedProfiles[action.payload.userId] = action.payload.profile;
+        state.status = 'idle';
+      })
+      .addCase(fetchUserProfileById.rejected, (state) => {
         state.status = 'failed';
       });
   }

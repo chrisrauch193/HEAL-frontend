@@ -80,4 +80,3 @@ export const modalStyles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-
