@@ -43,7 +43,7 @@ const ChatScreen: React.FC = () => {
                     <FlatList
                         data={rooms}
                         renderItem={({ item }) => <ChatComponent item={item} />}
-                        keyExtractor={(item) => item.room_id.toString()}
+                        keyExtractor={(item) => item.roomId.toString()}
                     />
                 ) : (
                     <View style={chatStyles.emptyContainer}>

@@ -2,11 +2,11 @@
 export type UserType = 'patient' | 'doctor';
 
 export interface BaseUser {
-    user_id: string;
+    userId: string;
     type: UserType;
     email: string;
     name: string;
-    date_of_birth: string; // Consider using Date type if you're working directly with date objects
+    dateOfBirth: string; // Consider using Date type if you're working directly with date objects
     language: string;
 }
 

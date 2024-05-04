@@ -20,8 +20,8 @@ const ChatRoomComponent = ({ roomId }: { roomId: string }) => {
             }
         };
 
-        socket.on('new_message', handleNewMessage);
-        return () => socket.off('new_message', handleNewMessage);
+        socket.on('newMessage', handleNewMessage);
+        return () => socket.off('newMessage', handleNewMessage);
     }, [dispatch, roomId]);
 
     const renderItem = ({ item }: { item: ChatMessage }) => (

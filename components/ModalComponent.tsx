@@ -14,7 +14,7 @@ const ModalComponent: React.FC<ModalProps> = ({ setVisible }) => {
     const closeModal = () => setVisible(false);
     const handleCreateRoom = () => {
         if (groupName.trim()) {
-            socket.emit("create_room", groupName);
+            socket.emit("createRoom", groupName);
             closeModal();
         } else {
             console.log("Group name is required.");

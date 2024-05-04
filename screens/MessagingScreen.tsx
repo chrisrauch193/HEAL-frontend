@@ -9,32 +9,32 @@ import { messagingStyles } from "../styles/messagingStyles";
 import socket from '../utils/socket';
 
 const MessagingScreen = ({ route }) => {
-    const { room_id } = route.params;
+    const { roomId } = route.params;
     const dispatch = useDispatch();
     const currentUser = useSelector((state: RootState) => state.user.profile);
-    const messages = useSelector((state: RootState) => state.chat.messages[room_id] || []);
+    const messages = useSelector((state: RootState) => state.chat.messages[roomId] || []);
     const [messageText, setMessageText] = useState("");
 
     useEffect(() => {
-        dispatch(fetchInitialMessages(room_id));
-        socket.emit('join_room', room_id);
+        dispatch(fetchInitialMessages(roomId));
+        socket.emit('joinRoom', roomId);
 
         const messageListener = (message) => {
-            dispatch(receivedMessage({ roomId: room_id, message }));
+            dispatch(receivedMessage({ roomId: roomId, message }));
         };
 
-        socket.on('new_message', messageListener);
+        socket.on('newMessage', messageListener);
 
         return () => {
-            socket.off('new_message', messageListener);
+            socket.off('newMessage', messageListener);
         };
-    }, [dispatch, room_id]);
+    }, [dispatch, roomId]);
 
     const handleSend = () => {
         if (messageText.trim() && currentUser && currentUser.userId) {
             const messageData = {
                 messageId: Math.random().toString(36).substr(2, 9), // Generate a temporary ID
-                roomId: room_id,
+                roomId: roomId,
                 senderUserId: currentUser.userId,
                 timestamp: new Date().toISOString(),
                 content: {
@@ -45,8 +45,7 @@ const MessagingScreen = ({ route }) => {
                     }
                 }
             };
-            dispatch(addOptimisticMessage({ roomId: room_id, message: messageData }));
-            socket.emit('send_message', messageData);
+            dispatch(addOptimisticMessage({ roomId: roomId, message: messageData }));
             setMessageText("");
         }
     };
@@ -55,8 +54,8 @@ const MessagingScreen = ({ route }) => {
         <View style={messagingStyles.container}>
             <FlatList
                 data={messages}
-                renderItem={({ item }) => <MessageComponent item={item} current_user_id={currentUser?.userId || "unknown_user"} userLanguage={currentUser?.language || "en"} />}
-                keyExtractor={(item) => item.messageId ? item.messageId.toString() : 'unknown_id'}
+                renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUser?.userId || "unknownUser"} userLanguage={currentUser?.language || "en"} />}
+                keyExtractor={(item) => item.messageId ? item.messageId.toString() : 'unknownId'}
             />
             <View style={messagingStyles.inputContainer}>
                 <TextInput

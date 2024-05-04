@@ -5,7 +5,7 @@ import { ChatRoom, ChatMessage } from '../../types/chatTypes';
 
 interface ChatState {
     rooms: ChatRoom[];
-    messages: Record<string, ChatMessage[]>;  // Messages keyed by room_id
+    messages: Record<string, ChatMessage[]>;  // Messages keyed by roomId
     status: 'idle' | 'loading' | 'failed';
 }
 

@@ -56,7 +56,7 @@ const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medica
                             <View style={modalStyles.tooltipContainer}>
                                 <Text style={modalStyles.modalsubheading}>{selectedTerm.name}</Text>
                                 <Text>{selectedTerm.description}</Text>
-                                {selectedTerm.medical_term_links.map((link, index) => (
+                                {selectedTerm.medicalTermLinks.map((link, index) => (
                                     <TouchableOpacity key={index} onPress={() => handleLinkPress(link)}>
                                         <Text style={modalStyles.link}>{link}</Text>
                                     </TouchableOpacity>
