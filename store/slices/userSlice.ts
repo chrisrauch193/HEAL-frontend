@@ -39,7 +39,9 @@ export const authenticateUser = createAsyncThunk(
   'user/authenticate',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
+      console.log("HERE1");
       const { user, token } = await loginUser(credentials);
+      console.log("HERE2");
       await AsyncStorage.setItem('userToken', token);
       return { user, token };
     } catch (error) {
@@ -122,12 +124,14 @@ const userSlice = createSlice({
         state.status = 'idle';
       })
       .addCase(authenticateUser.rejected, (state) => {
+        console.log("OMG");
         state.status = 'failed';
       })
       .addCase(registerNewUser.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(registerNewUser.fulfilled, (state, action) => {
+        console.log("IT WORKED");
         state.currentUserProfile = action.payload.user;
         state.token = action.payload.token;
         state.status = 'idle';
