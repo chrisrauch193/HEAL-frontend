@@ -1,55 +1,65 @@
-// src/screens/ProfileScreen.tsx
-import React, { useEffect } from 'react';
-import { Text, ScrollView, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, ScrollView, Button, ActivityIndicator, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { useRoute } from '@react-navigation/native';
 import { RootState } from '../store';
-import { fetchUserProfileById } from '../store/slices/userSlice';
+import { fetchUserProfileById } from '../store/slices/medicalProfilesSlice';
 import { profileStyles } from '../styles/profileStyles';
 
-const ProfileScreen: React.FC = ()  => {
+const ProfileScreen = ({ route }) => {
+  const { viewUserId } = route.params;
   const dispatch = useDispatch();
-  const route = useRoute();
-  const viewUserId = route.params.viewUserId; // Access userId passed as parameter
-  const { currentUserProfile, viewedProfiles } = useSelector((state: RootState) => state.user);
-
-  const userProfile = viewedProfiles[viewUserId] || currentUserProfile;
-  const isCurrentUser = currentUserProfile?.userId === viewUserId;
+  const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
+  const { viewedProfiles, status } = useSelector((state: RootState) => state.medicalProfiles);
+  const viewedProfile = viewedProfiles[viewUserId] || null;
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Only fetch the profile if it's not already loaded
-    if (!viewedProfiles[viewUserId]) {
-      // dispatch(fetchUserProfileById(viewUserId));
+    if (!viewedProfile) {
+      dispatch(fetchUserProfileById(viewUserId));
     }
-  }, [dispatch, viewUserId, viewedProfiles]);
+  }, [dispatch, viewedProfile, viewUserId]);
 
-  if (!userProfile) {
-    return <Text>Loading profile...</Text>;
+
+  if (status === 'loading') {
+    return <ActivityIndicator size="large" />;
+  }
+
+  if (error) {
+    return (
+      <View style={profileStyles.container}>
+        <Text>{error}</Text>
+        <Button title="Retry" onPress={() => {
+          setError('');
+          dispatch(fetchUserProfileById(viewUserId));
+        }} />
+      </View>
+    );
+  }
+
+  if (!viewedProfile) {
+    return <Text>Profile not found or failed to load.</Text>;
   }
 
   return (
     <ScrollView style={profileStyles.container}>
-      <Text style={profileStyles.name}>{userProfile.name}</Text>
-      <Text style={profileStyles.details}>Email: {userProfile.email}</Text>
-      <Text style={profileStyles.details}>Type: {userProfile.type}</Text>
-      <Text style={profileStyles.details}>DOB: {userProfile.dateOfBirth}</Text>
-      <Text style={profileStyles.details}>Language: {userProfile.language}</Text>
-      {userProfile.type === 'PATIENT' && (
+      <Text style={profileStyles.name}>{viewedProfile.name}</Text>
+      <Text style={profileStyles.details}>Email: {viewedProfile.email}</Text>
+      <Text style={profileStyles.details}>Type: {viewedProfile.type}</Text>
+      <Text style={profileStyles.details}>DOB: {viewedProfile.dateOfBirth}</Text>
+      <Text style={profileStyles.details}>Language: {viewedProfile.language}</Text>
+      {viewedProfile.type === 'PATIENT' && (
         <>
-          <Text style={profileStyles.details}>Height: {userProfile.height} cm</Text>
-          <Text style={profileStyles.details}>Weight: {userProfile.weight} kg</Text>
+          <Text style={profileStyles.details}>Height: {viewedProfile.height} cm</Text>
+          <Text style={profileStyles.details}>Weight: {viewedProfile.weight} kg</Text>
         </>
       )}
-      {userProfile.type === 'DOCTOR' && (
+      {viewedProfile.type === 'DOCTOR' && (
         <>
-          <Text style={profileStyles.details}>Hospital: {userProfile.hospital}</Text>
-          <Text style={profileStyles.details}>Specialisation: {userProfile.specialisation}</Text>
+          <Text style={profileStyles.details}>Hospital: {viewedProfile.hospital}</Text>
+          <Text style={profileStyles.details}>Specialisation: {viewedProfile.specialisation}</Text>
         </>
       )}
-      <Button title="Edit Profile" onPress={() => {}} />
-      {isCurrentUser && (
-        <Button title="Logout" onPress={() => {}} color="red" />
-      )}
+      <Button title="Edit Profile" onPress={() => { }} />
     </ScrollView>
   );
 };

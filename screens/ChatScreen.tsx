@@ -12,10 +12,10 @@ import ModalComponent from "../components/ModalComponent";
 
 const ChatScreen: React.FC = () => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const { rooms, status } = useSelector((state: RootState) => state.chat);
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
     const [modalVisible, setModalVisible] = React.useState(false);
-    const navigation = useNavigation();
 
     useEffect(() => {
         dispatch(fetchRooms());

@@ -1,19 +1,17 @@
 // store/slices/userSlice.ts
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchUserProfile, loginUser, registerUser, updateUserProfile, verifyToken } from '../../services/userService';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../types/userTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserState {
   currentUserProfile: UserProfile | null;
-  viewedProfiles: Record<string, UserProfile>; // For storing multiple viewed profiles by userId
   token: string | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: UserState = {
   currentUserProfile: null,
-  viewedProfiles: {},
   token: null,
   status: 'idle',
 };
@@ -87,19 +85,6 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-// Thunk for fetching a specific user profile to view
-export const fetchUserProfileById = createAsyncThunk(
-  'user/fetchUserProfileById',
-  async (userId: string, { rejectWithValue }) => {
-    try {
-      const profile = await fetchUserProfile(userId);
-      return { userId, profile };
-    } catch (error) {
-      return rejectWithValue('Failed to fetch profile');
-    }
-  }
-);
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -107,7 +92,6 @@ const userSlice = createSlice({
     logoutUser: (state) => {
       AsyncStorage.removeItem('userToken');
       state.currentUserProfile = null;
-      state.viewedProfiles = {};
       state.token = null;
       state.status = 'idle';
     },
@@ -171,16 +155,6 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state) => {
         state.status = 'failed';
       })
-      .addCase(fetchUserProfileById.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchUserProfileById.fulfilled, (state, action) => {
-        state.viewedProfiles[action.payload.userId] = action.payload.profile;
-        state.status = 'idle';
-      })
-      .addCase(fetchUserProfileById.rejected, (state) => {
-        state.status = 'failed';
-      });
   }
 });
 

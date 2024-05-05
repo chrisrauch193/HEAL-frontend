@@ -1,9 +1,11 @@
 // components/MessageComponent.tsx
 import React from 'react';
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import HighlightedTextComponent from './HighlightedTextComponent'
 import { messageStyles } from "../styles/messageStyles";
 import { highlightedTextStyles } from "../styles/highlightedTextStyles";
+import { useNavigation } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons'; // Ensure FontAwesome is imported
 
 const MessageComponent = ({ item, currentUserId, userLanguage }) => {
     const isCurrentUser = item.senderUserId === currentUserId;
@@ -11,6 +13,13 @@ const MessageComponent = ({ item, currentUserId, userLanguage }) => {
     // Determine the message text based on user's language or default to English if unavailable
     const messageText = isCurrentUser ? item.content.text : translations[userLanguage] || translations['en'] || item.content.text;
     const medicalTerms = item.content.metadata?.medicalTerms || [];
+
+    const navigation = useNavigation();
+
+    const handleProfileNavigation = (userId) => {
+        navigation.navigate('ProfileScreen', { viewUserId: userId });
+    };
+
 
     // Function to format timestamp using the user's local timezone
     const formatTime = (timestamp) => {
@@ -20,6 +29,9 @@ const MessageComponent = ({ item, currentUserId, userLanguage }) => {
 
     return (
         <View style={isCurrentUser ? messageStyles.myMessage : messageStyles.otherMessage}>
+            <TouchableOpacity onPress={() => handleProfileNavigation(item.senderUserId)} style={messageStyles.profileIcon}>
+                <FontAwesome name="user-circle" size={24} color="blue" />
+            </TouchableOpacity>
             <View style={[messageStyles.messageContent, isCurrentUser ? messageStyles.myMessageContent : messageStyles.otherMessageContent]}>
                 <HighlightedTextComponent
                     text={messageText}
