@@ -42,7 +42,6 @@ const ChatScreen: React.FC = () => {
     return (
         <SafeAreaView style={chatStyles.container}>
             <View style={chatStyles.header}>
-                <Text style={chatStyles.heading}>Chats</Text>
                 <View style={chatStyles.headerIcons}>
                     <Pressable onPress={handleNavigateProfile} style={chatStyles.iconButton}>
                         <FontAwesome name="user" size={24} color="blue" />

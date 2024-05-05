@@ -19,9 +19,9 @@ const App: React.FC = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="AuthLoadingScreen">
           <Stack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: 'Chats' }} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: 'Consultations' }} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'Login' }} />
-          <Stack.Screen name="MessagingScreen" component={MessagingScreen} options={{ title: 'Messaging' }} />
+          <Stack.Screen name="MessagingScreen" component={MessagingScreen} options={{ title: 'Consultation' }} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{ title: 'Profile' }} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ title: 'Register' }} />
         </Stack.Navigator>
