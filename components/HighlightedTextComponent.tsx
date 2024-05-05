@@ -1,31 +1,42 @@
 // src/components/HighlightedTextComponent.tsx
 import React from 'react';
-import { Text, TouchableOpacity, Modal, View, ScrollView, Linking } from 'react-native';
-import { modalStyles } from '../styles/modalStyles';
+import { Text, TouchableOpacity, View, Animated, Easing } from 'react-native';
 import { MedicalTerm } from '../types/medicalTypes';
+import MedicalTermDetailsModal from './MedicalTermDetailsModal';
+import { highlightedTextStyles } from "../styles/highlightedTextStyles";
 
 interface HighlightedTextProps {
     text: string;
     medicalTerms: MedicalTerm[];
-    style: TextStyle;
 }
 
 const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medicalTerms, style }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedTerm, setSelectedTerm] = React.useState<MedicalTerm | null>(null);
+    const animatedValue = React.useRef(new Animated.Value(1)).current;
 
     const handlePressTerm = (medicalTerm: MedicalTerm) => {
         setSelectedTerm(medicalTerm);
         setModalVisible(true);
+        Animated.sequence([
+            Animated.timing(animatedValue, {
+                toValue: 1.1,
+                duration: 200,
+                easing: Easing.ease,
+                useNativeDriver: true,
+            }),
+            Animated.timing(animatedValue, {
+                toValue: 1,
+                duration: 200,
+                easing: Easing.ease,
+                useNativeDriver: true,
+            }),
+        ]).start();
     };
 
     const closeModal = () => {
         setModalVisible(false);
         setSelectedTerm(null);
-    };
-
-    const handleLinkPress = (url: string) => {
-        Linking.openURL(url);
     };
 
     const splitText = text.split(/\b([a-zA-Z0-9-]+)\b/g);
@@ -37,38 +48,20 @@ const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medica
                     const medicalTerm = medicalTerms.find(term => word.toLowerCase() === term.name.toLowerCase());
                     return medicalTerm ? (
                         <TouchableOpacity key={index} onPress={() => handlePressTerm(medicalTerm)}>
-                            <Text style={style}>{word}</Text>
+                            <Animated.View style={[highlightedTextStyles.highlighted, { transform: [{ scale: animatedValue }] }]}>
+                                <Text style={highlightedTextStyles.highlightedText}>{word}</Text>
+                            </Animated.View>
                         </TouchableOpacity>
                     ) : (
-                        <Text key={index}>{word}</Text>
+                        <Text key={index} style={highlightedTextStyles.normalText}>{word}</Text>
                     );
                 })}
             </Text>
-            <Modal
-                animationType="slide"
-                transparent={true}
+            <MedicalTermDetailsModal
                 visible={modalVisible}
-                onRequestClose={closeModal}
-            >
-                <View style={modalStyles.modalContainer}>
-                    <ScrollView>
-                        {selectedTerm && (
-                            <View style={modalStyles.tooltipContainer}>
-                                <Text style={modalStyles.modalsubheading}>{selectedTerm.name}</Text>
-                                <Text>{selectedTerm.description}</Text>
-                                {selectedTerm.medicalTermLinks.map((link, index) => (
-                                    <TouchableOpacity key={index} onPress={() => handleLinkPress(link)}>
-                                        <Text style={modalStyles.link}>{link}</Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        )}
-                    </ScrollView>
-                    <TouchableOpacity onPress={closeModal} style={modalStyles.closeButton}>
-                        <Text style={modalStyles.closeButtonText}>Close</Text>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
+                term={selectedTerm}
+                onClose={closeModal}
+            />
         </View>
     );
 };
