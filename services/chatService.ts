@@ -3,9 +3,7 @@ import axiosInstance from '../api/axiosInstance';
 
 export const createChatRoom = async () => {
     try {
-        const response = await axiosInstance.post('/chats/new', {}, {
-            headers: {'x-mock-response-name': 'Create Chat Room Created'}
-        });
+        const response = await axiosInstance.post('/chats/new');
         return response.data;
     } catch (error) {
         console.error('Failed to create chat room:', error);
@@ -15,9 +13,7 @@ export const createChatRoom = async () => {
 
 export const getChatRoomDetails = async (roomId: string) => {
     try {
-        const response = await axiosInstance.get(`/chats/${roomId}`, {
-            headers: {'x-mock-response-name': 'Get Chat Room Details Success'}
-        });
+        const response = await axiosInstance.get(`/chats/${roomId}`);
         return response.data;
     } catch (error) {
         console.error('Failed to get chat room details:', error);
@@ -27,9 +23,7 @@ export const getChatRoomDetails = async (roomId: string) => {
 
 export const deleteChatRoom = async (roomId: string) => {
     try {
-        const response = await axiosInstance.delete(`/chats/${roomId}`, {
-            headers: {'x-mock-response-name': 'Delete Chat Room Success'}
-        });
+        const response = await axiosInstance.delete(`/chats/${roomId}`);
         return response.data;
     } catch (error) {
         console.error('Failed to delete chat room:', error);
@@ -39,9 +33,7 @@ export const deleteChatRoom = async (roomId: string) => {
 
 export const addParticipantToRoom = async (roomId: string, userId: string) => {
     try {
-        const response = await axiosInstance.post(`/chats/${roomId}/participants/${userId}`, {}, {
-            headers: {'x-mock-response-name': 'Add Participant to Chat Room Created'}
-        });
+        const response = await axiosInstance.post(`/chats/${roomId}/participants/${userId}`);
         return response.data;
     } catch (error) {
         console.error('Failed to add participant:', error);
@@ -51,9 +43,7 @@ export const addParticipantToRoom = async (roomId: string, userId: string) => {
 
 export const removeParticipantFromRoom = async (roomId: string, userId: string) => {
     try {
-        const response = await axiosInstance.delete(`/chats/${roomId}/participants/${userId}`, {
-            headers: {'x-mock-response-name': 'Remove Participant from Chat Room Success'}
-        });
+        const response = await axiosInstance.delete(`/chats/${roomId}/participants/${userId}`);
         return response.data;
     } catch (error) {
         console.error('Failed to remove participant:', error);
@@ -63,9 +53,7 @@ export const removeParticipantFromRoom = async (roomId: string, userId: string) 
 
 export const getUserChatRooms = async (userId: string) => {
     try {
-        const response = await axiosInstance.get(`/users/${userId}/chats`, {
-            headers: {'x-mock-response-name': 'Get User Chat Rooms Success'}
-        });
+        const response = await axiosInstance.get(`/users/${userId}/chats`);
         return response.data.rooms;
     } catch (error) {
         console.error('Failed to get user chat rooms:', error);
@@ -75,9 +63,7 @@ export const getUserChatRooms = async (userId: string) => {
 
 export const getChatRoomMessages = async (roomId: string) => {
     try {
-        const response = await axiosInstance.get(`/chats/${roomId}/messages`, {
-            headers: {'x-mock-response-name': 'Get Chat Room Messages Success'}
-        });
+        const response = await axiosInstance.get(`/chats/${roomId}/messages`);
         return response.data.messages;
     } catch (error) {
         console.error('Failed to get chat room messages:', error);

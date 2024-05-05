@@ -2,9 +2,10 @@
 import { io } from "socket.io-client";
 import store from '../store';
 import { receivedMessage } from '../store/slices/chatSlice';
-import { SOCKET_URL } from "../config";
+import Constants from 'expo-constants';
 
-const socket = io(SOCKET_URL);
+const { backendUrl } = Constants.expoConfig.extra;
+const socket = io(backendUrl);
 
 export const initializeChat = (roomId) => {
   socket.on('message', message => {

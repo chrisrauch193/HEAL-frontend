@@ -1,11 +1,18 @@
 // api/axiosIntances.ts
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_BASE_URL } from '../config';
+import Constants from 'expo-constants';
+import applyMockAdapter from '../mock/server';
+
+const { backendUrl, useMock } = Constants.expoConfig.extra;
 
 const axiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: backendUrl,
 });
+
+if (useMock) {
+  applyMockAdapter(axiosInstance);
+}
 
 axiosInstance.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('userToken');

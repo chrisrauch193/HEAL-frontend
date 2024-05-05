@@ -18,7 +18,7 @@ const ChatScreen: React.FC = () => {
     const [modalVisible, setModalVisible] = React.useState(false);
 
     useEffect(() => {
-        dispatch(fetchRooms());
+        dispatch(fetchRooms(currentUserProfile?.userId));
     }, [dispatch]);
 
     const handleCreateGroup = () => {
