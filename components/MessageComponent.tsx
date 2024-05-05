@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from "react-native";
 import HighlightedTextComponent from './HighlightedTextComponent'
 import { messageStyles } from "../styles/messageStyles";
-import { highlightedTextStyles } from "../styles/highlightedTextStyles";
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'; // Ensure FontAwesome is imported
 
@@ -33,7 +32,6 @@ const MessageComponent = ({ item, currentUserId, userLanguage }) => {
                 <HighlightedTextComponent
                     text={messageText}
                     medicalTerms={medicalTerms}
-                    style={highlightedTextStyles.medicalTermHighlight}
                 />
                 <Text style={messageStyles.timestamp}>{formatTime(item.timestamp)}</Text>
             </View>

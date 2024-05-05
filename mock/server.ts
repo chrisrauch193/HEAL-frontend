@@ -45,7 +45,7 @@ export default function applyMockAdapter(axiosInstance) {
         medicalTermId: "1",
         name: "COVID-19",
         description: "COVID-19 is a severe respiratory disease caused by a novel coronavirus.",
-        medicalTermLinks: ["https://www.nhs.uk/conditions/coronavirus-covid-19/"]
+        medicalTermLinks: ["https://www.nhs.uk/conditions/coronavirus-covid-19/", "https://www.who.int/emergencies/diseases/novel-coronavirus-2019"]
     };
 
     const message1: ChatMessage = {
@@ -54,10 +54,10 @@ export default function applyMockAdapter(axiosInstance) {
         senderUserId: "1",
         timestamp: "2023-04-12T14:00:00Z",
         content: {
-            text: "Hello",
+            text: "Hi, I've lost my sense of taste and I'm coughing a lot.",
             metadata: {
                 translations: {
-                    en: "こんにちは。"
+                    jp: "こんにちは、私は味覚を失い、よく咳をしています。"
                 },
                 medicalTerms: []
             }
@@ -70,10 +70,10 @@ export default function applyMockAdapter(axiosInstance) {
         senderUserId: "2",
         timestamp: "2023-04-12T14:30:00Z",
         content: {
-            text: "あなたはCOVID-19に感染しています。",
+            text: "新型コロナウイルス感染症に感染している場合は家にいてください",
             metadata: {
                 translations: {
-                    en: "You have COVID-19."
+                    en: "You have COVID-19 please stay home."
                 },
                 medicalTerms: [medicalTermCOVID19]
             }
