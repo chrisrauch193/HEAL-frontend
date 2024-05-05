@@ -35,4 +35,7 @@ export const messageStyles = StyleSheet.create({
         alignSelf: "flex-end",
         paddingTop: spacing.small,
     },
+    profileIcon: {
+        paddingRight: 10, // Padding to ensure touch area is adequate
+    },
 });

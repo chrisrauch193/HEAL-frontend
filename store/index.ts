@@ -2,11 +2,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import chatReducer from './slices/chatSlice';
 import userReducer from './slices/userSlice';
+import medicalProfilesReducer from './slices/medicalProfilesSlice';
 
 const store = configureStore({
   reducer: {
     chat: chatReducer,
     user: userReducer,
+    medicalProfiles: medicalProfilesReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,

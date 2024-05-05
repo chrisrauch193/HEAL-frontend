@@ -7,19 +7,19 @@ import { RootState } from '../store';
 
 const AuthLoadingScreen = ({ navigation }) => {
     const dispatch = useDispatch();
-    const { profile, status } = useSelector((state: RootState) => state.user);
+    const { currentUserProfile, status } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         dispatch(verifyUserToken());
     }, [dispatch]);
 
     useEffect(() => {
-        if (status === 'idle' && profile) {
+        if (status === 'idle' && currentUserProfile) {
             navigation.navigate('ChatScreen');
         } else if (status === 'failed') {
             navigation.navigate('LoginScreen');
         }
-    }, [status, profile, navigation]);
+    }, [status, currentUserProfile, navigation]);
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

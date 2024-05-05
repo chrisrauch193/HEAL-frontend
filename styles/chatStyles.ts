@@ -16,6 +16,11 @@ export const chatStyles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
+    headerIcons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: "100%", // Ensure the container uses full width to spread the icons effectively
+    },
     heading: {
         fontSize: fonts.title,
         fontWeight: "bold",
@@ -58,4 +63,7 @@ export const chatStyles = StyleSheet.create({
         fontSize: fonts.small,
         color: colors.grey,
     },
+    iconButton: {
+        marginLeft: spacing.small,
+    }
 });

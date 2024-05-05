@@ -1,20 +1,21 @@
 // store/slices/userSlice.ts
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchUserProfile, loginUser, registerUser, updateUserProfile, verifyToken } from '../../services/userService';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../types/userTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserState {
-  profile: UserProfile | null;
+  currentUserProfile: UserProfile | null;
   token: string | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: UserState = {
-  profile: null,
+  currentUserProfile: null,
   token: null,
   status: 'idle',
 };
+
 
 // Async thunk for verifying the token
 export const verifyUserToken = createAsyncThunk(
@@ -90,12 +91,12 @@ const userSlice = createSlice({
   reducers: {
     logoutUser: (state) => {
       AsyncStorage.removeItem('userToken');
-      state.profile = null;
+      state.currentUserProfile = null;
       state.token = null;
       state.status = 'idle';
     },
     clearUserProfile: (state) => {
-      state.profile = null;
+      state.currentUserProfile = null;
       state.status = 'idle';
     }
   },
@@ -106,7 +107,7 @@ const userSlice = createSlice({
       })
       .addCase(verifyUserToken.fulfilled, (state, action) => {
         state.token = action.payload.token;
-        state.profile = action.payload.user;
+        state.currentUserProfile = action.payload.user;
         state.status = 'idle';  // Successfully verified
       })
       .addCase(verifyUserToken.rejected, (state) => {
@@ -117,7 +118,7 @@ const userSlice = createSlice({
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         state.token = action.payload.token;
-        state.profile = action.payload.user;
+        state.currentUserProfile = action.payload.user;
         state.status = 'idle';
       })
       .addCase(authenticateUser.rejected, (state) => {
@@ -127,7 +128,7 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(registerNewUser.fulfilled, (state, action) => {
-        state.profile = action.payload.user;
+        state.currentUserProfile = action.payload.user;
         state.token = action.payload.token;
         state.status = 'idle';
       })
@@ -138,7 +139,7 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(getUserProfile.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.currentUserProfile = action.payload;
         state.status = 'idle';
       })
       .addCase(getUserProfile.rejected, (state) => {
@@ -148,12 +149,12 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.currentUserProfile = action.payload;
         state.status = 'idle';
       })
       .addCase(updateUser.rejected, (state) => {
         state.status = 'failed';
-      });
+      })
   }
 });
 
