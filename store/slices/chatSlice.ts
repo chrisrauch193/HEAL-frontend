@@ -16,7 +16,6 @@ const initialState: ChatState = {
 };
 
 export const fetchRooms = createAsyncThunk('chat/fetchChatRooms', async (userId: string) => {
-    console.log(userId);
     return await chatService.getUserChatRooms(userId);
 });
 
@@ -51,7 +50,6 @@ export const chatSlice = createSlice({
             })
             .addCase(fetchRooms.fulfilled, (state, action) => {
                 state.rooms = action.payload;
-                console.log(state.rooms);
                 state.status = 'idle';
             })
             .addCase(fetchRooms.rejected, (state) => {
