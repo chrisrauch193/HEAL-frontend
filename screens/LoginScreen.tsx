@@ -1,7 +1,7 @@
 // screens/Login.tsx
 import React, { useState } from 'react';
 import {
-    Text, SafeAreaView, View, TextInput, Pressable, Alert, ActivityIndicator
+    Text, ScrollView, TextInput, Pressable, Alert, Button
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticateUser } from '../store/slices/userSlice'; // Adjust path if necessary
@@ -46,38 +46,34 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={loginStyles.container}>
+        <ScrollView style={loginStyles.container}>
             <Text style={loginStyles.heading}>Sign in</Text>
-            <View style={loginStyles.inputContainer}>
-                <TextInput
-                    autoCorrect={false}
-                    placeholder="Enter your email"
-                    style={loginStyles.input}
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                />
-                <TextInput
-                    secureTextEntry={true}
-                    placeholder="Enter your password"
-                    style={loginStyles.input}
-                    value={password}
-                    onChangeText={setPassword}
-                    autoCapitalize="none"
-                />
-            </View>
-            <Pressable onPress={handleSignIn} style={loginStyles.button} disabled={status === 'loading'}>
-                {status === 'loading' ? (
-                    <ActivityIndicator size="small" color="#FFF" />
-                ) : (
-                    <Text style={loginStyles.buttonText}>Get Started</Text>
-                )}
-            </Pressable>
+            <TextInput
+                autoCorrect={false}
+                placeholder="Enter your email"
+                style={loginStyles.input}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
+            <TextInput
+                secureTextEntry={true}
+                placeholder="Enter your password"
+                style={loginStyles.input}
+                value={password}
+                onChangeText={setPassword}
+                autoCapitalize="none"
+            />
+            <Button
+                title="Get Started"
+                onPress={handleSignIn}
+                disabled={status === 'loading'}
+            />
             <Pressable onPress={handleRegister}>
                 <Text style={{ color: 'blue' }}>Don't have an account? Register here</Text>
             </Pressable>
-        </SafeAreaView>
+        </ScrollView>
     );
 };
 

@@ -49,8 +49,9 @@ export const modalStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     modalButtonText: {
-        color: colors.white,
-        fontSize: fonts.text,
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 16,
     },
     closeButton: {
         position: 'absolute',
@@ -61,8 +62,9 @@ export const modalStyles = StyleSheet.create({
         padding: spacing.small,
     },
     closeButtonText: {
-        color: colors.white,
-        fontSize: fonts.small,
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 16,
     },
     link: {
         color: colors.primary,
