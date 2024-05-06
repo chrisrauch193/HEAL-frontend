@@ -3,9 +3,10 @@ import { Text, ScrollView, Button, ActivityIndicator, View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { fetchUserProfileById } from '../store/slices/medicalProfilesSlice';
+import { logoutUser } from '../store/slices/userSlice';
 import { profileStyles } from '../styles/profileStyles';
 
-const ProfileScreen = ({ route }) => {
+const ProfileScreen = ({ route, navigation }) => {
   const { viewUserId } = route.params;
   const dispatch = useDispatch();
   const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
@@ -19,6 +20,16 @@ const ProfileScreen = ({ route }) => {
     }
   }, [dispatch, viewedProfile, viewUserId]);
 
+  const isCurrentUser = currentUserProfile?.userId === viewUserId;
+
+  const handleEditProfile = () => {
+    navigation.navigate('EditProfileScreen');
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigation.navigate('LoginScreen');
+  };
 
   if (status === 'loading') {
     return <ActivityIndicator size="large" />;
@@ -59,7 +70,12 @@ const ProfileScreen = ({ route }) => {
           <Text style={profileStyles.details}>Specialisation: {viewedProfile.specialisation}</Text>
         </>
       )}
-      <Button title="Edit Profile" onPress={() => { }} />
+      {isCurrentUser && (
+        <>
+          <Button title="Edit Profile" onPress={handleEditProfile} />
+          <Button title="Log Out" onPress={handleLogout} color="red" />
+        </>
+      )}
     </ScrollView>
   );
 };

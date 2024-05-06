@@ -13,7 +13,7 @@ export default ({ config }): AppConfig => {
   return {
     ...config,
     extra: {
-      backendUrl: isDev ? 'http://192.168.0.5:4000' : 'http://192.168.0.5:4000',
+      backendUrl: isDev ? 'http://localhost:4000' : 'http://localhost:4000',
       useMock: isDev,
     },
   };
