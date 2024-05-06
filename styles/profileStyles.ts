@@ -35,7 +35,8 @@ export const profileStyles = StyleSheet.create({
         marginTop: spacing.medium,
     },
     buttonText: {
-        color: colors.white,
-        fontSize: fonts.text,
-    }
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 16,
+    },
 });

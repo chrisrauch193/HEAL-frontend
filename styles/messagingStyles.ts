@@ -34,7 +34,8 @@ export const messagingStyles = StyleSheet.create({
         alignItems: "center",
     },
     buttonText: {
-        color: "#ffffff",
+        color: 'white',
+        fontWeight: '600',
         fontSize: 16,
     },
 });

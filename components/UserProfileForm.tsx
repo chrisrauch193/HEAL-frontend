@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Text, TextInput, ScrollView, Button, Alert, TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { updateUser, registerNewUser } from '../store/slices/userSlice';
 import { userProfileFormStyles } from '../styles/userProfileFormStyles';
-import { RootState } from '../store';
 
 const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
-    const userType = useSelector((state: RootState) => state.user.currentUserProfile.type);
+    const [userType, setUserType] = useState(defaultValues.type || 'PATIENT');
     const [email, setEmail] = useState(defaultValues.email || '');
     const [name, setName] = useState(defaultValues.name || '');
     const initialDate = defaultValues.dateOfBirth ? new Date(defaultValues.dateOfBirth) : new Date();
@@ -53,6 +52,19 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
     return (
         <ScrollView style={userProfileFormStyles.container}>
             <Text style={userProfileFormStyles.heading}>{isEdit ? 'Edit Profile' : 'Register'}</Text>
+            {!isEdit && (
+                <>
+                    <Text style={userProfileFormStyles.label}>User Type</Text>
+                    <Picker
+                        selectedValue={userType}
+                        style={userProfileFormStyles.input}
+                        onValueChange={(itemValue) => setUserType(itemValue)}
+                    >
+                        <Picker.Item label="Patient" value="PATIENT" />
+                        <Picker.Item label="Doctor" value="DOCTOR" />
+                    </Picker>
+                </>
+            )}
             <Text style={userProfileFormStyles.label}>Email</Text>
             <TextInput
                 style={userProfileFormStyles.input}

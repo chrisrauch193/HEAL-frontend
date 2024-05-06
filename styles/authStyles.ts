@@ -32,8 +32,9 @@ export const authStyles = StyleSheet.create({
         marginTop: spacing.medium,
     },
     buttonText: {
-        color: colors.white,
-        fontWeight: "600",
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 16,
     },
     linkText: {
         color: colors.secondary,

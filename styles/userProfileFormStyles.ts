@@ -25,5 +25,10 @@ export const userProfileFormStyles = StyleSheet.create({
     button: {
         backgroundColor: 'blue',
         marginTop: 20,
-    }
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: '600',
+        fontSize: 16,
+    },
 });
