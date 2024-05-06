@@ -14,8 +14,8 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
     const initialDate = defaultValues.dateOfBirth ? new Date(defaultValues.dateOfBirth) : new Date();
     const [dateOfBirth, setDateOfBirth] = useState(initialDate);
     const [language, setLanguage] = useState(defaultValues.language || 'en');
-    const [height, setHeight] = useState(defaultValues.height?.toString() || '');
-    const [weight, setWeight] = useState(defaultValues.weight?.toString() || '');
+    const [height, setHeight] = useState(defaultValues.height || 170); // Default height in cm
+    const [weight, setWeight] = useState(defaultValues.weight || 70); // Default weight in kg
     const [hospital, setHospital] = useState(defaultValues.hospital || '');
     const [specialisation, setSpecialisation] = useState(defaultValues.specialisation || '');
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -25,10 +25,6 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
         const currentDate = selectedDate || dateOfBirth;
         setShowDatePicker(false);
         setDateOfBirth(currentDate);
-    };
-
-    const showDatepicker = () => {
-        setShowDatePicker(true);
     };
 
     const validateEmail = (email) => {
@@ -43,7 +39,7 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
         }
         const userInfo = {
             email, name, dateOfBirth: dateOfBirth.toISOString().split('T')[0], language,
-            ...(userType === 'PATIENT' ? { height: parseFloat(height), weight: parseFloat(weight) } : { hospital, specialisation })
+            ...(userType === 'PATIENT' ? { height, weight } : { hospital, specialisation })
         };
         
         if (isEdit) {
@@ -74,7 +70,7 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                 onChangeText={setName}
             />
             <Text style={userProfileFormStyles.label}>Date of Birth</Text>
-            <TouchableOpacity onPress={showDatepicker} style={userProfileFormStyles.input}>
+            <TouchableOpacity onPress={() => setShowDatePicker(true)} style={userProfileFormStyles.input}>
                 <Text>{dateOfBirth.toDateString()}</Text>
             </TouchableOpacity>
             {showDatePicker && (
@@ -89,7 +85,7 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
             <Picker
                 selectedValue={language}
                 style={userProfileFormStyles.input}
-                onValueChange={(itemValue) => setLanguage(itemValue)}
+                onValueChange={setLanguage}
             >
                 <Picker.Item label="English" value="en" />
                 <Picker.Item label="日本語 (Japanese)" value="jp" />
@@ -102,21 +98,25 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
             {userType === 'PATIENT' && (
                 <>
                     <Text style={userProfileFormStyles.label}>Height (cm)</Text>
-                    <TextInput
+                    <Picker
+                        selectedValue={height}
                         style={userProfileFormStyles.input}
-                        placeholder="Enter height in cm"
-                        value={height}
-                        onChangeText={setHeight}
-                        keyboardType="numeric"
-                    />
+                        onValueChange={setHeight}
+                    >
+                        {Array.from({ length: 100 }, (_, i) => 140 + i).map(value => (
+                            <Picker.Item key={value} label={`${value} cm`} value={value} />
+                        ))}
+                    </Picker>
                     <Text style={userProfileFormStyles.label}>Weight (kg)</Text>
-                    <TextInput
+                    <Picker
+                        selectedValue={weight}
                         style={userProfileFormStyles.input}
-                        placeholder="Enter weight in kg"
-                        value={weight}
-                        onChangeText={setWeight}
-                        keyboardType="numeric"
-                    />
+                        onValueChange={setWeight}
+                    >
+                        {Array.from({ length: 100 }, (_, i) => 40 + i).map(value => (
+                            <Picker.Item key={value} label={`${value} kg`} value={value} />
+                        ))}
+                    </Picker>
                 </>
             )}
             {userType === 'DOCTOR' && (
