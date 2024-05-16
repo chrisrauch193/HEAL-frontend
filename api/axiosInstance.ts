@@ -10,7 +10,8 @@ const axiosInstance = axios.create({
   baseURL: backendUrl,
 });
 
-if (useMock) {
+// if (useMock) {
+if (false) {
   applyMockAdapter(axiosInstance);
 }
 
