@@ -46,7 +46,7 @@ const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medica
                 {splitText.map((word, index) => {
                     const medicalTerm = medicalTerms.find(term => word.toLowerCase() === term.synonym.toLowerCase());
                     return medicalTerm ? (
-                        <TouchableOpacity key={index} onPress={() => handlePressTerm(medicalTerm.termInfo)}>
+                        <TouchableOpacity key={index} onPress={() => handlePressTerm(medicalTerm)}>
                             <Animated.View style={[highlightedTextStyles.highlighted, { transform: [{ scale: animatedValue }] }]}>
                                 <Text style={highlightedTextStyles.highlightedText}>{word}</Text>
                             </Animated.View>

@@ -65,9 +65,6 @@ export const chatSlice = createSlice({
             })
             .addCase(fetchInitialMessages.fulfilled, (state, action) => {
                 const { roomId, messages, isInitial } = action.payload;
-                console.log(roomId);
-                console.log(messages);
-                console.log(isInitial);
                 if (isInitial) {
                     state.messages[roomId] = messages;
                 } else {

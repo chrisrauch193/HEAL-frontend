@@ -66,7 +66,6 @@ export const getChatRoomMessages = async (roomId: string, page: number, limit: n
         const response = await axiosInstance.get(`/chats/${roomId}/messages`, {
             params: { page, limit },
         });
-        console.log(response.data[0].content.metadata);
         return response.data;
     } catch (error) {
         console.error('Failed to get chat room messages:', error);
