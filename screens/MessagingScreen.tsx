@@ -6,7 +6,7 @@ import { fetchInitialMessages, receivedMessage, addOptimisticMessage } from '../
 import { RootState } from '../store';
 import MessageComponent from "../components/MessageComponent";
 import { messagingStyles } from "../styles/messagingStyles";
-import socket from '../api/socket';
+import initializeSocket from '../api/socket';
 
 const MessagingScreen = ({ route }) => {
     const { roomId } = route.params;
@@ -14,19 +14,38 @@ const MessagingScreen = ({ route }) => {
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
     const messages = useSelector((state: RootState) => state.chat.messages[roomId] || []);
     const [messageText, setMessageText] = useState("");
+    const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchInitialMessages(roomId));
-        socket.emit('joinRoom', roomId);
+        const setupChat = async () => {
+            try {
+                const socketInstance = await initializeSocket(roomId);
+                setSocket(socketInstance);
 
-        const messageListener = (message) => {
-            dispatch(receivedMessage({ roomId: roomId, message }));
+                socketInstance.emit('joinRoom', roomId);
+
+                const messageListener = (message) => {
+                    dispatch(receivedMessage({ roomId: roomId, message }));
+                };
+
+                socketInstance.on('newMessage', messageListener);
+
+                return () => {
+                    socketInstance.off('newMessage', messageListener);
+                    socketInstance.disconnect();
+                };
+            } catch (error) {
+                console.error('Error initializing chat:', error);
+            }
         };
 
-        socket.on('newMessage', messageListener);
+        dispatch(fetchInitialMessages(roomId));
+        setupChat();
 
         return () => {
-            socket.off('newMessage', messageListener);
+            if (socket) {
+                socket.disconnect();
+            }
         };
     }, [dispatch, roomId]);
 
