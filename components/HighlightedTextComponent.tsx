@@ -10,7 +10,7 @@ interface HighlightedTextProps {
     medicalTerms: MedicalTerm[];
 }
 
-const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medicalTerms, style }) => {
+const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medicalTerms }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedTerm, setSelectedTerm] = React.useState<MedicalTerm | null>(null);
     const animatedValue = React.useRef(new Animated.Value(1)).current;

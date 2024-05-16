@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { View, TextInput, Text, FlatList, Pressable } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInitialMessages, receivedMessage, addOptimisticMessage } from '../store/slices/chatSlice';
+import { fetchInitialMessages, fetchMoreMessages, receivedMessage, addOptimisticMessage } from '../store/slices/chatSlice';
 import { RootState } from '../store';
 import MessageComponent from "../components/MessageComponent";
 import { messagingStyles } from "../styles/messagingStyles";
@@ -15,6 +15,8 @@ const MessagingScreen = ({ route }) => {
     const messages = useSelector((state: RootState) => state.chat.messages[roomId] || []);
     const [messageText, setMessageText] = useState("");
     const [socket, setSocket] = useState(null);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const setupChat = async () => {
@@ -39,7 +41,7 @@ const MessagingScreen = ({ route }) => {
             }
         };
 
-        dispatch(fetchInitialMessages(roomId));
+        dispatch(fetchInitialMessages({ roomId, page: 1, limit: 20 }));
         setupChat();
 
         return () => {
@@ -70,12 +72,24 @@ const MessagingScreen = ({ route }) => {
         }
     };
 
+    const fetchMore = () => {
+        if (!loading) {
+            setLoading(true);
+            setPage(page + 1);
+            dispatch(fetchMoreMessages({ roomId, page: page + 1, limit: 20 })).then(() => setLoading(false));
+        }
+    };
+
     return (
         <View style={messagingStyles.container}>
             <FlatList
                 data={messages}
                 renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />}
                 keyExtractor={(item) => item.messageId ? item.messageId.toString() : 'unknownId'}
+                onEndReached={fetchMore}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+                inverted // This will show the newest messages at the bottom
             />
             <View style={messagingStyles.inputContainer}>
                 <TextInput
