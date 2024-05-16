@@ -1,12 +1,11 @@
-// src/screens/MessagingScreen.tsx
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Text, FlatList, Pressable } from "react-native";
+import { View, TextInput, Text, FlatList, Pressable, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInitialMessages, receivedMessage, addOptimisticMessage } from '../store/slices/chatSlice';
+import { fetchInitialMessages, fetchMoreMessages, receivedMessage, addOptimisticMessage } from '../store/slices/chatSlice';
 import { RootState } from '../store';
 import MessageComponent from "../components/MessageComponent";
 import { messagingStyles } from "../styles/messagingStyles";
-import socket from '../api/socket';
+import initializeSocket from '../api/socket';
 
 const MessagingScreen = ({ route }) => {
     const { roomId } = route.params;
@@ -14,19 +13,40 @@ const MessagingScreen = ({ route }) => {
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
     const messages = useSelector((state: RootState) => state.chat.messages[roomId] || []);
     const [messageText, setMessageText] = useState("");
+    const [socket, setSocket] = useState(null);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchInitialMessages(roomId));
-        socket.emit('joinRoom', roomId);
+        const setupChat = async () => {
+            try {
+                const socketInstance = await initializeSocket(roomId);
+                setSocket(socketInstance);
 
-        const messageListener = (message) => {
-            dispatch(receivedMessage({ roomId: roomId, message }));
+                socketInstance.emit('joinRoom', roomId);
+
+                const messageListener = (message) => {
+                    dispatch(receivedMessage({ roomId, message }));
+                };
+
+                socketInstance.on('newMessage', messageListener);
+
+                return () => {
+                    socketInstance.off('newMessage', messageListener);
+                    socketInstance.disconnect();
+                };
+            } catch (error) {
+                console.error('Error initializing chat:', error);
+            }
         };
 
-        socket.on('newMessage', messageListener);
+        dispatch(fetchInitialMessages({ roomId, page: 1, limit: 20 }));
+        setupChat();
 
         return () => {
-            socket.off('newMessage', messageListener);
+            if (socket) {
+                socket.disconnect();
+            }
         };
     }, [dispatch, roomId]);
 
@@ -51,12 +71,24 @@ const MessagingScreen = ({ route }) => {
         }
     };
 
+    const fetchMore = () => {
+        if (!loading) {
+            setLoading(true);
+            setPage(page + 1);
+            dispatch(fetchMoreMessages({ roomId, page: page + 1, limit: 20 })).then(() => setLoading(false));
+        }
+    };
+
     return (
         <View style={messagingStyles.container}>
             <FlatList
                 data={messages}
                 renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />}
                 keyExtractor={(item) => item.messageId ? item.messageId.toString() : 'unknownId'}
+                onEndReached={fetchMore}
+                onEndReachedThreshold={0.1}
+                ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+                inverted // This will show the newest messages at the bottom
             />
             <View style={messagingStyles.inputContainer}>
                 <TextInput

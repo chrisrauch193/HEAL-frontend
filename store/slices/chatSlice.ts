@@ -19,9 +19,14 @@ export const fetchRooms = createAsyncThunk('chat/fetchChatRooms', async (userId:
     return await chatService.getUserChatRooms(userId);
 });
 
-export const fetchInitialMessages = createAsyncThunk('chat/fetchInitialMessages', async (roomId: string) => {
-    const messages = await chatService.getChatRoomMessages(roomId);
-    return { roomId, messages };
+export const fetchInitialMessages = createAsyncThunk('chat/fetchInitialMessages', async ({ roomId, page, limit }) => {
+    const messages = await chatService.getChatRoomMessages(roomId, page, limit);
+    return { roomId, messages, isInitial: true };
+});
+
+export const fetchMoreMessages = createAsyncThunk('chat/fetchMoreMessages', async ({ roomId, page, limit }) => {
+    const messages = await chatService.getChatRoomMessages(roomId, page, limit);
+    return { roomId, messages, isInitial: false };
 });
 
 export const chatSlice = createSlice({
@@ -33,14 +38,14 @@ export const chatSlice = createSlice({
             if (!state.messages[roomId]) {
                 state.messages[roomId] = [];
             }
-            state.messages[roomId].push(message);
+            state.messages[roomId].unshift(message); // Add new message at the beginning
         },
         addOptimisticMessage: (state, action: PayloadAction<{ roomId: string; message: ChatMessage }>) => {
             const { roomId, message } = action.payload;
             if (!state.messages[roomId]) {
                 state.messages[roomId] = [];
             }
-            state.messages[roomId].push(message);
+            state.messages[roomId].unshift(message); // Add new message at the beginning
         },
     },
     extraReducers: (builder) => {
@@ -59,11 +64,26 @@ export const chatSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(fetchInitialMessages.fulfilled, (state, action) => {
-                const { roomId, messages } = action.payload;
-                state.messages[roomId] = messages;
+                const { roomId, messages, isInitial } = action.payload;
+                if (isInitial) {
+                    state.messages[roomId] = messages;
+                } else {
+                    state.messages[roomId] = [...messages, ...state.messages[roomId]];
+                }
                 state.status = 'idle';
             })
             .addCase(fetchInitialMessages.rejected, (state) => {
+                state.status = 'failed';
+            })
+            .addCase(fetchMoreMessages.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchMoreMessages.fulfilled, (state, action) => {
+                const { roomId, messages } = action.payload;
+                state.messages[roomId] = [...state.messages[roomId], ...messages];
+                state.status = 'idle';
+            })
+            .addCase(fetchMoreMessages.rejected, (state) => {
                 state.status = 'failed';
             });
     }

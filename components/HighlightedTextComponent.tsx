@@ -1,4 +1,3 @@
-// src/components/HighlightedTextComponent.tsx
 import React from 'react';
 import { Text, TouchableOpacity, View, Animated, Easing } from 'react-native';
 import { MedicalTerm } from '../types/medicalTypes';
@@ -7,10 +6,10 @@ import { highlightedTextStyles } from "../styles/highlightedTextStyles";
 
 interface HighlightedTextProps {
     text: string;
-    medicalTerms: MedicalTerm[];
+    medicalTerms: { id: string; synonym: string; termInfo: MedicalTerm }[];
 }
 
-const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medicalTerms, style }) => {
+const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medicalTerms }) => {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [selectedTerm, setSelectedTerm] = React.useState<MedicalTerm | null>(null);
     const animatedValue = React.useRef(new Animated.Value(1)).current;
@@ -45,7 +44,7 @@ const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medica
         <View>
             <Text>
                 {splitText.map((word, index) => {
-                    const medicalTerm = medicalTerms.find(term => word.toLowerCase() === term.name.toLowerCase());
+                    const medicalTerm = medicalTerms.find(term => word.toLowerCase() === term.synonym.toLowerCase());
                     return medicalTerm ? (
                         <TouchableOpacity key={index} onPress={() => handlePressTerm(medicalTerm)}>
                             <Animated.View style={[highlightedTextStyles.highlighted, { transform: [{ scale: animatedValue }] }]}>

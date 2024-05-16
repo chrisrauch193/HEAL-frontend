@@ -43,6 +43,7 @@ export default function applyMockAdapter(axiosInstance) {
 
     const medicalTermCOVID19: MedicalTerm = {
         medicalTermId: "1",
+        medicalTermType: "CONDITION",
         name: "COVID-19",
         description: "COVID-19 is a severe respiratory disease caused by a novel coronavirus.",
         medicalTermLinks: ["https://www.nhs.uk/conditions/coronavirus-covid-19/", "https://www.who.int/emergencies/diseases/novel-coronavirus-2019"]

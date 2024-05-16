@@ -24,6 +24,10 @@ export interface ChatMessageContent {
 }
 
 export interface ChatMessageContentMetadata {
-    translations: Record<string, string>;
-    medicalTerms: MedicalTerm[];
+    translation: string;
+    medicalTerms: {
+        id: string;
+        synonym: string;
+        termInfo: MedicalTerm;
+    }[];
 }

@@ -1,20 +1,24 @@
-// utils/socket.ts
-import { io } from "socket.io-client";
-import store from '../store';
-import { receivedMessage } from '../store/slices/chatSlice';
+// api/socket.ts
+import { io, Socket } from 'socket.io-client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 
 const { backendUrl } = Constants.expoConfig.extra;
-const socket = io(backendUrl);
 
-export const initializeChat = (roomId) => {
-  socket.on('message', message => {
-    if (message.roomId === roomId) {
-      store.dispatch(receivedMessage({ roomId: message.roomId, message }));
+export const initializeSocket = async (roomId: string) => {
+    const token = await AsyncStorage.getItem('userToken');
+    if (!token) {
+        throw new Error('No token found');
     }
-  });
 
-  return socket;
+    const socket: Socket = io(backendUrl, {
+        auth: {
+            token,
+            roomId,
+        },
+    });
+
+    return socket;
 };
 
-export default socket;
+export default initializeSocket;
