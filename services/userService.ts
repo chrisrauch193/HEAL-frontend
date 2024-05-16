@@ -16,7 +16,7 @@ export const verifyToken = async () => {
   }
 };
 
-export const loginUser = async (credentials: { username: string; password: string }) => {
+export const loginUser = async (credentials: { email: string; password: string }) => {
   const response = await axiosInstance.post<{ token: string }>('/users/login', credentials)
   return response.data;
 };

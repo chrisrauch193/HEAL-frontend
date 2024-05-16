@@ -37,7 +37,7 @@ export const verifyUserToken = createAsyncThunk(
 // Async thunk for user login
 export const authenticateUser = createAsyncThunk(
   'user/authenticate',
-  async (credentials: { username: string; password: string }, { rejectWithValue }) => {
+  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const { user, token } = await loginUser(credentials);
       await AsyncStorage.setItem('userToken', token);
