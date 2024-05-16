@@ -1,6 +1,5 @@
-// src/screens/MessagingScreen.tsx
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Text, FlatList, Pressable } from "react-native";
+import { View, TextInput, Text, FlatList, Pressable, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInitialMessages, fetchMoreMessages, receivedMessage, addOptimisticMessage } from '../store/slices/chatSlice';
 import { RootState } from '../store';
@@ -27,7 +26,7 @@ const MessagingScreen = ({ route }) => {
                 socketInstance.emit('joinRoom', roomId);
 
                 const messageListener = (message) => {
-                    dispatch(receivedMessage({ roomId: roomId, message }));
+                    dispatch(receivedMessage({ roomId, message }));
                 };
 
                 socketInstance.on('newMessage', messageListener);
