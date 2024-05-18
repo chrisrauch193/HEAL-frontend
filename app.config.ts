@@ -20,6 +20,7 @@ interface AppConfig {
   android?: {
     package: string;
   };
+  platforms?: string[];
 }
 
 export default ({ config }): AppConfig => {
@@ -41,10 +42,11 @@ export default ({ config }): AppConfig => {
       policy: 'appVersion'
     },
     web: {
-      bundler: 'webpack'
+      bundler: 'metro'  // Ensure metro is used, or use 'webpack' if preferred
     },
     android: {
       package: 'com.yourcompany.yourapp'  // Replace with your app's package name
-    }
+    },
+    platforms: ["ios", "android", "web"]
   };
 };
