@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Initialize EAS project
+        run: eas init --non-interactive
+
       - name: Publish update
         run: eas update --auto
 
