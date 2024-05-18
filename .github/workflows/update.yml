@@ -34,8 +34,15 @@ jobs:
       - name: Initialize EAS project
         run: eas init --id eba95232-91ba-4791-b166-42dbd7e8803d --non-interactive
 
+      - name: Verify EAS project configuration
+        run: |
+          if ! grep -q '"projectId": "eba95232-91ba-4791-b166-42dbd7e8803d"' app.config.ts; then
+            echo 'Error: EAS projectId not found in app.config.ts'
+            exit 1
+          fi
+
       - name: Publish update
-        run: eas update --auto
+        run: eas update --auto --non-interactive
 
       - name: Serve
         run: npx serve dist --single
