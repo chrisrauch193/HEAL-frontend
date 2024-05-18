@@ -12,6 +12,8 @@ import { loginStyles } from '../styles/loginStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
 
+import { useTranslation } from 'react-i18next';
+
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
 
 interface LoginProps {
@@ -23,6 +25,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
     const [password, setPassword] = useState<string>('');
     const dispatch = useDispatch();
     const { status } = useSelector((state: RootState) => state.user);
+    const { t } = useTranslation();
 
     const handleSignIn = async () => {
         if (email.trim() && password.trim()) {
@@ -47,7 +50,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
 
     return (
         <ScrollView style={loginStyles.container}>
-            <Text style={loginStyles.heading}>Sign in</Text>
+            <Text style={loginStyles.heading}>{t('signIn')}</Text>
             <TextInput
                 autoCorrect={false}
                 placeholder="Enter your email"
