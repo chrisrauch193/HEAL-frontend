@@ -1,9 +1,13 @@
+// app.config.ts
 import 'dotenv/config';
 
 interface AppConfig {
   extra: {
     backendUrl: string;
     useMock: boolean;
+    eas: {
+      projectId: string;
+    };
   };
 }
 
@@ -15,6 +19,9 @@ export default ({ config }): AppConfig => {
     extra: {
       backendUrl: isDev ? 'http://13.208.164.92:8888' : 'http://13.208.164.92:8888',
       useMock: isDev,
+      eas: {
+        projectId: 'eba95232-91ba-4791-b166-42dbd7e8803d'
+      }
     },
   };
 };
