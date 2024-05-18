@@ -9,6 +9,12 @@ interface AppConfig {
       projectId: string;
     };
   };
+  updates?: {
+    url: string;
+  };
+  runtimeVersion?: {
+    policy: string;
+  };
 }
 
 export default ({ config }): AppConfig => {
@@ -23,5 +29,12 @@ export default ({ config }): AppConfig => {
         projectId: 'eba95232-91ba-4791-b166-42dbd7e8803d'
       }
     },
+    updates: {
+      url: 'https://u.expo.dev/eba95232-91ba-4791-b166-42dbd7e8803d'
+    },
+    runtimeVersion: {
+      policy: 'appVersion'
+    }
   };
 };
+
