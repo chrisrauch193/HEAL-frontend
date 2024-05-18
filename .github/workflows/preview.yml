@@ -41,8 +41,7 @@ jobs:
         run: npx expo export -p web
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.GH_PAT }}
-          publish_dir: ./dist
-          publish_branch: gh-pages-preview
+        run: npm run deploy
+        env:
+          GIT_USER: github-actions[bot]
+          GIT_EMAIL: github-actions[bot]@users.noreply.github.com
