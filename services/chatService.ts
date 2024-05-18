@@ -53,7 +53,7 @@ export const removeParticipantFromRoom = async (roomId: string, userId: string) 
 
 export const getUserChatRooms = async (userId: string) => {
     try {
-        const response = await axiosInstance.get(`/users/${userId}/chats`);
+        const response = await axiosInstance.get(`/users/chats`);
         return response.data.rooms;
     } catch (error) {
         console.error('Failed to get user chat rooms:', error);
