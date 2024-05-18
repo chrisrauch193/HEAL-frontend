@@ -33,6 +33,3 @@ jobs:
 
       - name: Publish update
         run: eas update --auto --non-interactive
-
-      - name: Serve
-        run: npx serve dist --single
