@@ -6,6 +6,8 @@ import { fetchUserProfileById } from '../store/slices/medicalProfilesSlice';
 import { logoutUser } from '../store/slices/userSlice';
 import { profileStyles } from '../styles/profileStyles';
 
+import { useTranslation } from 'react-i18next';
+
 const ProfileScreen = ({ route, navigation }) => {
   const { viewUserId } = route.params;
   const dispatch = useDispatch();
@@ -36,10 +38,11 @@ const ProfileScreen = ({ route, navigation }) => {
   }
 
   if (error) {
+    const { t } = useTranslation();
     return (
       <View style={profileStyles.container}>
         <Text>{error}</Text>
-        <Button title="Retry" onPress={() => {
+        <Button title={t('retry')} onPress={() => {
           setError('');
           dispatch(fetchUserProfileById(viewUserId));
         }} />
@@ -48,32 +51,34 @@ const ProfileScreen = ({ route, navigation }) => {
   }
 
   if (!viewedProfile) {
-    return <Text>Profile not found or failed to load.</Text>;
+    const { t } = useTranslation();
+    return <Text>{t('profileNotFound')}</Text>;
   }
 
+  const { t } = useTranslation();
   return (
     <ScrollView style={profileStyles.container}>
       <Text style={profileStyles.name}>{viewedProfile.name}</Text>
-      <Text style={profileStyles.details}>Email: {viewedProfile.email}</Text>
-      <Text style={profileStyles.details}>Type: {viewedProfile.type}</Text>
-      <Text style={profileStyles.details}>DOB: {viewedProfile.dateOfBirth}</Text>
-      <Text style={profileStyles.details}>Language: {viewedProfile.language}</Text>
+      <Text style={profileStyles.details}>{t('email:')}{viewedProfile.email}</Text>
+      <Text style={profileStyles.details}>{t('type:')}{viewedProfile.type}</Text>
+      <Text style={profileStyles.details}>{t('DOB:')}{viewedProfile.dateOfBirth}</Text>
+      <Text style={profileStyles.details}>{t('language:')}{viewedProfile.language}</Text>
       {viewedProfile.type === 'PATIENT' && (
         <>
-          <Text style={profileStyles.details}>Height: {viewedProfile.height} cm</Text>
-          <Text style={profileStyles.details}>Weight: {viewedProfile.weight} kg</Text>
+          <Text style={profileStyles.details}>{t('height:')}{viewedProfile.height} cm</Text>
+          <Text style={profileStyles.details}>{t('weight:')}{viewedProfile.weight} kg</Text>
         </>
       )}
       {viewedProfile.type === 'DOCTOR' && (
         <>
-          <Text style={profileStyles.details}>Hospital: {viewedProfile.hospital}</Text>
-          <Text style={profileStyles.details}>Specialisation: {viewedProfile.specialisation}</Text>
+          <Text style={profileStyles.details}>{t('hospital:')}{viewedProfile.hospital}</Text>
+          <Text style={profileStyles.details}>{t('specialisation:')}{viewedProfile.specialisation}</Text>
         </>
       )}
       {isCurrentUser && (
         <>
-          <Button title="Edit Profile" onPress={handleEditProfile} />
-          <Button title="Log Out" onPress={handleLogout} color="red" />
+          <Button title={t('editProfile')} onPress={handleEditProfile} />
+          <Button title={t('logOut')} onPress={handleLogout} color="red" />
         </>
       )}
     </ScrollView>

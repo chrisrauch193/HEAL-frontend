@@ -9,7 +9,7 @@ i18n
   .use(LanguageDetector) // detect user language
   .use(initReactI18next) // pass the i18n instance to react-i18next.
   .init({
-    fallbackLng: 'en',
+    fallbackLng: 'jp',
     debug: true,
     interpolation: {
       escapeValue: false, // react already safes from xss
