@@ -35,7 +35,7 @@ jobs:
         run: npm install
 
       - name: Initialize EAS project
-        run: eas init --non-interactive
+        run: eas init --id eba95232-91ba-4791-b166-42dbd7e8803d --non-interactive
 
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
