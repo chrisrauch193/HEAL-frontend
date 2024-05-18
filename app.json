@@ -31,6 +31,9 @@
         "projectId": "eba95232-91ba-4791-b166-42dbd7e8803d"
       }
     },
-    "owner": "chrisrauch193"
+    "owner": "chrisrauch193",
+    "experiments": {
+      "baseUrl": "/expo-gh-pages"
+    }
   }
 }
