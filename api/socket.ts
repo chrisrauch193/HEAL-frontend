@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 
 const { backendUrl } = Constants.expoConfig.extra;
 
-export const initializeSocket = async (roomId: string) => {
+export const initializeSocket = async (roomId: string): Promise<Socket> => {
     const token = await AsyncStorage.getItem('userToken');
     if (!token) {
         throw new Error('No token found');

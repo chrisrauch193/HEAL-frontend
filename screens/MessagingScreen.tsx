@@ -15,7 +15,7 @@ const MessagingScreen = ({ route }) => {
     const [messageText, setMessageText] = useState("");
     const [socket, setSocket] = useState(null);
     const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const setupChat = async () => {
@@ -23,16 +23,15 @@ const MessagingScreen = ({ route }) => {
                 const socketInstance = await initializeSocket(roomId);
                 setSocket(socketInstance);
 
-                socketInstance.emit('joinRoom', roomId);
-
                 const messageListener = (message) => {
                     dispatch(receivedMessage({ roomId, message }));
+                    console.log(message);
                 };
 
-                socketInstance.on('newMessage', messageListener);
+                socketInstance.on('message', messageListener);
 
                 return () => {
-                    socketInstance.off('newMessage', messageListener);
+                    socketInstance.off('message', messageListener);
                     socketInstance.disconnect();
                 };
             } catch (error) {
@@ -51,12 +50,13 @@ const MessagingScreen = ({ route }) => {
     }, [dispatch, roomId]);
 
     const handleSend = () => {
+        const timestamp = new Date().toISOString();
         if (messageText.trim() && currentUserProfile && currentUserProfile.userId) {
             const messageData = {
                 messageId: Math.random().toString(36).substr(2, 9), // Generate a temporary ID
                 roomId: roomId,
                 senderUserId: currentUserProfile.userId,
-                timestamp: new Date().toISOString(),
+                timestamp,
                 content: {
                     text: messageText,
                     metadata: {
@@ -65,18 +65,22 @@ const MessagingScreen = ({ route }) => {
                     }
                 }
             };
-            dispatch(addOptimisticMessage({ roomId: roomId, message: messageData }));
-            socket.emit('sendMessage', messageData);
+            const messageToSend = {
+                timestamp, 
+                text: messageText
+            }
+            // dispatch(addOptimisticMessage({ roomId: roomId, message: messageData }));
+            socket.emit('message', messageToSend);
             setMessageText("");
         }
     };
 
     const fetchMore = () => {
-        if (!loading) {
-            setLoading(true);
-            setPage(page + 1);
-            dispatch(fetchMoreMessages({ roomId, page: page + 1, limit: 20 })).then(() => setLoading(false));
-        }
+        // if (!loading) {
+        //     setLoading(true);
+        //     setPage(page + 1);
+        //     dispatch(fetchMoreMessages({ roomId, page: page + 1, limit: 20 })).then(() => setLoading(false));
+        // }
     };
 
     return (
@@ -85,9 +89,9 @@ const MessagingScreen = ({ route }) => {
                 data={messages}
                 renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />}
                 keyExtractor={(item) => item.messageId ? item.messageId.toString() : 'unknownId'}
-                onEndReached={fetchMore}
-                onEndReachedThreshold={0.1}
-                ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
+                // onEndReached={fetchMore}
+                // onEndReachedThreshold={0.1}
+                // ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
                 inverted // This will show the newest messages at the bottom
             />
             <View style={messagingStyles.inputContainer}>
