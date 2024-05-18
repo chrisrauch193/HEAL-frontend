@@ -24,7 +24,8 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "output": "server",
+      "bundler": "metro"
     },
     "extra": {
       "eas": {
