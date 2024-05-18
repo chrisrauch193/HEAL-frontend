@@ -1,4 +1,3 @@
-// app.config.ts
 import 'dotenv/config';
 
 interface AppConfig {
@@ -14,6 +13,12 @@ interface AppConfig {
   };
   runtimeVersion?: {
     policy: string;
+  };
+  web?: {
+    bundler: string;
+  };
+  android?: {
+    package: string;
   };
 }
 
@@ -34,7 +39,12 @@ export default ({ config }): AppConfig => {
     },
     runtimeVersion: {
       policy: 'appVersion'
+    },
+    web: {
+      bundler: 'webpack'
+    },
+    android: {
+      package: 'com.yourcompany.yourapp'  // Replace with your app's package name
     }
   };
 };
-

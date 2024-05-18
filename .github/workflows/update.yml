@@ -3,7 +3,7 @@ on: push
 
 jobs:
   update:
-    name: EAS Update
+    name: EAS Update and Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -33,3 +33,12 @@ jobs:
 
       - name: Publish update
         run: eas update --auto --non-interactive
+
+      - name: Build Web Version
+        run: npx expo export:web
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GH_PAT }}
+          publish_dir: ./web-build
