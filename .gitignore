@@ -38,3 +38,6 @@ yarn-error.*
 .amplify
 amplify_outputs*
 amplifyconfiguration*
+
+# Local Netlify folder
+.netlify
