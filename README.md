@@ -4,7 +4,7 @@ Fronend for HEAL Project will be written in React Native
 ## Quick Start
 ```bash
 npm install
-npx expo
+npx expo --no-dev
 ```
 
 ### M1 Mac Prerequisites
