@@ -4,15 +4,14 @@ import { View, Text, Pressable, SafeAreaView, FlatList, ActivityIndicator } from
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { fetchRooms } from '../store/slices/chatSlice';
-import { RootState } from '../store';
-import ChatComponent from "../components/ChatComponent";
-import { chatStyles } from "../styles/chatStyles";
-import ModalComponent from "../components/ModalComponent";
-
+import { fetchRooms } from '@store/slices/chatSlice';
+import { RootState } from '@store';
+import ChatComponent from "@components/ChatComponent";
+import ModalComponent from "@components/ModalComponent";
+import ChatScreenStyles from '@styles/ChatScreenStyles';
 import { useTranslation } from 'react-i18next';
 
-const ChatScreen: React.FC = () => {
+const ChatScreen = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -39,22 +38,22 @@ const ChatScreen: React.FC = () => {
     }
 
     if (status === 'failed') {
-        return <Text>{t('errorFetchingRooms')}</Text>;
+        return <Text style={ChatScreenStyles.emptyText}>{t('errorFetchingRooms')}</Text>;
     }
 
     return (
-        <SafeAreaView style={chatStyles.container}>
-            <View style={chatStyles.header}>
-                <View style={chatStyles.headerIcons}>
-                    <Pressable onPress={handleNavigateProfile} style={chatStyles.iconButton}>
+        <SafeAreaView style={ChatScreenStyles.container}>
+            <View style={ChatScreenStyles.header}>
+                <View style={ChatScreenStyles.headerIcons}>
+                    <Pressable onPress={handleNavigateProfile} style={ChatScreenStyles.iconButton}>
                         <FontAwesome name="user" size={24} color="blue" />
                     </Pressable>
-                    <Pressable onPress={handleCreateGroup} style={chatStyles.iconButton}>
+                    <Pressable onPress={handleCreateGroup} style={ChatScreenStyles.iconButton}>
                         <Feather name="edit" size={24} color="green" />
                     </Pressable>
                 </View>
             </View>
-            <View style={chatStyles.listContainer}>
+            <View style={ChatScreenStyles.listContainer}>
                 {rooms.length > 0 ? (
                     <FlatList
                         data={rooms}
@@ -62,8 +61,8 @@ const ChatScreen: React.FC = () => {
                         keyExtractor={(item) => item.roomId.toString()}
                     />
                 ) : (
-                    <View style={chatStyles.emptyContainer}>
-                        <Text style={chatStyles.emptyText}>{t('noRoomsCreated')}</Text>
+                    <View style={ChatScreenStyles.emptyContainer}>
+                        <Text style={ChatScreenStyles.emptyText}>{t('noRoomsCreated')}</Text>
                     </View>
                 )}
             </View>

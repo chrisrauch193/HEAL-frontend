@@ -1,7 +1,8 @@
-// styles/highlightedTextStyles.ts
+// src/styles/HighlightedTextComponentStyles.ts
 import { StyleSheet } from "react-native";
+import { colors } from "@styles/GlobalStyles";
 
-export const highlightedTextStyles = StyleSheet.create({
+export const HighlightedTextComponentStyles = StyleSheet.create({
     highlighted: {
         backgroundColor: '#e0f7fa',
         borderRadius: 12,
@@ -15,5 +16,8 @@ export const highlightedTextStyles = StyleSheet.create({
     },
     normalText: {
         fontWeight: 'normal',
+        color: colors.text,
     }
 });
+
+export default HighlightedTextComponentStyles;

@@ -1,7 +1,8 @@
-// src/styles/medicalTermDetailsStyles.ts
+// src/styles/MedicalTermDetailsModalStyles.ts
 import { StyleSheet } from "react-native";
+import { spacing, colors, fonts } from "@styles/GlobalStyles";
 
-export const medicalTermDetailsStyles = StyleSheet.create({
+export const MedicalTermDetailsModalStyles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
@@ -12,7 +13,7 @@ export const medicalTermDetailsStyles = StyleSheet.create({
         width: '80%',
         backgroundColor: 'white',
         borderRadius: 10,
-        padding: 20,
+        padding: spacing.large,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -23,31 +24,30 @@ export const medicalTermDetailsStyles = StyleSheet.create({
         elevation: 5,
     },
     termName: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        marginBottom: 10,
-        textAlign: 'left',
-        color: '#00796b',
+        fontSize: fonts.title,
+        color: colors.text,
+        marginBottom: spacing.small,
     },
     description: {
-        fontSize: 16,
-        marginBottom: 10,
-        textAlign: 'left',
+        fontSize: fonts.text,
+        marginBottom: spacing.medium,
     },
     link: {
-        color: '#00796b',
+        color: colors.primary,
         textDecorationLine: 'underline',
-        textAlign: 'left',
     },
     closeButton: {
-        marginTop: 10,
-        backgroundColor: '#00796b',
-        borderRadius: 5,
-        padding: 10,
+        marginTop: spacing.small,
+        backgroundColor: colors.secondary,
+        borderRadius: 20,
+        padding: spacing.small,
         alignItems: 'center',
     },
     closeButtonText: {
         color: 'white',
+        fontSize: fonts.small,
         fontWeight: 'bold',
     },
 });
+
+export default MedicalTermDetailsModalStyles;

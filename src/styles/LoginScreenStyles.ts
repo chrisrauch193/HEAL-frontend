@@ -1,8 +1,8 @@
-// src/styles/UserProfileFormStyles.ts
+// src/styles/LoginScreenStyles.ts
 import { StyleSheet, Platform } from 'react-native';
 import { spacing, colors, fonts } from '@styles/GlobalStyles';
 
-export const UserProfileFormStyles = StyleSheet.create({
+export const LoginScreenStyles = StyleSheet.create({
     container: {
         flex: 1,
         padding: spacing.medium,
@@ -18,11 +18,6 @@ export const UserProfileFormStyles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: spacing.medium,
     },
-    label: {
-        fontSize: fonts.text,
-        color: colors.text,
-        marginBottom: spacing.small,
-    },
     input: {
         borderWidth: 1,
         borderColor: colors.grey,
@@ -35,16 +30,6 @@ export const UserProfileFormStyles = StyleSheet.create({
         ...(Platform.OS === 'web' && {
             width: '100%', // Full width inputs on web
         }),
-    },
-    picker: {
-        borderWidth: 1,
-        borderColor: colors.grey,
-        borderRadius: 4,
-        paddingVertical: spacing.small,
-        paddingHorizontal: spacing.small,
-        marginBottom: spacing.medium,
-        color: colors.text,
-        backgroundColor: colors.white,
     },
     button: {
         backgroundColor: colors.primary,
@@ -63,6 +48,11 @@ export const UserProfileFormStyles = StyleSheet.create({
         fontSize: fonts.text,
         fontWeight: 'bold',
     },
+    registerLink: {
+        color: colors.secondary,
+        marginTop: spacing.small,
+        textAlign: 'center',
+    },
 });
 
-export default UserProfileFormStyles;
+export default LoginScreenStyles;

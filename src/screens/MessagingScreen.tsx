@@ -1,13 +1,13 @@
+// src/screens/MessagingScreen.tsx
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Text, FlatList, Pressable, ActivityIndicator } from "react-native";
+import { View, TextInput, Text, FlatList, Pressable, ScrollView, Platform } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInitialMessages, fetchMoreMessages, receivedMessage, addOptimisticMessage } from '../store/slices/chatSlice';
-import { RootState } from '../store';
-import MessageComponent from "../components/MessageComponent";
-import { messagingStyles } from "../styles/messagingStyles";
-import initializeSocket from '../api/socket';
-
+import { fetchInitialMessages, receivedMessage } from '@store/slices/chatSlice';
+import { RootState } from '@store';
+import MessageComponent from "@components/MessageComponent";
+import initializeSocket from '@src/api/socket';
 import { useTranslation } from 'react-i18next';
+import MessagingScreenStyles from '@styles/MessagingScreenStyles';
 
 const MessagingScreen = ({ route }) => {
     const { t } = useTranslation();
@@ -17,8 +17,6 @@ const MessagingScreen = ({ route }) => {
     const messages = useSelector((state: RootState) => state.chat.messages[roomId] || []);
     const [messageText, setMessageText] = useState("");
     const [socket, setSocket] = useState(null);
-    const [page, setPage] = useState(1);
-    // const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const setupChat = async () => {
@@ -54,59 +52,45 @@ const MessagingScreen = ({ route }) => {
     const handleSend = () => {
         const timestamp = new Date().toISOString();
         if (messageText.trim() && currentUserProfile && currentUserProfile.userId) {
-            const messageData = {
-                messageId: Math.random().toString(36).substr(2, 9), // Generate a temporary ID
-                roomId: roomId,
-                senderUserId: currentUserProfile.userId,
-                timestamp,
-                content: {
-                    text: messageText,
-                    metadata: {
-                        translations: {},
-                        medicalTerms: []
-                    }
-                }
-            };
             const messageToSend = {
                 timestamp, 
                 text: messageText
-            }
-            // dispatch(addOptimisticMessage({ roomId: roomId, message: messageData }));
+            };
             socket.emit('message', messageToSend);
             setMessageText("");
         }
     };
 
-    const fetchMore = () => {
-        // if (!loading) {
-        //     setLoading(true);
-        //     setPage(page + 1);
-        //     dispatch(fetchMoreMessages({ roomId, page: page + 1, limit: 20 })).then(() => setLoading(false));
-        // }
-    };
-
     return (
-        <View style={messagingStyles.container}>
-            <FlatList
-                data={messages}
-                renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />}
-                keyExtractor={(item) => item.messageId ? item.messageId.toString() : 'unknownId'}
-                // onEndReached={fetchMore}
-                // onEndReachedThreshold={0.1}
-                // ListFooterComponent={loading ? <ActivityIndicator size="large" color="#0000ff" /> : null}
-                inverted // This will show the newest messages at the bottom
-            />
-            <View style={messagingStyles.inputContainer}>
+        <View style={MessagingScreenStyles.container}>
+            {Platform.OS === 'web' ? (
+                <ScrollView style={MessagingScreenStyles.scrollView}>
+                    <View style={MessagingScreenStyles.messageListContainer}>
+                        {messages.map(item => (
+                            <MessageComponent key={item.messageId} item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />
+                        ))}
+                    </View>
+                </ScrollView>
+            ) : (
+                <FlatList
+                    data={messages}
+                    renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />}
+                    keyExtractor={(item) => item.messageId.toString()}
+                    inverted
+                    contentContainerStyle={MessagingScreenStyles.flatListContent}
+                />
+            )}
+            <View style={MessagingScreenStyles.inputContainer}>
                 <TextInput
-                    style={messagingStyles.input}
+                    style={MessagingScreenStyles.input}
                     value={messageText}
                     onChangeText={setMessageText}
                     placeholder={t('typeAMessage')}
                     multiline={true}
                     numberOfLines={4}
                 />
-                <Pressable style={messagingStyles.buttonContainer} onPress={handleSend}>
-                    <Text style={messagingStyles.buttonText}>{t('send')}</Text>
+                <Pressable style={MessagingScreenStyles.buttonContainer} onPress={handleSend}>
+                    <Text style={MessagingScreenStyles.buttonText}>{t('send')}</Text>
                 </Pressable>
             </View>
         </View>

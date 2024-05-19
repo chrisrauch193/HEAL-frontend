@@ -1,14 +1,18 @@
-// src/styles/modalStyles.ts
-import { StyleSheet } from "react-native";
-import { colors, spacing, fonts } from '@styles/globalStyles';
+// src/styles/ModalComponentStyles.ts
+import { StyleSheet, Platform } from 'react-native';
+import { spacing, colors, fonts } from '@styles/GlobalStyles';
 
-export const modalStyles = StyleSheet.create({
+export const ModalComponentStyles = StyleSheet.create({
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background for the modal backdrop
         padding: spacing.large,
+        ...(Platform.OS === 'web' && {
+            height: '100vh', // Full viewport height on web
+            overflowY: 'auto', // Allow scrolling on web
+        }),
     },
     modalContent: {
         backgroundColor: colors.white,
@@ -18,7 +22,7 @@ export const modalStyles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 2
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -81,4 +85,23 @@ export const modalStyles = StyleSheet.create({
         marginBottom: spacing.small,
         textAlign: 'center',
     },
+    modalinput: {
+        borderWidth: 1,
+        borderColor: colors.grey,
+        borderRadius: 4,
+        padding: spacing.small,
+        fontSize: fonts.text,
+        marginBottom: spacing.medium,
+        color: colors.text,
+        backgroundColor: colors.white,
+        ...(Platform.OS === 'web' && {
+            width: '100%', // Full width inputs on web
+        }),
+    },
+    modaltext: {
+        fontSize: fonts.text,
+        color: colors.text,
+    },
 });
+
+export default ModalComponentStyles;

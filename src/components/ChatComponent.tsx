@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { chatStyles } from "@styles/chatStyles";
+import { ChatComponentStyles } from "@styles/ChatComponentStyles";
 import { ChatRoom } from '@types/chatTypes';
 
 import { useTranslation } from 'react-i18next';
@@ -16,10 +16,10 @@ const ChatComponent = ({ item }: { item: ChatRoom }) => {
     };
 
     return (
-        <Pressable style={chatStyles.chat} onPress={handleNavigation}>
-            <View style={chatStyles.rightContainer}>
-                <Text style={chatStyles.username}>{item.roomName}</Text>
-                <Text style={chatStyles.message}>{t('tapToStartChatting')}</Text>
+        <Pressable style={ChatComponentStyles.chat} onPress={handleNavigation}>
+            <View style={ChatComponentStyles.rightContainer}>
+                <Text style={ChatComponentStyles.username}>{item.roomName}</Text>
+                <Text style={ChatComponentStyles.message}>{t('tapToStartChatting')}</Text>
             </View>
         </Pressable>
     );

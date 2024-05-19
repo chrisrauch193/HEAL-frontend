@@ -1,16 +1,16 @@
-// screens/Login.tsx
+// src/screens/Login.tsx
 import React, { useState } from 'react';
 import {
     Text, ScrollView, TextInput, Pressable, Alert, Button
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { authenticateUser } from '../store/slices/userSlice'; // Adjust path if necessary
-import { RootState } from '../store'; // Adjust path if necessary
-import { loginStyles } from '../styles/loginStyles';
+import { authenticateUser } from '@store/slices/userSlice'; // Adjust path if necessary
+import { RootState } from '@store'; // Adjust path if necessary
+import { LoginScreenStyles } from '@styles/LoginScreenStyles';
 
 // TypeScript types for navigation prop
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../App';
+import { RootStackParamList } from '../../App';
 
 import { useTranslation } from 'react-i18next';
 
@@ -49,12 +49,12 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={loginStyles.container}>
-            <Text style={loginStyles.heading}>{t('signIn')}</Text>
+        <ScrollView style={LoginScreenStyles.container}>
+            <Text style={LoginScreenStyles.heading}>{t('signIn')}</Text>
             <TextInput
                 autoCorrect={false}
                 placeholder={t('enterYourEmail')}
-                style={loginStyles.input}
+                style={LoginScreenStyles.input}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -63,7 +63,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
             <TextInput
                 secureTextEntry={true}
                 placeholder={t('enterYourPassword')}
-                style={loginStyles.input}
+                style={LoginScreenStyles.input}
                 value={password}
                 onChangeText={setPassword}
                 autoCapitalize="none"

@@ -1,5 +1,5 @@
-// src/styles/globalStyles.ts
-import { StyleSheet } from "react-native";
+// src/styles/GlobalStyles.ts
+import { StyleSheet } from 'react-native';
 
 export const colors = {
     primary: '#007BFF',
@@ -24,19 +24,43 @@ export const fonts = {
     small: 12,
 };
 
-export const globalStyles = StyleSheet.create({
+const GlobalStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.background,
+        padding: spacing.medium,
+    },
+    text: {
+        color: colors.text,
+        fontSize: fonts.text,
+    },
+    heading: {
+        fontSize: fonts.title,
+        fontWeight: 'bold',
+        color: colors.primary,
+    },
     button: {
-        backgroundColor: colors.primary, // Default color
-        padding: 12,
+        backgroundColor: colors.primary,
+        padding: spacing.medium,
+        borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 10,
-        width: '90%',
-        borderRadius: 5,
+        height: 50,
+        marginVertical: spacing.small,
     },
     buttonText: {
         color: colors.white,
-        fontWeight: '600',
-        fontSize: 16,
-    }
+        fontSize: fonts.text,
+        fontWeight: 'bold',
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: colors.grey,
+        borderRadius: 4,
+        padding: spacing.small,
+        marginBottom: spacing.small,
+        width: '100%',
+    },
 });
+
+export default GlobalStyles;

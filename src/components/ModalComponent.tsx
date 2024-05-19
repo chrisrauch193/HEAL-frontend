@@ -1,9 +1,8 @@
-// /components/ModalComponent.tsx
+// src/components/ModalComponent.tsx
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable } from "react-native";
-import { modalStyles } from "@styles/modalStyles";
+import { ModalComponentStyles } from "@styles/ModalComponentStyles";
 import socket from "@src/api/socket";
-
 import { useTranslation } from 'react-i18next';
 
 interface ModalProps {
@@ -25,23 +24,23 @@ const ModalComponent: React.FC<ModalProps> = ({ setVisible }) => {
     };
 
     return (
-        <View style={modalStyles.modalContainer}>
-            <Text style={modalStyles.modalsubheading}>{t('enterYourGroupName')}</Text>
+        <View style={ModalComponentStyles.modalContainer}>
+            <Text style={ModalComponentStyles.modalsubheading}>{t('enterYourGroupName')}</Text>
             <TextInput
-                style={modalStyles.modalinput}
+                style={ModalComponentStyles.modalinput}
                 placeholder={t('groupName')}
                 value={groupName}
                 onChangeText={setGroupName}
             />
-            <View style={modalStyles.modalbuttonContainer}>
-                <Pressable style={modalStyles.modalbutton} onPress={handleCreateRoom}>
-                    <Text style={modalStyles.modaltext}>{t('create')}</Text>
+            <View style={ModalComponentStyles.modalbuttonContainer}>
+                <Pressable style={ModalComponentStyles.modalbutton} onPress={handleCreateRoom}>
+                    <Text style={ModalComponentStyles.modaltext}>{t('create')}</Text>
                 </Pressable>
                 <Pressable
-                    style={[modalStyles.modalbutton, { backgroundColor: "#E14D2A" }]}
+                    style={[ModalComponentStyles.modalbutton, { backgroundColor: "#E14D2A" }]}
                     onPress={closeModal}
                 >
-                    <Text style={modalStyles.modaltext}>{t('cancel')}</Text>
+                    <Text style={ModalComponentStyles.modaltext}>{t('cancel')}</Text>
                 </Pressable>
             </View>
         </View>
