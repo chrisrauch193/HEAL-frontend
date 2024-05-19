@@ -12,6 +12,8 @@ import { loginStyles } from '../styles/loginStyles';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
 
+import { useTranslation } from 'react-i18next';
+
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
 
 interface LoginProps {
@@ -19,6 +21,7 @@ interface LoginProps {
 }
 
 const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const dispatch = useDispatch();
@@ -34,10 +37,10 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
                     throw new Error('Login failed');
                 }
             } catch (error) {
-                Alert.alert("Login Error", error.message || "Unable to login");
+                Alert.alert(t('loginError'), error.message || t('unableToLogin'));
             }
         } else {
-            Alert.alert('Error', 'Both email and password are required.');
+            Alert.alert(t('error'), t('bothEmailAndPassword'));
         }
     };
 
@@ -47,10 +50,10 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
 
     return (
         <ScrollView style={loginStyles.container}>
-            <Text style={loginStyles.heading}>Sign in</Text>
+            <Text style={loginStyles.heading}>{t('signIn')}</Text>
             <TextInput
                 autoCorrect={false}
-                placeholder="Enter your email"
+                placeholder={t('enterYourEmail')}
                 style={loginStyles.input}
                 value={email}
                 onChangeText={setEmail}
@@ -59,19 +62,19 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
             />
             <TextInput
                 secureTextEntry={true}
-                placeholder="Enter your password"
+                placeholder={t('enterYourPassword')}
                 style={loginStyles.input}
                 value={password}
                 onChangeText={setPassword}
                 autoCapitalize="none"
             />
             <Button
-                title="Get Started"
+                title={t('getStarted')}
                 onPress={handleSignIn}
                 disabled={status === 'loading'}
             />
             <Pressable onPress={handleRegister}>
-                <Text style={{ color: 'blue' }}>Don't have an account? Register here</Text>
+                <Text style={{ color: 'blue' }}>{t('registerHere')}</Text>
             </Pressable>
         </ScrollView>
     );
