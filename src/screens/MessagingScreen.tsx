@@ -87,7 +87,6 @@ const MessagingScreen = ({ route }) => {
                     onChangeText={setMessageText}
                     placeholder={t('typeAMessage')}
                     multiline={true}
-                    numberOfLines={4}
                 />
                 <Pressable style={MessagingScreenStyles.buttonContainer} onPress={handleSend}>
                     <Text style={MessagingScreenStyles.buttonText}>{t('send')}</Text>

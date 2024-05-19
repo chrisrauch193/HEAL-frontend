@@ -1,28 +1,57 @@
 // src/styles/MessagingScreenStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import GlobalStyles, { spacing } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
 
-export const MessagingScreenStyles = StyleSheet.create({
+const MessagingScreenStyles = StyleSheet.create({
     container: {
-        ...GlobalStyles.container,
+        flex: 1,
+        backgroundColor: colors.background,
+        paddingHorizontal: spacing.medium,
+        ...(Platform.OS === 'web' && {
+            height: '100vh',
+        }),
     },
     messageListContainer: {
         flex: 1,
-        paddingBottom: Platform.OS === 'web' ? 20 : 0,
+        paddingBottom: spacing.medium,
+    },
+    scrollView: {
+        flex: 1,
     },
     inputContainer: {
-        ...GlobalStyles.container,
         flexDirection: 'row',
         borderTopWidth: 1,
         borderColor: '#ccc',
+        alignItems: 'center',
+        paddingHorizontal: spacing.small,
+        paddingVertical: spacing.small,
     },
     input: {
-        ...GlobalStyles.input,
         flex: 1,
+        borderWidth: 1,
+        borderColor: colors.grey,
+        borderRadius: 20,
+        paddingHorizontal: spacing.medium,
+        paddingVertical: spacing.small,
         marginRight: spacing.small,
+        maxHeight: 80, // Limiting the height for better UI
+        backgroundColor: colors.white,
     },
     buttonContainer: {
-        ...GlobalStyles.button,
+        backgroundColor: colors.primary,
+        borderRadius: 20,
+        paddingHorizontal: spacing.medium,
+        paddingVertical: spacing.small,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: colors.white,
+        fontSize: fonts.text,
+        fontWeight: 'bold',
+    },
+    flatListContent: {
+        paddingBottom: spacing.medium,
     },
 });
 
