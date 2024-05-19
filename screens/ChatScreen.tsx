@@ -10,7 +10,10 @@ import ChatComponent from "../components/ChatComponent";
 import { chatStyles } from "../styles/chatStyles";
 import ModalComponent from "../components/ModalComponent";
 
+import { useTranslation } from 'react-i18next';
+
 const ChatScreen: React.FC = () => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const { rooms, status } = useSelector((state: RootState) => state.chat);
@@ -36,7 +39,7 @@ const ChatScreen: React.FC = () => {
     }
 
     if (status === 'failed') {
-        return <Text>Error fetching rooms</Text>;
+        return <Text>{t('errorFetchingRooms')}</Text>;
     }
 
     return (
@@ -60,7 +63,7 @@ const ChatScreen: React.FC = () => {
                     />
                 ) : (
                     <View style={chatStyles.emptyContainer}>
-                        <Text style={chatStyles.emptyText}>No rooms created!</Text>
+                        <Text style={chatStyles.emptyText}>{t('noRoomsCreated')}</Text>
                     </View>
                 )}
             </View>

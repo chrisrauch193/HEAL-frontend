@@ -1,9 +1,10 @@
+
 name: update
 on: push
 
 jobs:
   update:
-    name: EAS Update
+    name: EAS Update and Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -32,4 +33,10 @@ jobs:
         run: npm install
 
       - name: Publish update
-        run: eas update --auto
+        run: eas update --auto --non-interactive
+
+      - name: Build Web Version
+        run: npx expo export -p web
+
+      # - name: Deploy to GitHub Pages
+      #   run: npm run deploy

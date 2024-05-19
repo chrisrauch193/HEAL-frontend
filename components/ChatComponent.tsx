@@ -5,7 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { chatStyles } from "../styles/chatStyles";
 import { ChatRoom } from '../types/chatTypes';
 
+import { useTranslation } from 'react-i18next';
+
 const ChatComponent = ({ item }: { item: ChatRoom }) => {
+    const { t } = useTranslation();
     const navigation = useNavigation();
 
     const handleNavigation = () => {
@@ -16,7 +19,7 @@ const ChatComponent = ({ item }: { item: ChatRoom }) => {
         <Pressable style={chatStyles.chat} onPress={handleNavigation}>
             <View style={chatStyles.rightContainer}>
                 <Text style={chatStyles.username}>{item.roomName}</Text>
-                <Text style={chatStyles.message}>Tap to start chatting</Text>
+                <Text style={chatStyles.message}>{t('tapToStartChatting')}</Text>
             </View>
         </Pressable>
     );

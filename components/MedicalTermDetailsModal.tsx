@@ -4,6 +4,8 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-
 import { MedicalTerm } from '../types/medicalTypes';
 import { medicalTermDetailsStyles } from "../styles/medicalTermDetailsStyles";
 
+import { useTranslation } from 'react-i18next';
+
 interface TermDetailsModalProps {
     visible: boolean;
     term: MedicalTerm | null;
@@ -11,6 +13,7 @@ interface TermDetailsModalProps {
 }
 
 const MedicalTermDetailsModal: React.FC<TermDetailsModalProps> = ({ visible, term, onClose }) => {
+    const { t } = useTranslation();
     if (!term) {
         return null;
     }
@@ -36,7 +39,7 @@ const MedicalTermDetailsModal: React.FC<TermDetailsModalProps> = ({ visible, ter
                         </TouchableOpacity>
                     ))}
                     <TouchableOpacity style={medicalTermDetailsStyles.closeButton} onPress={onClose}>
-                        <Text style={medicalTermDetailsStyles.closeButtonText}>Close</Text>
+                        <Text style={medicalTermDetailsStyles.closeButtonText}>{t("close")}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
