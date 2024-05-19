@@ -32,11 +32,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # - name: Publish update
-      #   run: eas update --auto --non-interactive
+      - name: Publish update
+        run: eas update --auto --non-interactive
 
       - name: Build Web Version
         run: npx expo export -p web
-
-      # - name: Deploy to GitHub Pages
-      #   run: npm run deploy
