@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authenticateUser } from '@store/slices/userSlice'; // Adjust path if necessary
 import { RootState } from '@store'; // Adjust path if necessary
 import { LoginScreenStyles } from '@styles/LoginScreenStyles';
-import { GlobalStyles } from '@styles/GlobalStyles';
+import { GlobalStyles } from '@src/styles/GlobalStyles';
 
 // TypeScript types for navigation prop
 import { StackNavigationProp } from '@react-navigation/stack';

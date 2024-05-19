@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { updateUser, registerNewUser } from '@store/slices/userSlice';
-import { UserProfileFormStyles } from '@styles/UserProfileFormStyles';
-import GlobalStyles from '@styles/GlobalStyles';
+import { UserProfileFormStyles } from '@src/styles/UserProfileFormStyles';
+import GlobalStyles from '@src/styles/GlobalStyles';
 import { useTranslation } from 'react-i18next';
 
 const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
