@@ -12,12 +12,13 @@ export const ChatScreenStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: spacing.medium,
-        paddingVertical: spacing.small,
+        paddingTop: spacing.small,
     },
     listContainer: {
         flex: 1,
         justifyContent: 'flex-start', // Ensure the list starts at the top
         paddingHorizontal: spacing.medium,
+        paddingVertical: spacing.small,
     },
     emptyContainer: {
         ...GlobalStyles.container,
