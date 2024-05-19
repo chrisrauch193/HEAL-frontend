@@ -6,6 +6,7 @@ import { receivedMessage, fetchMessages } from '../store/slices/chatSlice';
 import { RootState } from '../store';
 import socket from '../api/socket';
 import { ChatMessage } from '../types/chatTypes';
+import { ChatRoomComponentStyles } from '../styles/ChatRoomComponentStyles';
 
 const ChatRoomComponent = ({ roomId }: { roomId: string }) => {
     const dispatch = useDispatch();
@@ -25,14 +26,14 @@ const ChatRoomComponent = ({ roomId }: { roomId: string }) => {
     }, [dispatch, roomId]);
 
     const renderItem = ({ item }: { item: ChatMessage }) => (
-        <Text>{item.content.text}</Text>
+        <Text style={ChatRoomComponentStyles.text}>{item.content.text}</Text>
     );
 
     return (
-        <View>
+        <View style={ChatRoomComponentStyles.container}>
             <FlatList
                 data={messages}
-                keyExtractor={(item) => item.messageId}
+                keyExtractor={(item) => item.messageId.toString()}
                 renderItem={renderItem}
             />
         </View>

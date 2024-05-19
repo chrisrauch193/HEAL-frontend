@@ -6,7 +6,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticateUser } from '../store/slices/userSlice'; // Adjust path if necessary
 import { RootState } from '../store'; // Adjust path if necessary
-import { loginStyles } from '../styles/loginStyles';
+import { LoginScreenStyles } from '../styles/LoginScreenStyles';
+import { GlobalStyles } from '../styles/GlobalStyles';
 
 // TypeScript types for navigation prop
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -49,12 +50,12 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
     };
 
     return (
-        <ScrollView style={loginStyles.container}>
-            <Text style={loginStyles.heading}>{t('signIn')}</Text>
+        <ScrollView style={LoginScreenStyles.container}>
+            <Text style={LoginScreenStyles.heading}>{t('signIn')}</Text>
             <TextInput
                 autoCorrect={false}
                 placeholder={t('enterYourEmail')}
-                style={loginStyles.input}
+                style={LoginScreenStyles.input}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -63,18 +64,16 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
             <TextInput
                 secureTextEntry={true}
                 placeholder={t('enterYourPassword')}
-                style={loginStyles.input}
+                style={LoginScreenStyles.input}
                 value={password}
                 onChangeText={setPassword}
                 autoCapitalize="none"
             />
-            <Button
-                title={t('getStarted')}
-                onPress={handleSignIn}
-                disabled={status === 'loading'}
-            />
+            <Pressable style={GlobalStyles.button} onPress={handleSignIn} disabled={status === 'loading'}>
+                <Text style={GlobalStyles.buttonText}>{t('getStarted')}</Text>
+            </Pressable>
             <Pressable onPress={handleRegister}>
-                <Text style={{ color: 'blue' }}>{t('registerHere')}</Text>
+                <Text style={LoginScreenStyles.registerLink}>{t('registerHere')}</Text>
             </Pressable>
         </ScrollView>
     );

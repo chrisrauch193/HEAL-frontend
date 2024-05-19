@@ -39,9 +39,3 @@ jobs:
 
       - name: Build Web Version
         run: npx expo export -p web
-
-      # - name: Deploy to GitHub Pages
-      #   run: npm run deploy
-      #   env:
-      #     GIT_USER: github-actions[bot]
-      #     GIT_EMAIL: github-actions[bot]@users.noreply.github.com

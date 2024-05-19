@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import { MedicalTerm } from '../types/medicalTypes';
-import { medicalTermDetailsStyles } from "../styles/medicalTermDetailsStyles";
+import { MedicalTermDetailsModalStyles } from "../styles/MedicalTermDetailsModalStyles";
 
 import { useTranslation } from 'react-i18next';
 
@@ -29,17 +29,17 @@ const MedicalTermDetailsModal: React.FC<TermDetailsModalProps> = ({ visible, ter
             visible={visible}
             onRequestClose={onClose}
         >
-            <View style={medicalTermDetailsStyles.centeredView}>
-                <View style={medicalTermDetailsStyles.modalView}>
-                    <Text style={medicalTermDetailsStyles.termName}>{term.name}</Text>
-                    <Text style={medicalTermDetailsStyles.description}>{term.description}</Text>
+            <View style={MedicalTermDetailsModalStyles.centeredView}>
+                <View style={MedicalTermDetailsModalStyles.modalView}>
+                    <Text style={MedicalTermDetailsModalStyles.termName}>{term.name}</Text>
+                    <Text style={MedicalTermDetailsModalStyles.description}>{term.description}</Text>
                     {term.medicalTermLinks.map((link, index) => (
                         <TouchableOpacity key={index} onPress={() => handleLinkPress(link)}>
-                            <Text style={medicalTermDetailsStyles.link}>{link}</Text>
+                            <Text style={MedicalTermDetailsModalStyles.link}>{link}</Text>
                         </TouchableOpacity>
                     ))}
-                    <TouchableOpacity style={medicalTermDetailsStyles.closeButton} onPress={onClose}>
-                        <Text style={medicalTermDetailsStyles.closeButtonText}>{t("close")}</Text>
+                    <TouchableOpacity style={MedicalTermDetailsModalStyles.closeButton} onPress={onClose}>
+                        <Text style={MedicalTermDetailsModalStyles.closeButtonText}>{t("close")}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
