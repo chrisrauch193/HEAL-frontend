@@ -24,7 +24,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="AuthLoadingScreen">
+          <Stack.Navigator initialRouteName="AuthLoadingScreen" screenOptions={{ cardStyle: { flex: 1 } }}>
             <Stack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: t('consultations') }} />
             <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{ title: t('editProfile') }} />
