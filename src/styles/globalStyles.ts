@@ -65,6 +65,20 @@ const GlobalStyles = StyleSheet.create({
         marginBottom: spacing.small,
         width: '100%',
     },
+    buttonSecondary: {
+        backgroundColor: colors.secondary,
+        padding: spacing.medium,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 50,
+        marginVertical: spacing.small,
+    },
+    buttonSecondaryText: {
+        color: colors.white,
+        fontSize: fonts.text,
+        fontWeight: 'bold',
+    },
 });
 
 export default GlobalStyles;

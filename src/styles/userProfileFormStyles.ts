@@ -1,6 +1,6 @@
 // src/styles/UserProfileFormStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import { spacing, colors, fonts } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
 
 export const UserProfileFormStyles = StyleSheet.create({
     container: {
@@ -8,8 +8,8 @@ export const UserProfileFormStyles = StyleSheet.create({
         padding: spacing.medium,
         backgroundColor: colors.background,
         ...(Platform.OS === 'web' && {
-            height: '100vh', // Full viewport height on web
-            overflowY: 'auto', // Allow scrolling on web
+            height: '100vh',
+            overflowY: 'auto',
         }),
     },
     heading: {
@@ -24,16 +24,9 @@ export const UserProfileFormStyles = StyleSheet.create({
         marginBottom: spacing.small,
     },
     input: {
-        borderWidth: 1,
-        borderColor: colors.grey,
-        borderRadius: 4,
-        padding: spacing.small,
-        fontSize: fonts.text,
-        marginBottom: spacing.medium,
-        color: colors.text,
-        backgroundColor: colors.white,
+        ...GlobalStyles.input,
         ...(Platform.OS === 'web' && {
-            width: '100%', // Full width inputs on web
+            width: '100%',
         }),
     },
     picker: {
@@ -47,21 +40,10 @@ export const UserProfileFormStyles = StyleSheet.create({
         backgroundColor: colors.white,
     },
     button: {
-        backgroundColor: colors.primary,
-        padding: spacing.medium,
-        borderRadius: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 50,
-        fontSize: fonts.text,
-        color: colors.white,
-        fontWeight: 'bold',
-        marginTop: spacing.medium,
+        ...GlobalStyles.button,
     },
     buttonText: {
-        color: colors.white,
-        fontSize: fonts.text,
-        fontWeight: 'bold',
+        ...GlobalStyles.buttonText,
     },
 });
 

@@ -1,24 +1,37 @@
 // src/styles/ProfileScreenStyles.ts
-import { StyleSheet } from 'react-native';
-import GlobalStyles, { spacing } from '@styles/GlobalStyles';
+import { StyleSheet, Platform } from 'react-native';
+import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
 
-export const ProfileScreenStyles = StyleSheet.create({
+const ProfileScreenStyles = StyleSheet.create({
     container: {
-        ...GlobalStyles.container,
-        paddingVertical: spacing.medium,
+        flex: 1,
+        padding: spacing.medium,
+        backgroundColor: colors.background,
+        ...(Platform.OS === 'web' && {
+            height: '100vh',
+            overflowY: 'auto',
+        }),
     },
-    detailText: {
-        ...GlobalStyles.text,
+    name: {
+        fontWeight: 'bold',
+        ...fonts.title,
+        color: colors.text,
+        marginBottom: spacing.medium,
+    },
+    details: {
+        fontSize: fonts.text,
+        color: colors.text,
         marginBottom: spacing.small,
     },
     button: {
         ...GlobalStyles.button,
-        marginTop: spacing.large,
+        marginBottom: spacing.small, // Add margin bottom to separate buttons
     },
-    name: {
-        fontWeight: 'bold',
-        ...GlobalStyles.text,
-        marginBottom: spacing.small,
+    buttonSecondary: {
+        ...GlobalStyles.buttonSecondary,
+    },
+    buttonText: {
+        ...GlobalStyles.buttonText,
     },
 });
 

@@ -1,12 +1,11 @@
 // src/screens/Login.tsx
 import React, { useState } from 'react';
-import {
-    Text, ScrollView, TextInput, Pressable, Alert, Button
-} from 'react-native';
+import { Text, ScrollView, TextInput, Pressable, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticateUser } from '@store/slices/userSlice'; // Adjust path if necessary
 import { RootState } from '@store'; // Adjust path if necessary
 import { LoginScreenStyles } from '@styles/LoginScreenStyles';
+import GlobalStyles from '@styles/GlobalStyles';
 
 // TypeScript types for navigation prop
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -68,13 +67,11 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
                 onChangeText={setPassword}
                 autoCapitalize="none"
             />
-            <Button
-                title={t('getStarted')}
-                onPress={handleSignIn}
-                disabled={status === 'loading'}
-            />
+            <Pressable style={GlobalStyles.button} onPress={handleSignIn} disabled={status === 'loading'}>
+                <Text style={GlobalStyles.buttonText}>{t('getStarted')}</Text>
+            </Pressable>
             <Pressable onPress={handleRegister}>
-                <Text style={{ color: 'blue' }}>{t('registerHere')}</Text>
+                <Text style={LoginScreenStyles.registerLink}>{t('registerHere')}</Text>
             </Pressable>
         </ScrollView>
     );

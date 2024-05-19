@@ -1,12 +1,12 @@
 // src/components/UserProfileForm.tsx
 import React, { useState } from 'react';
-import { Text, TextInput, ScrollView, Button, Alert, TouchableOpacity } from 'react-native';
+import { Text, TextInput, ScrollView, Pressable, Alert, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { updateUser, registerNewUser } from '@store/slices/userSlice';
 import { UserProfileFormStyles } from '@styles/UserProfileFormStyles';
-
+import GlobalStyles from '@styles/GlobalStyles';
 import { useTranslation } from 'react-i18next';
 
 const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
@@ -144,7 +144,7 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                         value={hospital}
                         onChangeText={setHospital}
                     />
-                    <Text style={UserProfileFormStyles.label}>{t('secialisation')}</Text>
+                    <Text style={UserProfileFormStyles.label}>{t('specialisation')}</Text>
                     <TextInput
                         style={UserProfileFormStyles.input}
                         placeholder={t('enterSpecialisation')}
@@ -153,10 +153,9 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                     />
                 </>
             )}
-            <Button
-                title={isEdit ? t('updateProfile') : t('register')}
-                onPress={handleSubmit}
-            />
+            <Pressable style={GlobalStyles.button} onPress={handleSubmit}>
+                <Text style={GlobalStyles.buttonText}>{isEdit ? t('updateProfile') : t('register')}</Text>
+            </Pressable>
         </ScrollView>
     );
 };

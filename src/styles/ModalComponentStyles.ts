@@ -1,6 +1,6 @@
 // src/styles/ModalComponentStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import { spacing, colors, fonts } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
 
 export const ModalComponentStyles = StyleSheet.create({
     modalContainer: {
@@ -45,30 +45,20 @@ export const ModalComponentStyles = StyleSheet.create({
         marginTop: spacing.medium,
     },
     modalButton: {
-        backgroundColor: colors.primary,
-        padding: spacing.medium,
-        borderRadius: 10,
+        ...GlobalStyles.button,
         minWidth: 100, // Ensures all buttons are of equal size
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     modalButtonText: {
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 16,
+        ...GlobalStyles.buttonText,
     },
     closeButton: {
+        ...GlobalStyles.buttonSecondary,
         position: 'absolute',
         top: spacing.medium,
         right: spacing.medium,
-        backgroundColor: colors.secondary,
-        borderRadius: 20,
-        padding: spacing.small,
     },
     closeButtonText: {
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 16,
+        ...GlobalStyles.buttonSecondaryText,
     },
     link: {
         color: colors.primary,
