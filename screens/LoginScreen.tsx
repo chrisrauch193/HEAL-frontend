@@ -21,6 +21,7 @@ interface LoginProps {
 }
 
 const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const dispatch = useDispatch();
@@ -47,7 +48,6 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
         navigation.navigate('RegisterScreen');
     };
 
-    const { t } = useTranslation();
     return (
         <ScrollView style={loginStyles.container}>
             <Text style={loginStyles.heading}>{t('signIn')}</Text>

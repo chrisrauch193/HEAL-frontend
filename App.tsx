@@ -1,4 +1,3 @@
-// src/App.tsx
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -12,11 +11,11 @@ import MessagingScreen from './screens/MessagingScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 
+import '@formatjs/intl-pluralrules/polyfill';
+import '@formatjs/intl-pluralrules/locale-data/en';
+
 import i18n from './i18n';
-import { I18nextProvider } from 'react-i18next';
-
-
-import { useTranslation } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 
 const Stack = createStackNavigator();
 
@@ -24,12 +23,11 @@ const App: React.FC = () => {
   const { t } = useTranslation();
   return (
     <I18nextProvider i18n={i18n}>
-
-    <Provider store={store}>
+      <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="AuthLoadingScreen">
             <Stack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: t('consultations')}} />
+            <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: t('consultations') }} />
             <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{ title: t('editProfile') }} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: t('login') }} />
             <Stack.Screen name="MessagingScreen" component={MessagingScreen} options={{ title: t('consultations') }} />
@@ -37,9 +35,8 @@ const App: React.FC = () => {
             <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ title: t('register') }} />
           </Stack.Navigator>
         </NavigationContainer>
-    </Provider>
+      </Provider>
     </I18nextProvider>
-
   );
 };
 

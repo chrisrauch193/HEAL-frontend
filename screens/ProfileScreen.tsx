@@ -9,6 +9,7 @@ import { profileStyles } from '../styles/profileStyles';
 import { useTranslation } from 'react-i18next';
 
 const ProfileScreen = ({ route, navigation }) => {
+  const { t } = useTranslation();
   const { viewUserId } = route.params;
   const dispatch = useDispatch();
   const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
@@ -38,7 +39,6 @@ const ProfileScreen = ({ route, navigation }) => {
   }
 
   if (error) {
-    const { t } = useTranslation();
     return (
       <View style={profileStyles.container}>
         <Text>{error}</Text>
@@ -51,11 +51,9 @@ const ProfileScreen = ({ route, navigation }) => {
   }
 
   if (!viewedProfile) {
-    const { t } = useTranslation();
     return <Text>{t('profileNotFound')}</Text>;
   }
 
-  const { t } = useTranslation();
   return (
     <ScrollView style={profileStyles.container}>
       <Text style={profileStyles.name}>{viewedProfile.name}</Text>

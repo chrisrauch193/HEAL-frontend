@@ -10,6 +10,7 @@ import initializeSocket from '../api/socket';
 import { useTranslation } from 'react-i18next';
 
 const MessagingScreen = ({ route }) => {
+    const { t } = useTranslation();
     const { roomId } = route.params;
     const dispatch = useDispatch();
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
@@ -85,7 +86,6 @@ const MessagingScreen = ({ route }) => {
         // }
     };
 
-    const { t } = useTranslation();
     return (
         <View style={messagingStyles.container}>
             <FlatList

@@ -13,6 +13,7 @@ import ModalComponent from "../components/ModalComponent";
 import { useTranslation } from 'react-i18next';
 
 const ChatScreen: React.FC = () => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const { rooms, status } = useSelector((state: RootState) => state.chat);
@@ -38,11 +39,9 @@ const ChatScreen: React.FC = () => {
     }
 
     if (status === 'failed') {
-        const { t } = useTranslation();
         return <Text>{t('errorFetchingRooms')}</Text>;
     }
 
-    const { t } = useTranslation();
     return (
         <SafeAreaView style={chatStyles.container}>
             <View style={chatStyles.header}>

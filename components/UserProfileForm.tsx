@@ -9,6 +9,7 @@ import { userProfileFormStyles } from '../styles/userProfileFormStyles';
 import { useTranslation } from 'react-i18next';
 
 const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
+    const { t } = useTranslation();
     const [userType, setUserType] = useState(defaultValues.type || 'PATIENT');
     const [email, setEmail] = useState(defaultValues.email || '');
     const [name, setName] = useState(defaultValues.name || '');
@@ -51,7 +52,6 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
         onSubmitSuccess();
     };
 
-    const { t } = useTranslation();
     return (
         <ScrollView style={userProfileFormStyles.container}>
             <Text style={userProfileFormStyles.heading}>{isEdit ? t('editProfile') : t('register')}</Text>

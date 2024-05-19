@@ -11,6 +11,7 @@ interface ModalProps {
 }
 
 const ModalComponent: React.FC<ModalProps> = ({ setVisible }) => {
+    const { t } = useTranslation();
     const [groupName, setGroupName] = useState<string>("");
 
     const closeModal = () => setVisible(false);
@@ -23,7 +24,6 @@ const ModalComponent: React.FC<ModalProps> = ({ setVisible }) => {
         }
     };
 
-    const { t } = useTranslation();
     return (
         <View style={modalStyles.modalContainer}>
             <Text style={modalStyles.modalsubheading}>{t('enterYourGroupName')}</Text>

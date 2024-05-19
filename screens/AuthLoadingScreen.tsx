@@ -8,6 +8,7 @@ import { RootState } from '../store';
 import { useTranslation } from 'react-i18next';
 
 const AuthLoadingScreen = ({ navigation }) => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const { currentUserProfile, status } = useSelector((state: RootState) => state.user);
 
@@ -23,7 +24,6 @@ const AuthLoadingScreen = ({ navigation }) => {
         }
     }, [status, currentUserProfile, navigation]);
 
-    const { t } = useTranslation();
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" />

@@ -13,6 +13,7 @@ interface TermDetailsModalProps {
 }
 
 const MedicalTermDetailsModal: React.FC<TermDetailsModalProps> = ({ visible, term, onClose }) => {
+    const { t } = useTranslation();
     if (!term) {
         return null;
     }
@@ -21,7 +22,6 @@ const MedicalTermDetailsModal: React.FC<TermDetailsModalProps> = ({ visible, ter
         Linking.openURL(url);
     };
 
-    const { t } = useTranslation();
     return (
         <Modal
             animationType="fade"
