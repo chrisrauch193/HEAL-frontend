@@ -24,6 +24,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "expo": "^51.0.8",
     "expo-constants": "~16.0.1",
+    "expo-router": "^3.5.14",
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.4",
     "expo-updates": "~0.25.14",
