@@ -44,14 +44,12 @@ const ChatScreen = () => {
     return (
         <SafeAreaView style={ChatScreenStyles.container}>
             <View style={ChatScreenStyles.header}>
-                <View style={ChatScreenStyles.headerIcons}>
-                    <Pressable onPress={handleNavigateProfile} style={ChatScreenStyles.iconButton}>
-                        <FontAwesome name="user" size={24} color="blue" />
-                    </Pressable>
-                    <Pressable onPress={handleCreateGroup} style={ChatScreenStyles.iconButton}>
-                        <Feather name="edit" size={24} color="green" />
-                    </Pressable>
-                </View>
+                <Pressable onPress={handleNavigateProfile} style={ChatScreenStyles.iconButton}>
+                    <FontAwesome name="user" size={24} color="blue" />
+                </Pressable>
+                <Pressable onPress={handleCreateGroup} style={ChatScreenStyles.iconButton}>
+                    <Feather name="edit" size={24} color="green" />
+                </Pressable>
             </View>
             <View style={ChatScreenStyles.listContainer}>
                 {rooms.length > 0 ? (

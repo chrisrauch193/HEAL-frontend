@@ -1,5 +1,5 @@
 // src/styles/GlobalStyles.ts
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const colors = {
     primary: '#007BFF',
@@ -29,6 +29,10 @@ const GlobalStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
         padding: spacing.medium,
+        ...(Platform.OS === 'web' && {
+            height: '100vh',
+            overflowY: 'auto',
+        }),
     },
     text: {
         color: colors.text,
