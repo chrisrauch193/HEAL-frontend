@@ -37,6 +37,3 @@ jobs:
 
       - name: Build Web Version
         run: npx expo export -p web
-
-      # - name: Deploy to GitHub Pages
-      #   run: npm run deploy

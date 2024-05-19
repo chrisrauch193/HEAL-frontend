@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity, View, Animated, Easing } from 'react-native';
 import { MedicalTerm } from '../types/medicalTypes';
 import MedicalTermDetailsModal from './MedicalTermDetailsModal';
-import { highlightedTextStyles } from "../styles/highlightedTextStyles";
+import { HighlightedTextComponentStyles } from "../styles/HighlightedTextComponentStyles";
 
 interface HighlightedTextProps {
     text: string;
@@ -47,12 +47,12 @@ const HighlightedTextComponent: React.FC<HighlightedTextProps> = ({ text, medica
                     const medicalTerm = medicalTerms.find(term => word.toLowerCase() === term.synonym.toLowerCase());
                     return medicalTerm ? (
                         <TouchableOpacity key={index} onPress={() => handlePressTerm(medicalTerm)}>
-                            <Animated.View style={[highlightedTextStyles.highlighted, { transform: [{ scale: animatedValue }] }]}>
-                                <Text style={highlightedTextStyles.highlightedText}>{word}</Text>
+                            <Animated.View style={[HighlightedTextComponentStyles.highlighted, { transform: [{ scale: animatedValue }] }]}>
+                                <Text style={HighlightedTextComponentStyles.highlightedText}>{word}</Text>
                             </Animated.View>
                         </TouchableOpacity>
                     ) : (
-                        <Text key={index} style={highlightedTextStyles.normalText}>{word}</Text>
+                        <Text key={index} style={HighlightedTextComponentStyles.normalText}>{word}</Text>
                     );
                 })}
             </Text>

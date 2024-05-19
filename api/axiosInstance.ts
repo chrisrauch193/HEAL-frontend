@@ -1,19 +1,20 @@
 // api/axiosIntances.ts
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Constants from 'expo-constants';
-import applyMockAdapter from '../mock/server';
+import { Platform } from 'react-native';
 
-const { backendUrl, useMock } = Constants.expoConfig.extra;
+// Define backendUrl based on the platform and environment
+const isDev = process.env.NODE_ENV === 'development';
+const localHostIP = '192.168.0.25'; // Your local network IP, change as necessary
+
+const backendUrl = isDev ? `http://${localHostIP}:8888` : Platform.select({
+  web: '/api',
+  default: 'http://13.208.164.92:8888'
+});
 
 const axiosInstance = axios.create({
   baseURL: backendUrl,
 });
-
-// if (useMock) {
-if (false) {
-  applyMockAdapter(axiosInstance);
-}
 
 axiosInstance.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('userToken');

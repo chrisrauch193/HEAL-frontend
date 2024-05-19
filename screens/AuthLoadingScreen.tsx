@@ -4,6 +4,7 @@ import { View, ActivityIndicator, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { verifyUserToken } from '../store/slices/userSlice';
 import { RootState } from '../store';
+import AuthLoadingScreenStyles from '../styles/AuthLoadingScreenStyles';
 
 import { useTranslation } from 'react-i18next';
 
@@ -25,9 +26,9 @@ const AuthLoadingScreen = ({ navigation }) => {
     }, [status, currentUserProfile, navigation]);
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={AuthLoadingScreenStyles.container}>
             <ActivityIndicator size="large" />
-            {status === 'failed' && <Text>{t('authenticationFailedRedirecting')}</Text>}
+            {status === 'failed' && <Text style={AuthLoadingScreenStyles.text}>{t('authenticationFailedRedirecting')}</Text>}
         </View>
     );
 };

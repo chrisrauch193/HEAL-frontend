@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Text, TextInput, ScrollView, Button, Alert, TouchableOpacity } from 'react-native';
+import { Text, TextInput, ScrollView, Pressable, Alert, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { updateUser, registerNewUser } from '../store/slices/userSlice';
-import { userProfileFormStyles } from '../styles/userProfileFormStyles';
+import { UserProfileFormStyles } from '../styles/UserProfileFormStyles';
+import { GlobalStyles } from '../styles/GlobalStyles';
 
 import { useTranslation } from 'react-i18next';
 
@@ -53,14 +54,14 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
     };
 
     return (
-        <ScrollView style={userProfileFormStyles.container}>
-            <Text style={userProfileFormStyles.heading}>{isEdit ? t('editProfile') : t('register')}</Text>
+        <ScrollView style={UserProfileFormStyles.container}>
+            <Text style={UserProfileFormStyles.heading}>{isEdit ? t('editProfile') : t('register')}</Text>
             {!isEdit && (
                 <>
-                    <Text style={userProfileFormStyles.label}>{t('userType')}</Text>
+                    <Text style={UserProfileFormStyles.label}>{t('userType')}</Text>
                     <Picker
                         selectedValue={userType}
-                        style={userProfileFormStyles.input}
+                        style={UserProfileFormStyles.input}
                         onValueChange={(itemValue) => setUserType(itemValue)}
                     >
                         <Picker.Item label={t('patient')} value={t('patient')} />
@@ -68,24 +69,24 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                     </Picker>
                 </>
             )}
-            <Text style={userProfileFormStyles.label}>{t('email')}</Text>
+            <Text style={UserProfileFormStyles.label}>{t('email')}</Text>
             <TextInput
-                style={userProfileFormStyles.input}
+                style={UserProfileFormStyles.input}
                 placeholder={t('enterYourEmail')}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
-            <Text style={userProfileFormStyles.label}>{t('name')}</Text>
+            <Text style={UserProfileFormStyles.label}>{t('name')}</Text>
             <TextInput
-                style={userProfileFormStyles.input}
+                style={UserProfileFormStyles.input}
                 placeholder={t('enterYourName')}
                 value={name}
                 onChangeText={setName}
             />
-            <Text style={userProfileFormStyles.label}>{t('dateOfBirth')}</Text>
-            <TouchableOpacity onPress={() => setShowDatePicker(true)} style={userProfileFormStyles.input}>
+            <Text style={UserProfileFormStyles.label}>{t('dateOfBirth')}</Text>
+            <TouchableOpacity onPress={() => setShowDatePicker(true)} style={UserProfileFormStyles.input}>
                 <Text>{dateOfBirth.toDateString()}</Text>
             </TouchableOpacity>
             {showDatePicker && (
@@ -96,10 +97,10 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                     onChange={handleDateChange}
                 />
             )}
-            <Text style={userProfileFormStyles.label}>{t('language')}</Text>
+            <Text style={UserProfileFormStyles.label}>{t('language')}</Text>
             <Picker
                 selectedValue={language}
-                style={userProfileFormStyles.input}
+                style={UserProfileFormStyles.input}
                 onValueChange={setLanguage}
             >
                 <Picker.Item label={t('english')} value="en" />
@@ -112,20 +113,20 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
             </Picker>
             {userType === 'PATIENT' && (
                 <>
-                    <Text style={userProfileFormStyles.label}>{t('height')} (cm)</Text>
+                    <Text style={UserProfileFormStyles.label}>{t('height')} (cm)</Text>
                     <Picker
                         selectedValue={height}
-                        style={userProfileFormStyles.input}
+                        style={UserProfileFormStyles.input}
                         onValueChange={setHeight}
                     >
                         {Array.from({ length: 100 }, (_, i) => 140 + i).map(value => (
                             <Picker.Item key={value} label={`${value} cm`} value={value} />
                         ))}
                     </Picker>
-                    <Text style={userProfileFormStyles.label}>{t('weight')} (kg)</Text>
+                    <Text style={UserProfileFormStyles.label}>{t('weight')} (kg)</Text>
                     <Picker
                         selectedValue={weight}
-                        style={userProfileFormStyles.input}
+                        style={UserProfileFormStyles.input}
                         onValueChange={setWeight}
                     >
                         {Array.from({ length: 100 }, (_, i) => 40 + i).map(value => (
@@ -136,26 +137,25 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
             )}
             {userType === 'DOCTOR' && (
                 <>
-                    <Text style={userProfileFormStyles.label}>{t('hospital')}</Text>
+                    <Text style={UserProfileFormStyles.label}>{t('hospital')}</Text>
                     <TextInput
-                        style={userProfileFormStyles.input}
+                        style={UserProfileFormStyles.input}
                         placeholder={t('enterHospitalName')}
                         value={hospital}
                         onChangeText={setHospital}
                     />
-                    <Text style={userProfileFormStyles.label}>{t('secialisation')}</Text>
+                    <Text style={UserProfileFormStyles.label}>{t('specialisation')}</Text>
                     <TextInput
-                        style={userProfileFormStyles.input}
+                        style={UserProfileFormStyles.input}
                         placeholder={t('enterSpecialisation')}
                         value={specialisation}
                         onChangeText={setSpecialisation}
                     />
                 </>
             )}
-            <Button
-                title={isEdit ? t('updateProfile') : t('register')}
-                onPress={handleSubmit}
-            />
+            <Pressable style={GlobalStyles.button} onPress={handleSubmit}>
+                <Text style={GlobalStyles.buttonText}>{isEdit ? t('updateProfile') : t('register')}</Text>
+            </Pressable>
         </ScrollView>
     );
 };

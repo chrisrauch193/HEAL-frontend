@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from "react-native";
 import HighlightedTextComponent from './HighlightedTextComponent';
-import { messageStyles } from "../styles/messageStyles";
+import { MessageComponentStyles } from "../styles/MessageComponentStyles";
 import { MedicalTerm } from "../types/medicalTypes";
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'; // Ensure FontAwesome is imported
@@ -46,18 +46,18 @@ const MessageComponent: React.FC<MessageComponentProps> = ({ item, currentUserId
     };
 
     return (
-        <View style={isCurrentUser ? messageStyles.myMessage : messageStyles.otherMessage}>
+        <View style={isCurrentUser ? MessageComponentStyles.myMessage : MessageComponentStyles.otherMessage}>
             {!isCurrentUser && (
-                <TouchableOpacity onPress={() => handleProfileNavigation(item.senderUserId)} style={messageStyles.profileIcon}>
+                <TouchableOpacity onPress={() => handleProfileNavigation(item.senderUserId)} style={MessageComponentStyles.profileIcon}>
                     <FontAwesome name="user-circle" size={24} color="blue" />
                 </TouchableOpacity>
             )}
-            <View style={[messageStyles.messageContent, isCurrentUser ? messageStyles.myMessageContent : messageStyles.otherMessageContent]}>
+            <View style={[MessageComponentStyles.messageContent, isCurrentUser ? MessageComponentStyles.myMessageContent : MessageComponentStyles.otherMessageContent]}>
                 <HighlightedTextComponent
                     text={messageText}
                     medicalTerms={medicalTerms}
                 />
-                <Text style={messageStyles.timestamp}>{formatTime(item.timestamp)}</Text>
+                <Text style={MessageComponentStyles.timestamp}>{formatTime(item.timestamp)}</Text>
             </View>
         </View>
     );
