@@ -2,16 +2,16 @@
 import 'intl-pluralrules';
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthLoadingScreen from './screens/AuthLoadingScreen';
-import ChatScreen from './screens/ChatScreen';
-import EditProfileScreen from './screens/EditProfileScreen';
-import LoginScreen from './screens/LoginScreen';
-import MessagingScreen from './screens/MessagingScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import RegisterScreen from './screens/RegisterScreen';
+import AuthLoadingScreen from '@screens/AuthLoadingScreen';
+import ChatScreen from '@screens/ChatScreen';
+import EditProfileScreen from '@screens/EditProfileScreen';
+import LoginScreen from '@screens/LoginScreen';
+import MessagingScreen from '@screens/MessagingScreen';
+import ProfileScreen from '@screens/ProfileScreen';
+import RegisterScreen from '@screens/RegisterScreen';
 
 const Stack = createStackNavigator();
 
