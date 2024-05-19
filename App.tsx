@@ -2,7 +2,7 @@
 import 'intl-pluralrules';
 import React from 'react';
 import { Provider } from 'react-redux';
-import store from './src/store';
+import store from '@src/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthLoadingScreen from '@screens/AuthLoadingScreen';
