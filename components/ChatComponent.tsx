@@ -5,6 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { chatStyles } from "../styles/chatStyles";
 import { ChatRoom } from '../types/chatTypes';
 
+import { useTranslation } from 'react-i18next';
+
 const ChatComponent = ({ item }: { item: ChatRoom }) => {
     const navigation = useNavigation();
 
@@ -12,11 +14,12 @@ const ChatComponent = ({ item }: { item: ChatRoom }) => {
         navigation.navigate("MessagingScreen", { roomId: item.roomId, roomName: item.roomName });
     };
 
+    const { t } = useTranslation();
     return (
         <Pressable style={chatStyles.chat} onPress={handleNavigation}>
             <View style={chatStyles.rightContainer}>
                 <Text style={chatStyles.username}>{item.roomName}</Text>
-                <Text style={chatStyles.message}>Tap to start chatting</Text>
+                <Text style={chatStyles.message}>{t('tapToStartChatting')}</Text>
             </View>
         </Pressable>
     );

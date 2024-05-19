@@ -7,6 +7,8 @@ import MessageComponent from "../components/MessageComponent";
 import { messagingStyles } from "../styles/messagingStyles";
 import initializeSocket from '../api/socket';
 
+import { useTranslation } from 'react-i18next';
+
 const MessagingScreen = ({ route }) => {
     const { roomId } = route.params;
     const dispatch = useDispatch();
@@ -83,6 +85,7 @@ const MessagingScreen = ({ route }) => {
         // }
     };
 
+    const { t } = useTranslation();
     return (
         <View style={messagingStyles.container}>
             <FlatList
@@ -99,12 +102,12 @@ const MessagingScreen = ({ route }) => {
                     style={messagingStyles.input}
                     value={messageText}
                     onChangeText={setMessageText}
-                    placeholder="Type a message"
+                    placeholder={t('typeAMessage')}
                     multiline={true}
                     numberOfLines={4}
                 />
                 <Pressable style={messagingStyles.buttonContainer} onPress={handleSend}>
-                    <Text style={messagingStyles.buttonText}>SEND</Text>
+                    <Text style={messagingStyles.buttonText}>{t('send')}</Text>
                 </Pressable>
             </View>
         </View>
