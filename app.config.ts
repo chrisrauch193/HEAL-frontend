@@ -39,9 +39,7 @@ export default ({ config }): AppConfig => {
     updates: {
       url: "https://u.expo.dev/eba95232-91ba-4791-b166-42dbd7e8803d"
     },
-    runtimeVersion: {
-      policy: "appVersion"
-    },
+    runtimeVersion: "1.0.0", // Set runtime version manually
     android: {
       package: "com.chrisrauch193.heal",
       userInterfaceStyle: "automatic" // Enable user interface style for Android
