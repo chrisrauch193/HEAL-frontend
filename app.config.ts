@@ -14,6 +14,14 @@ interface AppConfig {
   runtimeVersion?: {
     policy: string;
   };
+  android?: {
+    package: string;
+    userInterfaceStyle?: string;
+  };
+  ios?: {
+    bundleIdentifier: string;
+    userInterfaceStyle?: string;
+  };
 }
 
 export default ({ config }): AppConfig => {
@@ -33,6 +41,14 @@ export default ({ config }): AppConfig => {
     },
     runtimeVersion: {
       policy: "appVersion"
+    },
+    android: {
+      package: "com.chrisrauch193.heal",
+      userInterfaceStyle: "automatic" // Enable user interface style for Android
+    },
+    ios: {
+      bundleIdentifier: "com.chrisrauch193.heal",
+      userInterfaceStyle: "automatic" // Enable user interface style for iOS
     }
   };
 };
