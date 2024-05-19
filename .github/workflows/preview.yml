@@ -3,7 +3,7 @@ on: pull_request
 
 jobs:
   update:
-    name: EAS Update
+    name: EAS Update and Deploy to GitHub Pages
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -35,6 +35,13 @@ jobs:
         run: npm install
 
       - name: Create preview
-        uses: expo/expo-github-action/preview@v8
-        with:
-          command: eas update --auto
+        run: eas update --auto
+
+      - name: Build Web Version
+        run: npx expo export -p web
+
+      # - name: Deploy to GitHub Pages
+      #   run: npm run deploy
+      #   env:
+      #     GIT_USER: github-actions[bot]
+      #     GIT_EMAIL: github-actions[bot]@users.noreply.github.com
