@@ -1,6 +1,6 @@
 // src/styles/AuthFormStyles.ts
 import { StyleSheet } from 'react-native';
-import GlobalStyles, { spacing, colors } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors } from '@src/styles/GlobalStyles';
 
 export const AuthFormStyles = StyleSheet.create({
     container: {

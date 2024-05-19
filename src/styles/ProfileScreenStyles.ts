@@ -1,6 +1,6 @@
 // src/styles/ProfileScreenStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from '@src/styles/GlobalStyles';
 
 const ProfileScreenStyles = StyleSheet.create({
     container: {

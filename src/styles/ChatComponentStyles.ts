@@ -1,6 +1,6 @@
 // src/styles/ChatComponentStyles.ts
 import { StyleSheet } from "react-native";
-import GlobalStyles, { spacing, fonts, colors } from "@styles/GlobalStyles";
+import GlobalStyles, { spacing, fonts, colors } from "@src/styles/GlobalStyles";
 
 export const ChatComponentStyles = StyleSheet.create({
     chat: {

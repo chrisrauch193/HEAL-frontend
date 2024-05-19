@@ -1,6 +1,6 @@
 // src/styles/ChatRoomComponentStyles.ts
 import { StyleSheet, Platform } from "react-native";
-import { spacing, colors, fonts } from "@styles/GlobalStyles";
+import { spacing, colors, fonts } from "@src/styles/GlobalStyles";
 
 export const ChatRoomComponentStyles = StyleSheet.create({
     container: {

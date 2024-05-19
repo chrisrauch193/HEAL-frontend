@@ -1,6 +1,6 @@
 // src/styles/UserProfileFormStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from '@src/styles/GlobalStyles';
 
 export const UserProfileFormStyles = StyleSheet.create({
     container: {
