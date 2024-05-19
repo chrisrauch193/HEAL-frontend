@@ -4,10 +4,17 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "*": ["types/*"]
+      "@src/*": ["src/*"],
+      "@types/*": ["src/types/*"],
+      "@components/*": ["src/components/*"],
+      "@screens/*": ["src/screens/*"],
+      "@store/*": ["src/store/*"],
+      "@utils/*": ["src/utils/*"],
+      "@styles/*": ["src/styles/*"]
     }
   },
   "include": [
-    "types/**/*.d.ts"
+    "types/**/*.d.ts",
+    "src/**/*"
   ]
 }
