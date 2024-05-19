@@ -1,6 +1,6 @@
 // src/styles/MedicalTermDetailsModalStyles.ts
 import { StyleSheet } from "react-native";
-import { spacing, colors, fonts } from "@styles/GlobalStyles";
+import { spacing, colors, fonts } from "@src/styles/GlobalStyles";
 
 export const MedicalTermDetailsModalStyles = StyleSheet.create({
     centeredView: {

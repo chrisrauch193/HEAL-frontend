@@ -1,6 +1,6 @@
 // src/styles/ChatScreenStyles.ts
 import { StyleSheet } from 'react-native';
-import GlobalStyles, { spacing } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing } from '@src/styles/GlobalStyles';
 
 export const ChatScreenStyles = StyleSheet.create({
     container: {

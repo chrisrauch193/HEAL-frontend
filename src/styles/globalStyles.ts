@@ -24,7 +24,7 @@ export const fonts = {
     small: 12,
 };
 
-const GlobalStyles = StyleSheet.create({
+export const GlobalStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,

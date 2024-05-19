@@ -1,6 +1,6 @@
 // src/styles/RegisterScreenStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import { spacing, colors, fonts } from '@styles/GlobalStyles';
+import { spacing, colors, fonts } from '@src/styles/GlobalStyles';
 
 export const RegisterScreenStyles = StyleSheet.create({
     container: {

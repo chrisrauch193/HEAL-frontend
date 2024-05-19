@@ -1,6 +1,6 @@
 // src/styles/AuthLoadingScreenStyles.ts
 import { StyleSheet } from 'react-native';
-import GlobalStyles, { spacing } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing } from '@src/styles/GlobalStyles';
 
 export const AuthLoadingScreenStyles = StyleSheet.create({
     container: {

@@ -1,6 +1,6 @@
 // src/styles/MessagingScreenStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from '@src/styles/GlobalStyles';
 
 const MessagingScreenStyles = StyleSheet.create({
     container: {

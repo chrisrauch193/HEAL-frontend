@@ -1,4 +1,5 @@
 // src/App.tsx
+import 'expo-router/entry';
 import 'intl-pluralrules';
 import React from 'react';
 import { Provider } from 'react-redux';

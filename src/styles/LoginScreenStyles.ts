@@ -1,6 +1,6 @@
 // src/styles/LoginScreenStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import GlobalStyles, { spacing, colors, fonts } from '@styles/GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from '@src/styles/GlobalStyles';
 
 export const LoginScreenStyles = StyleSheet.create({
     container: {

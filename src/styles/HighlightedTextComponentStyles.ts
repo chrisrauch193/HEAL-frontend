@@ -1,6 +1,6 @@
 // src/styles/HighlightedTextComponentStyles.ts
 import { StyleSheet } from "react-native";
-import { colors } from "@styles/GlobalStyles";
+import { colors } from "@src/styles/GlobalStyles";
 
 export const HighlightedTextComponentStyles = StyleSheet.create({
     highlighted: {

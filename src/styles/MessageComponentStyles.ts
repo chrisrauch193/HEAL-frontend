@@ -1,6 +1,6 @@
 // src/styles/MessageComponentStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import { spacing, fonts, colors } from '@styles/GlobalStyles';
+import { spacing, fonts, colors } from '@src/styles/GlobalStyles';
 
 export const MessageComponentStyles = StyleSheet.create({
     myMessage: {
