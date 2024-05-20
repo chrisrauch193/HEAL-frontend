@@ -13,6 +13,7 @@ const EditPrescriptionScreen = ({ route, navigation }) => {
     const prescription = useSelector((state: RootState) => state.medicalHistory.conditions.flatMap(c => c.prescriptions).find(p => p.userPrescriptionId === prescriptionId));
     const [dosage, setDosage] = useState(prescription?.dosage || '');
     const [frequency, setFrequency] = useState(prescription?.frequency || '');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!prescription) {
@@ -20,8 +21,10 @@ const EditPrescriptionScreen = ({ route, navigation }) => {
         }
     }, [dispatch, prescription, patientId]);
 
-    const handleSave = () => {
-        dispatch(updatePrescription({ prescriptionId, patientId, dosage, frequency }));
+    const handleSave = async () => {
+        setLoading(true);
+        await dispatch(updatePrescription({ prescriptionId, dosage, frequency })).unwrap();
+        setLoading(false);
         navigation.goBack();
     };
 
@@ -35,7 +38,7 @@ const EditPrescriptionScreen = ({ route, navigation }) => {
             <Text>{prescription.medicalTerm.name}</Text>
             <TextInput value={dosage} onChangeText={setDosage} />
             <TextInput value={frequency} onChangeText={setFrequency} />
-            <Button title={t('save')} onPress={handleSave} />
+            <Button title={t('save')} onPress={handleSave} disabled={loading} />
         </View>
     );
 };

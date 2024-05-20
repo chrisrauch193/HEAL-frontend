@@ -29,7 +29,7 @@ export const updateCondition = createAsyncThunk(
 
 export const updatePrescription = createAsyncThunk(
     'medicalHistory/updatePrescription',
-    async ({ prescriptionId, dosage, frequency }: { prescriptionId: string, patientId: string, dosage: string, frequency: string }) => {
+    async ({ prescriptionId, dosage, frequency }: { prescriptionId: string, dosage: string, frequency: string }) => {
         return await medicalService.updatePrescription(prescriptionId, dosage, frequency);
     }
 );
@@ -37,6 +37,7 @@ export const updatePrescription = createAsyncThunk(
 export const deleteCondition = createAsyncThunk(
     'medicalHistory/deleteCondition',
     async (conditionId: string) => {
+        console.log("OMGOAMOPFASDKASDK");
         return await medicalService.deleteCondition(conditionId);
     }
 );
@@ -65,9 +66,6 @@ const medicalHistorySlice = createSlice({
                 state.status = 'failed';
             })
             .addCase(updateCondition.fulfilled, (state, action) => {
-                console.log("FULLFILLED");
-                console.log(action.payload);
-                console.log("FULLFILLED DONE");
                 const index = state.conditions.findIndex(c => c.userConditionId === action.payload.userConditionId);
                 if (index !== -1) {
                     state.conditions[index] = action.payload;

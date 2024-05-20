@@ -17,6 +17,7 @@ export const updateCondition = async (conditionId: string, status: string) => {
 };
 
 export const deleteCondition = async (conditionId: string) => {
+    console.log("FUUUUUCK");
     const response = await axiosInstance.delete(`/patients/conditions/${conditionId}`);
     return response.data;
 };

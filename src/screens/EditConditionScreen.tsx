@@ -12,6 +12,7 @@ const EditConditionScreen = ({ route, navigation }) => {
     const dispatch = useDispatch();
     const condition = useSelector((state: RootState) => state.medicalHistory.conditions.find(c => c.userConditionId === conditionId));
     const [status, setStatus] = useState(condition?.status || '');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!condition) {
@@ -19,8 +20,10 @@ const EditConditionScreen = ({ route, navigation }) => {
         }
     }, [dispatch, condition, patientId]);
 
-    const handleSave = () => {
-        dispatch(updateCondition({ conditionId, patientId, status }));
+    const handleSave = async () => {
+        setLoading(true);
+        await dispatch(updateCondition({ conditionId, status })).unwrap();
+        setLoading(false);
         navigation.goBack();
     };
 
@@ -33,7 +36,7 @@ const EditConditionScreen = ({ route, navigation }) => {
             <Text>{t('editCondition')}</Text>
             <Text>{condition.medicalTerm.name}</Text>
             <TextInput value={status} onChangeText={setStatus} />
-            <Button title={t('save')} onPress={handleSave} />
+            <Button title={t('save')} onPress={handleSave} disabled={loading} />
         </View>
     );
 };
