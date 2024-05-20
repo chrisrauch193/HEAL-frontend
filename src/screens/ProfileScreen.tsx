@@ -4,8 +4,9 @@ import { Text, ScrollView, Button, ActivityIndicator, View, TouchableOpacity } f
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { fetchUserProfileById } from '../store/slices/medicalProfilesSlice';
-import { logoutUser } from '../store/slices/userSlice';
+import { logoutUser, getUserProfile } from '../store/slices/userSlice';
 import { ProfileScreenStyles } from '../styles/ProfileScreenStyles';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { useTranslation } from 'react-i18next';
 
@@ -17,6 +18,14 @@ const ProfileScreen = ({ route, navigation }) => {
   const { viewedProfiles, status } = useSelector((state: RootState) => state.medicalProfiles);
   const viewedProfile = viewedProfiles[viewUserId] || null;
   const [error, setError] = useState('');
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (currentUserProfile && currentUserProfile.userId === viewUserId) {
+        dispatch(getUserProfile(viewUserId));
+      }
+    }, [dispatch, viewUserId, currentUserProfile])
+  );
 
   useEffect(() => {
       if (!viewedProfile) {

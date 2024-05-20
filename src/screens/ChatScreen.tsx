@@ -1,16 +1,16 @@
 // src/screens/ChatScreen.tsx
-import React, { useEffect } from "react";
-import { View, Text, Pressable, SafeAreaView, FlatList, ActivityIndicator } from "react-native";
+import React, { useEffect } from 'react';
+import { View, Text, Pressable, SafeAreaView, FlatList, ActivityIndicator } from 'react-native';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { fetchRooms, addOptimisticRoom } from '../store/slices/chatSlice';
+import { fetchRooms } from '../store/slices/chatSlice';
 import { RootState } from '../store';
-import ChatComponent from "../components/ChatComponent";
-import { ChatScreenStyles } from "../styles/ChatScreenStyles";
-import { createChatRoom } from "../services/chatService";
-
+import ChatComponent from '../components/ChatComponent';
+import { ChatScreenStyles } from '../styles/ChatScreenStyles';
+import { createChatRoom } from '../services/chatService';
 import { useTranslation } from 'react-i18next';
+import { addOptimisticRoom, fetchStep2Rooms } from '../store/slices/chatSlice'
 
 const ChatScreen = () => {
     const { t } = useTranslation();
@@ -20,8 +20,12 @@ const ChatScreen = () => {
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
 
     useEffect(() => {
-        dispatch(fetchRooms(currentUserProfile?.userId));
-    }, [dispatch]);
+        if (currentUserProfile?.type === 'DOCTOR') {
+            dispatch(fetchStep2Rooms());
+        } else {
+            dispatch(fetchRooms(currentUserProfile?.userId));
+        }
+    }, [dispatch, currentUserProfile]);
 
     const handleCreateGroup = async () => {
         try {
@@ -38,6 +42,14 @@ const ChatScreen = () => {
         }
     };
 
+    const handleNavigateStep1 = () => {
+        navigation.navigate('Step1RoomsScreen');
+    };
+
+    const handleNavigateStep3 = () => {
+        navigation.navigate('Step3RoomsScreen');
+    };
+
     if (status === 'loading') {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
@@ -46,22 +58,14 @@ const ChatScreen = () => {
         return <Text style={ChatScreenStyles.emptyText}>{t('errorFetchingRooms')}</Text>;
     }
 
-    return (
-        <SafeAreaView style={ChatScreenStyles.container}>
-            <View style={ChatScreenStyles.header}>
-                <Pressable onPress={handleNavigateProfile} style={ChatScreenStyles.iconButton}>
-                    <FontAwesome name="user" size={24} color="blue" />
-                </Pressable>
-                <Pressable onPress={handleCreateGroup} style={ChatScreenStyles.iconButton}>
-                    <Feather name="edit" size={24} color="green" />
-                </Pressable>
-            </View>
+    const renderDoctorView = () => (
+        <>
             <View style={ChatScreenStyles.listContainer}>
                 {rooms.length > 0 ? (
                     <FlatList
                         data={rooms}
                         renderItem={({ item }) => <ChatComponent item={item} />}
-                        keyExtractor={(item) => item.roomId.toString()}
+                        keyExtractor={(item) => item.roomId}
                     />
                 ) : (
                     <View style={ChatScreenStyles.emptyContainer}>
@@ -69,6 +73,49 @@ const ChatScreen = () => {
                     </View>
                 )}
             </View>
+            <View style={ChatScreenStyles.navBar}>
+                <Pressable onPress={handleNavigateStep1} style={ChatScreenStyles.navButton}>
+                    <Text style={ChatScreenStyles.navButtonText}>Step 1</Text>
+                </Pressable>
+                <Pressable onPress={() => dispatch(fetchStep2Rooms())} style={ChatScreenStyles.navButton}>
+                    <Text style={ChatScreenStyles.navButtonText}>Step 2</Text>
+                </Pressable>
+                <Pressable onPress={handleNavigateStep3} style={ChatScreenStyles.navButton}>
+                    <Text style={ChatScreenStyles.navButtonText}>Step 3</Text>
+                </Pressable>
+            </View>
+        </>
+    );
+
+    const renderPatientView = () => (
+        <View style={ChatScreenStyles.listContainer}>
+            {rooms.length > 0 ? (
+                <FlatList
+                    data={rooms}
+                    renderItem={({ item }) => <ChatComponent item={item} />}
+                    keyExtractor={(item) => item.roomId}
+                />
+            ) : (
+                <View style={ChatScreenStyles.emptyContainer}>
+                    <Text style={ChatScreenStyles.emptyText}>{t('noRoomsCreated')}</Text>
+                </View>
+            )}
+        </View>
+    );
+
+    return (
+        <SafeAreaView style={ChatScreenStyles.container}>
+            <View style={ChatScreenStyles.header}>
+                <Pressable onPress={handleNavigateProfile} style={ChatScreenStyles.iconButton}>
+                    <FontAwesome name="user" size={24} color="blue" />
+                </Pressable>
+                {currentUserProfile?.type === 'PATIENT' && (
+                    <Pressable onPress={handleCreateGroup} style={ChatScreenStyles.iconButton}>
+                        <Feather name="edit" size={24} color="green" />
+                    </Pressable>
+                )}
+            </View>
+            {currentUserProfile?.type === 'DOCTOR' ? renderDoctorView() : renderPatientView()}
         </SafeAreaView>
     );
 };

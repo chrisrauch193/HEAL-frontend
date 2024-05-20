@@ -17,6 +17,8 @@ import MessagingScreen from './screens/MessagingScreen';
 import PatientHistoryScreen from './screens/PatientHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import Step1RoomsScreen from './screens/Step1RoomsScreen';
+import Step3RoomsScreen from './screens/Step3RoomsScreen';
 
 const Stack = createStackNavigator();
 
@@ -49,6 +51,8 @@ const App: React.FC = () => {
           <Stack.Screen name="PatientHistoryScreen" component={PatientHistoryScreen} options={{ title: t('medicalHistory') }} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{ title: t('profile') }} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ title: t('register') }} />
+          <Stack.Screen name="Step1RoomsScreen" component={Step1RoomsScreen} options={{ title: 'Step 1 Rooms' }} />
+          <Stack.Screen name="Step3RoomsScreen" component={Step3RoomsScreen} options={{ title: 'Step 3 Rooms' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </I18nextProvider>
