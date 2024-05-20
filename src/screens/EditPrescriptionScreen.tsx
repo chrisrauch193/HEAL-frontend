@@ -1,10 +1,11 @@
 // src/screens/EditPrescriptionScreen.tsx
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator, Pressable } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { fetchMedicalHistory, updatePrescription } from '../store/slices/medicalHistorySlice';
 import { useTranslation } from 'react-i18next';
+import { GlobalStyles } from '../styles/GlobalStyles';
 
 const EditPrescriptionScreen = ({ route, navigation }) => {
     const { t } = useTranslation();
@@ -33,12 +34,24 @@ const EditPrescriptionScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View>
-            <Text>{t('editPrescription')}</Text>
-            <Text>{prescription.medicalTerm.name}</Text>
-            <TextInput value={dosage} onChangeText={setDosage} />
-            <TextInput value={frequency} onChangeText={setFrequency} />
-            <Button title={t('save')} onPress={handleSave} disabled={loading} />
+        <View style={GlobalStyles.container}>
+            <Text style={GlobalStyles.heading}>{t('editPrescription')}</Text>
+            <Text style={GlobalStyles.text}>{prescription.medicalTerm.name}</Text>
+            <TextInput
+                style={GlobalStyles.input}
+                value={dosage}
+                onChangeText={setDosage}
+                placeholder={t('dosage')}
+            />
+            <TextInput
+                style={GlobalStyles.input}
+                value={frequency}
+                onChangeText={setFrequency}
+                placeholder={t('frequency')}
+            />
+            <Pressable style={GlobalStyles.button} onPress={handleSave} disabled={loading}>
+                <Text style={GlobalStyles.buttonText}>{t('save')}</Text>
+            </Pressable>
         </View>
     );
 };

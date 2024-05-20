@@ -1,12 +1,13 @@
 // src/screens/PatientHistoryScreen.tsx
 import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ActivityIndicator, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { fetchMedicalHistory, deleteCondition, deletePrescription, updateCondition, updatePrescription } from '../store/slices/medicalHistorySlice';
 import { useTranslation } from 'react-i18next';
 import { PatientCondition } from '../types/medicalTypes';
 import { PatientHistoryScreenStyles } from '../styles/PatientHistoryScreenStyles';
+import { GlobalStyles } from '../styles/GlobalStyles';
 import { useFocusEffect } from '@react-navigation/native';
 
 const PatientHistoryScreen = ({ route, navigation }) => {
@@ -46,12 +47,12 @@ const PatientHistoryScreen = ({ route, navigation }) => {
             {item.resolutionDate && <Text style={PatientHistoryScreenStyles.conditionDetail}>{t('resolutionDate')}: {new Date(item.resolutionDate).toLocaleDateString()}</Text>}
             {currentUser?.type === 'DOCTOR' && (
                 <>
-                    <TouchableOpacity style={PatientHistoryScreenStyles.editButton} onPress={() => handleEditCondition(item.userConditionId)}>
-                        <Text style={PatientHistoryScreenStyles.buttonText}>{t('editCondition')}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={PatientHistoryScreenStyles.deleteButton} onPress={() => handleDeleteCondition(item.userConditionId)}>
-                        <Text style={PatientHistoryScreenStyles.buttonText}>{t('deleteCondition')}</Text>
-                    </TouchableOpacity>
+                    <Pressable style={GlobalStyles.button} onPress={() => handleEditCondition(item.userConditionId)}>
+                        <Text style={GlobalStyles.buttonText}>{t('editCondition')}</Text>
+                    </Pressable>
+                    <Pressable style={[GlobalStyles.button, { backgroundColor: 'red' }]} onPress={() => handleDeleteCondition(item.userConditionId)}>
+                        <Text style={GlobalStyles.buttonText}>{t('deleteCondition')}</Text>
+                    </Pressable>
                 </>
             )}
             {item.prescriptions.map((prescription) => (
@@ -62,12 +63,12 @@ const PatientHistoryScreen = ({ route, navigation }) => {
                     <Text style={PatientHistoryScreenStyles.prescriptionDetail}>{t('frequency')}: {prescription.frequency}</Text>
                     {currentUser?.type === 'DOCTOR' && (
                         <>
-                            <TouchableOpacity style={PatientHistoryScreenStyles.editButton} onPress={() => handleEditPrescription(prescription.userPrescriptionId)}>
-                                <Text style={PatientHistoryScreenStyles.buttonText}>{t('editPrescription')}</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={PatientHistoryScreenStyles.deleteButton} onPress={() => handleDeletePrescription(prescription.userPrescriptionId)}>
-                                <Text style={PatientHistoryScreenStyles.buttonText}>{t('deletePrescription')}</Text>
-                            </TouchableOpacity>
+                            <Pressable style={GlobalStyles.button} onPress={() => handleEditPrescription(prescription.userPrescriptionId)}>
+                                <Text style={GlobalStyles.buttonText}>{t('editPrescription')}</Text>
+                            </Pressable>
+                            <Pressable style={[GlobalStyles.button, { backgroundColor: 'red' }]} onPress={() => handleDeletePrescription(prescription.userPrescriptionId)}>
+                                <Text style={GlobalStyles.buttonText}>{t('deletePrescription')}</Text>
+                            </Pressable>
                         </>
                     )}
                 </View>

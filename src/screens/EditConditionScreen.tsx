@@ -1,10 +1,11 @@
 // src/screens/EditConditionScreen.tsx
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator, Pressable } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { fetchMedicalHistory, updateCondition } from '../store/slices/medicalHistorySlice';
 import { useTranslation } from 'react-i18next';
+import { GlobalStyles } from '../styles/GlobalStyles';
 
 const EditConditionScreen = ({ route, navigation }) => {
     const { t } = useTranslation();
@@ -32,11 +33,18 @@ const EditConditionScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View>
-            <Text>{t('editCondition')}</Text>
-            <Text>{condition.medicalTerm.name}</Text>
-            <TextInput value={status} onChangeText={setStatus} />
-            <Button title={t('save')} onPress={handleSave} disabled={loading} />
+        <View style={GlobalStyles.container}>
+            <Text style={GlobalStyles.heading}>{t('editCondition')}</Text>
+            <Text style={GlobalStyles.text}>{condition.medicalTerm.name}</Text>
+            <TextInput
+                style={GlobalStyles.input}
+                value={status}
+                onChangeText={setStatus}
+                placeholder={t('status')}
+            />
+            <Pressable style={GlobalStyles.button} onPress={handleSave} disabled={loading}>
+                <Text style={GlobalStyles.buttonText}>{t('save')}</Text>
+            </Pressable>
         </View>
     );
 };
