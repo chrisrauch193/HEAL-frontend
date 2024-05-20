@@ -5,7 +5,7 @@ import GlobalStyles, { spacing } from './GlobalStyles';
 export const ChatScreenStyles = StyleSheet.create({
     container: {
         ...GlobalStyles.container,
-        justifyContent: 'flex-start', // Ensure content starts at the top
+        justifyContent: 'flex-start',
     },
     header: {
         flexDirection: 'row',
@@ -16,7 +16,7 @@ export const ChatScreenStyles = StyleSheet.create({
     },
     listContainer: {
         flex: 1,
-        justifyContent: 'flex-start', // Ensure the list starts at the top
+        justifyContent: 'flex-start',
         paddingHorizontal: spacing.medium,
         paddingVertical: spacing.small,
     },
@@ -31,6 +31,20 @@ export const ChatScreenStyles = StyleSheet.create({
     },
     iconButton: {
         padding: spacing.small,
+    },
+    navBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: spacing.medium,
+        backgroundColor: '#f0f0f0',
+        borderTopWidth: 1,
+        borderTopColor: '#ccc',
+    },
+    navButton: {
+        padding: spacing.small,
+    },
+    navButtonText: {
+        ...GlobalStyles.text,
     },
 });
 

@@ -1,21 +1,40 @@
 // store/slices/userSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchUserProfile, loginUser, registerUser, updateUserProfile, verifyToken } from '../../services/userService';
+import { fetchUserProfile, loginUser, registerUser, updateUserProfile, verifyToken, getAllDoctors, requestSecondOpinionDoctor } from '../../services/userService';
 import { UserProfile, RegisterPatientInfo, RegisterDoctorInfo } from '../../types/userTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserState {
   currentUserProfile: UserProfile | null;
+  doctors: UserProfile[];
   token: string | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: UserState = {
   currentUserProfile: null,
+  doctors: [],
   token: null,
   status: 'idle',
 };
 
+// Async thunk for fetching all doctors
+export const fetchDoctors = createAsyncThunk('user/fetchDoctors', async (_, { rejectWithValue }) => {
+  try {
+    return await getAllDoctors();
+  } catch (error) {
+    return rejectWithValue('Failed to fetch doctors');
+  }
+});
+
+// Async thunk for assigning second opinion doctor
+export const assignSecondOpinionDoctor = createAsyncThunk('user/assignSecondOpinionDoctor', async ({ roomId, doctorId }: { roomId: string, doctorId: string }, { rejectWithValue }) => {
+  try {
+    return await requestSecondOpinionDoctor(roomId, doctorId);
+  } catch (error) {
+    return rejectWithValue('Failed to assign second opinion doctor');
+  }
+});
 
 // Async thunk for verifying the token
 export const verifyUserToken = createAsyncThunk(
@@ -76,9 +95,11 @@ export const getUserProfile = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async ({ userId, userData }: { userId: string; userData: Partial<UserProfile> }, { rejectWithValue }) => {
+  async ({ userId, userData }: { userId: string; userData: Partial<UserProfile> }, { rejectWithValue, dispatch }) => {
     try {
-      return await updateUserProfile(userId, userData);
+      await updateUserProfile(userId, userData);
+      const updatedUser = await fetchUserProfile(userId);
+      return updatedUser;
     } catch (error) {
       return rejectWithValue('Failed to update profile');
     }
@@ -128,8 +149,8 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(registerNewUser.fulfilled, (state, action) => {
-        state.currentUserProfile = action.payload.user;
         state.token = action.payload.token;
+        state.currentUserProfile = action.payload.user;
         state.status = 'idle';
       })
       .addCase(registerNewUser.rejected, (state) => {
@@ -155,6 +176,18 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state) => {
         state.status = 'failed';
       })
+      .addCase(fetchDoctors.fulfilled, (state, action) => {
+        state.doctors = action.payload;
+      })
+      .addCase(fetchDoctors.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(assignSecondOpinionDoctor.fulfilled, (state) => {
+        state.status = 'idle';
+      })
+      .addCase(assignSecondOpinionDoctor.rejected, (state) => {
+        state.status = 'failed';
+      });
   }
 });
 

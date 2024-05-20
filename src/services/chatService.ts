@@ -34,6 +34,9 @@ export const deleteChatRoom = async (roomId: string) => {
 export const addParticipantToRoom = async (roomId: string, userId: string) => {
     try {
         const response = await axiosInstance.post(`/chats/${roomId}/participants/${userId}`);
+        console.log("PAIN");
+        console.log(response);
+        console.log("PAIN");
         return response.data;
     } catch (error) {
         console.error('Failed to add participant:', error);
@@ -69,6 +72,50 @@ export const getChatRoomMessages = async (roomId: string, page: number, limit: n
         return response.data;
     } catch (error) {
         console.error('Failed to get chat room messages:', error);
+        throw error;
+    }
+};
+
+
+
+
+
+export const getStep1Rooms = async () => {
+    try {
+        const response = await axiosInstance.get('/chats/step1');
+        return response.data.rooms;
+    } catch (error) {
+        console.error('Failed to get step 1 rooms:', error);
+        throw error;
+    }
+};
+
+export const getStep2Rooms = async () => {
+    try {
+        const response = await axiosInstance.get('/chats/step2');
+        return response.data.rooms;
+    } catch (error) {
+        console.error('Failed to get step 2 rooms:', error);
+        throw error;
+    }
+};
+
+export const getStep3Rooms = async () => {
+    try {
+        const response = await axiosInstance.get('/chats/step3');
+        return response.data.rooms;
+    } catch (error) {
+        console.error('Failed to get step 3 rooms:', error);
+        throw error;
+    }
+};
+
+export const addDoctorToRoom = async (roomId: string, doctorId: string) => {
+    try {
+        const response = await axiosInstance.post(`/chats/${roomId}/add-doctor`, { doctorId });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to add doctor to room:', error);
         throw error;
     }
 };

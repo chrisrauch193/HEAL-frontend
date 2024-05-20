@@ -1,13 +1,13 @@
-// components/UserProfileForm.tsx
+// src/components/UserProfileForm.tsx
 import React, { useState } from 'react';
 import { Text, TextInput, ScrollView, Pressable, Alert, TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
-import { updateUser, registerNewUser } from '../store/slices/userSlice';
+import { updateUser, registerNewUser, getUserProfile } from '../store/slices/userSlice';
 import { UserProfileFormStyles } from '../styles/UserProfileFormStyles';
 import { GlobalStyles } from '../styles/GlobalStyles';
-
+import { RootState } from '../store';
 import { useTranslation } from 'react-i18next';
 
 const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
@@ -22,8 +22,10 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
     const [weight, setWeight] = useState(defaultValues.weight || 70); // Default weight in kg
     const [hospital, setHospital] = useState(defaultValues.hospital || '');
     const [specialisation, setSpecialisation] = useState(defaultValues.specialisation || '');
+    const [password, setPassword] = useState(defaultValues.password || ''); // Add state for password
     const [showDatePicker, setShowDatePicker] = useState(false);
     const dispatch = useDispatch();
+    const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
 
     const handleDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || dateOfBirth;
@@ -42,16 +44,33 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
             return;
         }
         const userInfo = {
-            email, name, dateOfBirth: dateOfBirth.toISOString().split('T')[0], language,
-            ...(userType === 'PATIENT' ? { height, weight } : { hospital, specialisation })
+            email,
+            name,
+            dateOfBirth: dateOfBirth.toISOString().split('T')[0],
+            language,
+            height: userType === 'PATIENT' ? height : undefined,
+            weight: userType === 'PATIENT' ? weight : undefined,
+            hospital: userType === 'DOCTOR' ? hospital : undefined,
+            specialisation: userType === 'DOCTOR' ? specialisation : undefined,
+            password: isEdit ? undefined : password, // Add password to userInfo only for registration
         };
-        
+
         if (isEdit) {
-            await dispatch(updateUser({ ...userInfo, userId: defaultValues.userId }));
+            const actionResult = await dispatch(updateUser({ userId: defaultValues.userId, userData: userInfo }));
+            if (updateUser.fulfilled.match(actionResult)) {
+                await dispatch(getUserProfile(actionResult.payload.userId)); // Fetch the updated profile
+                onSubmitSuccess();
+            } else {
+                Alert.alert(t('updateFailed'), t('pleaseTryAgain'));
+            }
         } else {
-            await dispatch(registerNewUser({ ...userInfo, type: userType }));
+            const actionResult = await dispatch(registerNewUser({ ...userInfo, type: userType, password }));
+            if (registerNewUser.fulfilled.match(actionResult)) {
+                onSubmitSuccess();
+            } else {
+                Alert.alert(t('registrationFailed'), t('pleaseTryAgain'));
+            }
         }
-        onSubmitSuccess();
     };
 
     return (
@@ -65,8 +84,8 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                         style={UserProfileFormStyles.input}
                         onValueChange={(itemValue) => setUserType(itemValue)}
                     >
-                        <Picker.Item label={t('patient')} value={t('patient')} />
-                        <Picker.Item label={t('doctor')} value={t('doctor')} />
+                        <Picker.Item label={t('patient')} value="PATIENT" />
+                        <Picker.Item label={t('doctor')} value="DOCTOR" />
                     </Picker>
                 </>
             )}
@@ -86,6 +105,18 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                 value={name}
                 onChangeText={setName}
             />
+            {!isEdit && (
+                <>
+                    <Text style={UserProfileFormStyles.label}>{t('password')}</Text>
+                    <TextInput
+                        style={UserProfileFormStyles.input}
+                        placeholder={t('enterYourPassword')}
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                    />
+                </>
+            )}
             <Text style={UserProfileFormStyles.label}>{t('dateOfBirth')}</Text>
             <TouchableOpacity onPress={() => setShowDatePicker(true)} style={UserProfileFormStyles.input}>
                 <Text>{dateOfBirth.toDateString()}</Text>
