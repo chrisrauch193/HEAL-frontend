@@ -5,11 +5,16 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AddConditionScreen from './screens/AddConditionScreen';
+import AddPrescriptionScreen from './screens/AddPrescriptionScreen';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import ChatScreen from './screens/ChatScreen';
+import EditConditionScreen from './screens/EditConditionScreen';
+import EditPrescriptionScreen from './screens/EditPrescriptionScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import MessagingScreen from './screens/MessagingScreen';
+import PatientHistoryScreen from './screens/PatientHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 
@@ -32,11 +37,16 @@ const App: React.FC = () => {
     <I18nextProvider i18n={i18n}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="AuthLoadingScreen" screenOptions={{ cardStyle: { flex: 1 } }}>
+          <Stack.Screen name="AddConditionScreen" component={AddConditionScreen} />
+          <Stack.Screen name="AddPrescriptionScreen" component={AddPrescriptionScreen} />
           <Stack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: t('consultations') }} />
+          <Stack.Screen name="EditConditionScreen" component={EditConditionScreen} />
+          <Stack.Screen name="EditPrescriptionScreen" component={EditPrescriptionScreen} />
           <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{ title: t('editProfile') }} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: t('login') }} />
           <Stack.Screen name="MessagingScreen" component={MessagingScreen} options={{ title: t('consultations') }} />
+          <Stack.Screen name="PatientHistoryScreen" component={PatientHistoryScreen} options={{ title: t('medicalHistory') }} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{ title: t('profile') }} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ title: t('register') }} />
         </Stack.Navigator>

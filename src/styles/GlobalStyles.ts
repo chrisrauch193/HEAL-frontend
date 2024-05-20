@@ -10,6 +10,7 @@ export const colors = {
     grey: '#ccc',
     lightGreen: '#DCF8C6',
     lightGray: '#ECECEC',
+    error: '#ff0000', // Added error color
 };
 
 export const spacing = {
@@ -78,6 +79,12 @@ export const GlobalStyles = StyleSheet.create({
         color: colors.white,
         fontSize: fonts.text,
         fontWeight: 'bold',
+    },
+    errorText: {
+        color: colors.error, // Use the error color
+        fontSize: fonts.text,
+        textAlign: 'center',
+        marginVertical: spacing.small,
     },
 });
 
