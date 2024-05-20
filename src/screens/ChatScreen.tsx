@@ -95,7 +95,7 @@ const ChatScreen = () => {
 
     const renderPatientView = () => (
         <View style={ChatScreenStyles.listContainer}>
-            {rooms.length > 0 ? (
+            {roomsArray.length > 0 ? (
                 <FlatList
                     data={rooms}
                     renderItem={({ item }) => <ChatComponent item={item} />}
