@@ -1,6 +1,6 @@
 // src/screens/Step3RoomsScreen.tsx
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { fetchStep3Rooms } from '../store/slices/chatSlice';
@@ -30,8 +30,8 @@ const Step3RoomsScreen = () => {
             {step3Rooms.length > 0 ? (
                 <FlatList
                     data={step3Rooms}
-                    renderItem={({ item }) => <ChatComponent item={item} />}
-                    keyExtractor={(item) => item.roomId}
+                    renderItem={({ item }) => <ChatComponent item={item} step={3} />}
+                    keyExtractor={(item) => item.roomId.toString()}
                 />
             ) : (
                 <View style={ChatScreenStyles.emptyContainer}>

@@ -1,13 +1,14 @@
+// src/screens/MessagingScreen.tsx
 import React, { useEffect, useState } from "react";
-import { View, TextInput, Text, FlatList, Pressable, ScrollView, Platform } from "react-native";
+import { View, TextInput, Text, FlatList, Pressable, ScrollView, Platform, Modal } from "react-native";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchInitialMessages, fetchMoreMessages, receivedMessage, addOptimisticMessage } from '../store/slices/chatSlice';
 import { RootState } from '../store';
 import MessageComponent from "../components/MessageComponent";
 import { MessagingScreenStyles } from "../styles/MessagingScreenStyles";
 import initializeSocket from '../api/socket';
-
 import { useTranslation } from 'react-i18next';
+import DoctorSelectionModal from '../components/DoctorSelectionModal'; // Import the new modal component
 
 const MessagingScreen = ({ route }) => {
     const { t } = useTranslation();
@@ -17,6 +18,7 @@ const MessagingScreen = ({ route }) => {
     const messages = useSelector((state: RootState) => state.chat.messages[roomId] || []);
     const [messageText, setMessageText] = useState("");
     const [socket, setSocket] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false); // State to manage modal visibility
 
     useEffect(() => {
         const setupChat = async () => {
@@ -61,6 +63,14 @@ const MessagingScreen = ({ route }) => {
         }
     };
 
+    const handleOpenModal = () => {
+        setModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
+
     return (
         <View style={MessagingScreenStyles.container}>
             {Platform.OS === 'web' ? (
@@ -90,7 +100,13 @@ const MessagingScreen = ({ route }) => {
                 <Pressable style={MessagingScreenStyles.buttonContainer} onPress={handleSend}>
                     <Text style={MessagingScreenStyles.buttonText}>{t('send')}</Text>
                 </Pressable>
+                {currentUserProfile?.type === 'DOCTOR' && (
+                    <Pressable style={MessagingScreenStyles.buttonContainer} onPress={handleOpenModal}>
+                        <Text style={MessagingScreenStyles.buttonText}>{t('requestSecondOpinion')}</Text>
+                    </Pressable>
+                )}
             </View>
+            <DoctorSelectionModal visible={modalVisible} onClose={handleCloseModal} roomId={roomId} />
         </View>
     );
 };

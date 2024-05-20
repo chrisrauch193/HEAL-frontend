@@ -1,4 +1,4 @@
-// components/UserProfileForm.tsx
+// src/components/UserProfileForm.tsx
 import React, { useState } from 'react';
 import { Text, TextInput, ScrollView, Pressable, Alert, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,6 @@ import { updateUser, registerNewUser, getUserProfile } from '../store/slices/use
 import { UserProfileFormStyles } from '../styles/UserProfileFormStyles';
 import { GlobalStyles } from '../styles/GlobalStyles';
 import { RootState } from '../store';
-
 import { useTranslation } from 'react-i18next';
 
 const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
@@ -23,6 +22,7 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
     const [weight, setWeight] = useState(defaultValues.weight || 70); // Default weight in kg
     const [hospital, setHospital] = useState(defaultValues.hospital || '');
     const [specialisation, setSpecialisation] = useState(defaultValues.specialisation || '');
+    const [password, setPassword] = useState(defaultValues.password || ''); // Add state for password
     const [showDatePicker, setShowDatePicker] = useState(false);
     const dispatch = useDispatch();
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
@@ -52,18 +52,19 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
             weight: userType === 'PATIENT' ? weight : undefined,
             hospital: userType === 'DOCTOR' ? hospital : undefined,
             specialisation: userType === 'DOCTOR' ? specialisation : undefined,
+            password: isEdit ? undefined : password, // Add password to userInfo only for registration
         };
 
         if (isEdit) {
             const actionResult = await dispatch(updateUser({ userId: defaultValues.userId, userData: userInfo }));
             if (updateUser.fulfilled.match(actionResult)) {
-                await dispatch(getUserProfile(actionResult.userId)); // Fetch the updated profile
+                await dispatch(getUserProfile(actionResult.payload.userId)); // Fetch the updated profile
                 onSubmitSuccess();
             } else {
                 Alert.alert(t('updateFailed'), t('pleaseTryAgain'));
             }
         } else {
-            const actionResult = await dispatch(registerNewUser({ ...userInfo, type: userType, password: defaultValues.password }));
+            const actionResult = await dispatch(registerNewUser({ ...userInfo, type: userType, password }));
             if (registerNewUser.fulfilled.match(actionResult)) {
                 onSubmitSuccess();
             } else {
@@ -83,8 +84,8 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                         style={UserProfileFormStyles.input}
                         onValueChange={(itemValue) => setUserType(itemValue)}
                     >
-                        <Picker.Item label={t('patient')} value={t('patient')} />
-                        <Picker.Item label={t('doctor')} value={t('doctor')} />
+                        <Picker.Item label={t('patient')} value="PATIENT" />
+                        <Picker.Item label={t('doctor')} value="DOCTOR" />
                     </Picker>
                 </>
             )}
@@ -110,8 +111,8 @@ const UserProfileForm = ({ isEdit, defaultValues, onSubmitSuccess }) => {
                     <TextInput
                         style={UserProfileFormStyles.input}
                         placeholder={t('enterYourPassword')}
-                        value={defaultValues.password}
-                        onChangeText={(password) => setPassword(password)}
+                        value={password}
+                        onChangeText={setPassword}
                         secureTextEntry
                     />
                 </>
