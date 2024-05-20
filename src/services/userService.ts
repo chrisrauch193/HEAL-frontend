@@ -35,3 +35,13 @@ export const updateUserProfile = async (userId: string, userData: Partial<UserPr
   const response = await axiosInstance.put<UserProfile>(`/users/${userId}`, userData);
   return response.data;
 };
+
+export const getAllDoctors = async (): Promise<UserProfile[]> => {
+  const response = await axiosInstance.get('/users/doctors');
+  return response.data.doctors;
+};
+
+export const requestSecondOpinionDoctor = async (roomId: string, doctorId: string) => {
+  const response = await axiosInstance.post(`/chats/${roomId}/second-opinion/${doctorId}`);
+  return response.data;
+};
