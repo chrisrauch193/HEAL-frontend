@@ -17,6 +17,7 @@ export const LoginScreenStyles = StyleSheet.create({
         color: colors.text,
         fontWeight: 'bold',
         marginBottom: spacing.medium,
+        textAlign: 'center'
     },
     input: {
         ...GlobalStyles.input,
@@ -34,6 +35,11 @@ export const LoginScreenStyles = StyleSheet.create({
         color: colors.secondary,
         marginTop: spacing.small,
         textAlign: 'center',
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        alignSelf: 'center',
     },
 });
 

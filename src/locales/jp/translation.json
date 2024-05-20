@@ -3,7 +3,7 @@
     "signIn": "サインイン",
     "enterYourEmail": "メールアドレスを入力してください",
     "enterYourPassword": "パスワードを入力してください",
-    "getStarted": "スタート",
+    "getStarted": "サインイン",
     "registerHere": "アカウントをお持ちでないですか？ここから新規登録",
     "unableToLogin": "ログインできません",
     "bothEmailAndPassword": "メールアドレスとパスワードの両方が必要です。",
@@ -62,5 +62,7 @@
     "spanish": "スペイン語 (Español)",
     "chinese": "中国語 (中文)",
     "arabic": "アラビア語 (العربية)",
-    "russian": "ロシア語 (Русский)"
+    "russian": "ロシア語 (Русский)",
+
+    "heal": "HEAL"
 }

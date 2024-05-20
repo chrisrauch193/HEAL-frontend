@@ -1,7 +1,7 @@
 // screens/Login.tsx
 import React, { useState } from 'react';
 import {
-    Text, ScrollView, TextInput, Pressable, Alert, Button
+    Text, ScrollView, TextInput, Pressable, Alert, Button, Image
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticateUser } from '../store/slices/userSlice'; // Adjust path if necessary
@@ -14,6 +14,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
 
 import { useTranslation } from 'react-i18next';
+
+import LogoImage from '../../assets/HEALlogo.png'; 
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
 
@@ -51,7 +53,12 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
 
     return (
         <ScrollView style={LoginScreenStyles.container}>
-            <Text style={LoginScreenStyles.heading}>{t('signIn')}</Text>
+            <Image
+                source={LogoImage} // sourceプロパティを使用
+                style={LoginScreenStyles.logo} // スタイルを設定
+                accessibilityLabel="HEAL logo" // 画像の説明を追加
+            />
+            <Text style={LoginScreenStyles.heading}>{t('heal')}</Text>
             <TextInput
                 autoCorrect={false}
                 placeholder={t('enterYourEmail')}
