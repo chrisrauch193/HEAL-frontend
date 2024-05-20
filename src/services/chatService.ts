@@ -34,6 +34,9 @@ export const deleteChatRoom = async (roomId: string) => {
 export const addParticipantToRoom = async (roomId: string, userId: string) => {
     try {
         const response = await axiosInstance.post(`/chats/${roomId}/participants/${userId}`);
+        console.log("PAIN");
+        console.log(response);
+        console.log("PAIN");
         return response.data;
     } catch (error) {
         console.error('Failed to add participant:', error);

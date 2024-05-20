@@ -95,7 +95,7 @@ export const chatSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(fetchStep2Rooms.fulfilled, (state, action) => {
-                state.step2Rooms = action.payload;
+                state.rooms = action.payload;
                 state.status = 'idle';
             })
             .addCase(fetchStep2Rooms.rejected, (state) => {

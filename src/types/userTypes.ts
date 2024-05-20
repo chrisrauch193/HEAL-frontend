@@ -8,6 +8,7 @@ export interface BaseUser {
     name: string;
     dateOfBirth: string; // Consider using Date type if you're working directly with date objects
     language: string;
+    password: string;
 }
 
 export interface Patient extends BaseUser {

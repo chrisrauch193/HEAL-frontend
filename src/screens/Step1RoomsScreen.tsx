@@ -1,11 +1,10 @@
 // src/screens/Step1RoomsScreen.tsx
 import React, { useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, Pressable } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { fetchStep1Rooms, addOptimisticRoom } from '../store/slices/chatSlice';
+import { fetchStep1Rooms } from '../store/slices/chatSlice';
 import ChatComponent from '../components/ChatComponent';
-import { createChatRoom } from '../services/chatService';
 import { ChatScreenStyles } from '../styles/ChatScreenStyles';
 import { useTranslation } from 'react-i18next';
 
@@ -31,8 +30,8 @@ const Step1RoomsScreen = () => {
             {step1Rooms.length > 0 ? (
                 <FlatList
                     data={step1Rooms}
-                    renderItem={({ item }) => <ChatComponent item={item} />}
-                    keyExtractor={(item) => item.roomId}
+                    renderItem={({ item }) => <ChatComponent item={item} step={1} />}
+                    keyExtractor={(item) => item.roomId.toString()}
                 />
             ) : (
                 <View style={ChatScreenStyles.emptyContainer}>
