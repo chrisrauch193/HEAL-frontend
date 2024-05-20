@@ -1,7 +1,7 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "src/index.tsx",
   "scripts": {
     "start:dev": "expo start",
     "start:prod": "NODE_ENV=production expo start",

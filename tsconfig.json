@@ -8,6 +8,9 @@
     }
   },
   "include": [
-    "types/**/*.d.ts"
+    "types/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "src/index.tsx"
   ]
 }
