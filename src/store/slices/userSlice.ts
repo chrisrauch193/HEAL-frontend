@@ -76,9 +76,11 @@ export const getUserProfile = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async ({ userId, userData }: { userId: string; userData: Partial<UserProfile> }, { rejectWithValue }) => {
+  async ({ userId, userData }: { userId: string; userData: Partial<UserProfile> }, { rejectWithValue, dispatch }) => {
     try {
-      return await updateUserProfile(userId, userData);
+      await updateUserProfile(userId, userData);
+      const updatedUser = await fetchUserProfile(userId);
+      return updatedUser;
     } catch (error) {
       return rejectWithValue('Failed to update profile');
     }
@@ -128,8 +130,8 @@ const userSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(registerNewUser.fulfilled, (state, action) => {
-        state.currentUserProfile = action.payload.user;
         state.token = action.payload.token;
+        state.currentUserProfile = action.payload.user;
         state.status = 'idle';
       })
       .addCase(registerNewUser.rejected, (state) => {
