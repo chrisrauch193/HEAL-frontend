@@ -38,14 +38,14 @@ export const chatSlice = createSlice({
             if (!state.messages[roomId]) {
                 state.messages[roomId] = [];
             }
-            state.messages[roomId].unshift(message); // Add new message at the beginning
+            state.messages[roomId].push(message);
         },
         addOptimisticMessage: (state, action: PayloadAction<{ roomId: string; message: ChatMessage }>) => {
             const { roomId, message } = action.payload;
             if (!state.messages[roomId]) {
                 state.messages[roomId] = [];
             }
-            state.messages[roomId].unshift(message); // Add new message at the beginning
+            state.messages[roomId].push(message);
         },
     },
     extraReducers: (builder) => {

@@ -76,7 +76,6 @@ const MessagingScreen = ({ route }) => {
                     data={messages}
                     renderItem={({ item }) => <MessageComponent item={item} currentUserId={currentUserProfile?.userId || "unknownUser"} userLanguage={currentUserProfile?.language || "en"} />}
                     keyExtractor={(item) => item.messageId.toString()}
-                    inverted
                     contentContainerStyle={MessagingScreenStyles.flatListContent}
                 />
             )}
