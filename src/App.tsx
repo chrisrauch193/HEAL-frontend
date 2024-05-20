@@ -10,6 +10,7 @@ import ChatScreen from './screens/ChatScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import MessagingScreen from './screens/MessagingScreen';
+import PatientHistoryScreen from './screens/PatientHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
 
@@ -37,6 +38,7 @@ const App: React.FC = () => {
           <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{ title: t('editProfile') }} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: t('login') }} />
           <Stack.Screen name="MessagingScreen" component={MessagingScreen} options={{ title: t('consultations') }} />
+          <Stack.Screen name="PatientHistoryScreen" component={PatientHistoryScreen} options={{ title: t('medicalHistory') }} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{ title: t('profile') }} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ title: t('register') }} />
         </Stack.Navigator>

@@ -8,7 +8,6 @@ import { fetchRooms } from '../store/slices/chatSlice';
 import { RootState } from '../store';
 import ChatComponent from "../components/ChatComponent";
 import { ChatScreenStyles } from "../styles/ChatScreenStyles";
-import ModalComponent from "../components/ModalComponent";
 
 import { useTranslation } from 'react-i18next';
 
@@ -65,7 +64,6 @@ const ChatScreen = () => {
                     </View>
                 )}
             </View>
-            {modalVisible && <ModalComponent setVisible={setModalVisible} />}
         </SafeAreaView>
     );
 };
