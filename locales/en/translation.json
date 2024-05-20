@@ -30,32 +30,25 @@
     "groupName": "Group name",
     "create": "CREATE",
     "cancel": "CANCEL",
-
     "register": "Register",
     "userType": "User Type",
     "patient": "PATIENT",
     "doctor": "DOCTOR",
-    "email": "Email",
+    
     "name": "Name",
     "enterYourName": "Enter your name",
     "dateOfBirth": "Date of Birth",
-    "language": "Language",
-    "height": "Height",
-    "weight": "Weight",
-    "hospital": "Hospital",
+    
     "enterHospitalName": "Enter hospital name",
-    "specialisation": "Specialisation",
+    
     "enterSpecialisation": "Enter specialisation",
     "updateProfile": "Update profile",
-
     "invalidEmail": "Invalid Email",
     "pleaseEnterAValidEmailAddress": "Please enter a valid email address.",
     "loginError": "Login error",
     "error": "Error",
-
     "consultations": "Consultations",
     "profile": "Profile",
-
     "english": "English",
     "japanese": "Japanese (日本語)",
     "french": "French (Français)",
@@ -63,7 +56,6 @@
     "chinese": "Chinese (中文)",
     "arabic": "Arabic (العربية)",
     "russian": "Russian (Русский)",
-
     "medicalHistory": "Medical History",
     "conditionName": "Condition Name",
     "diagnosisDate": "Diagnosis Date",
@@ -82,8 +74,7 @@
     "confirmDeletePrescription": "Are you sure you want to delete this prescription?",
     "editPrescription": "Edit Prescription",
     "save": "Save",
-    "cancel": "Cancel",
-
+    
     "addCondition": "Add Condition",
     "selectCondition": "Select a Condition",
     "addPrescription": "Add Prescription",

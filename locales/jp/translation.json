@@ -30,32 +30,27 @@
     "groupName": "グループ名",
     "create": "作成",
     "cancel": "キャンセル",
-
     "register": "登録",
     "userType": "ユーザタイプ",
     "patient": "患者",
     "doctor": "医師",
-    "email": "メールアドレス",
+    
     "name": "名前",
     "enterYourName": "名前を入力してください",
     "dateOfBirth": "生年月日",
-    "language": "言語",
-    "height": "身長",
-    "weight": "体重",
-    "hospital": "病院",
+    
+    
+    
     "enterHospitalName": "病院名を入力してください",
-    "specialisation": "専門",
+    
     "enterSpecialisation": "専門を入力してください",
     "updateProfile": "プロフィールを更新",
-
     "invalidEmail": "有効でないメールアドレス",
     "pleaseEnterAValidEmailAddress": "有効なメールアドレスを入力してください。",
     "loginError": "ログインエラー",
     "error": "エラー",
-
     "consultations": "診断",
     "profile": "プロフィール",
-
     "english": "英語 (English)",
     "japanese": "日本語",
     "french": "フランス語 (Français)",
@@ -63,7 +58,6 @@
     "chinese": "中国語 (中文)",
     "arabic": "アラビア語 (العربية)",
     "russian": "ロシア語 (Русский)",
-
     "medicalHistory": "病歴",
     "conditionName": "状態名",
     "diagnosisDate": "診断日",
@@ -82,8 +76,7 @@
     "confirmDeletePrescription": "この処方箋を削除してもよろしいですか？",
     "editPrescription": "処方箋を編集",
     "save": "保存",
-    "cancel": "キャンセル",
-
+    
     "addCondition": "状態を追加",
     "selectCondition": "状態を選択",
     "addPrescription": "処方箋を追加",

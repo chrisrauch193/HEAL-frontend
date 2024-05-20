@@ -19,21 +19,30 @@ const ChatScreen = () => {
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
     const [modalVisible, setModalVisible] = React.useState(false);
 
+    const roomsArray = rooms || [];
+
     useEffect(() => {
-        dispatch(fetchRooms(currentUserProfile?.userId));
-    }, [dispatch]);
+        if (currentUserProfile?.userId) {
+            dispatch(fetchRooms(currentUserProfile.userId));
+        }
+    }, [dispatch, currentUserProfile]);
+    
 
     const handleCreateGroup = () => {
         setModalVisible(true);
     };
 
     const handleNavigateProfile = () => {
+        //console.log("pressed")
+        //console.log("currentUserProfile:", currentUserProfile);
         if (currentUserProfile && currentUserProfile.userId) {
+            console.log("yes")
             navigation.navigate('ProfileScreen', { viewUserId: currentUserProfile.userId });
         }
     };
 
     if (status === 'loading') {
+        //console.log("loading now")
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
 
@@ -52,7 +61,7 @@ const ChatScreen = () => {
                 </Pressable>
             </View>
             <View style={ChatScreenStyles.listContainer}>
-                {rooms.length > 0 ? (
+                {roomsArray.length > 0 ? (
                     <FlatList
                         data={rooms}
                         renderItem={({ item }) => <ChatComponent item={item} />}
