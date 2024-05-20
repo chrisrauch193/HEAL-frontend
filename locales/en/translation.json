@@ -1,6 +1,6 @@
 {
     "login": "Log In",
-    "signIn": "Sign In", 
+    "signIn": "Sign In",
     "enterYourEmail": "Enter your email address",
     "enterYourPassword": "Enter your password",
     "getStarted": "GET STARTED",
@@ -82,5 +82,10 @@
     "confirmDeletePrescription": "Are you sure you want to delete this prescription?",
     "editPrescription": "Edit Prescription",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+
+    "addCondition": "Add Condition",
+    "selectCondition": "Select a Condition",
+    "addPrescription": "Add Prescription",
+    "selectPrescription": "Select a Prescription"
 }

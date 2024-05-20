@@ -22,6 +22,11 @@ export const PatientHistoryScreenStyles = StyleSheet.create({
         fontSize: fonts.text,
         textAlign: 'center',
     },
+    noHistoryContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     noHistoryText: {
         color: colors.text,
         fontSize: fonts.text,

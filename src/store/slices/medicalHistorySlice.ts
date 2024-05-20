@@ -1,15 +1,17 @@
 // src/store/slices/medicalHistorySlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import * as medicalService from '../../services/medicalService';
-import { PatientCondition, PatientPrescription } from '../../types/medicalTypes';
+import { PatientCondition, MedicalTerm } from '../../types/medicalTypes';
 
 interface MedicalHistoryState {
     conditions: PatientCondition[];
+    terms: MedicalTerm[];
     status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: MedicalHistoryState = {
     conditions: [],
+    terms: [],
     status: 'idle',
 };
 
@@ -17,6 +19,20 @@ export const fetchMedicalHistory = createAsyncThunk(
     'medicalHistory/fetchMedicalHistory',
     async (patientId: string) => {
         return await medicalService.getMedicalHistory(patientId);
+    }
+);
+
+export const addCondition = createAsyncThunk(
+    'medicalHistory/addCondition',
+    async ({ patientId, selectedConditionId, data }: { patientId: string, selectedConditionId: string, data: any }) => {
+        return await medicalService.addCondition(patientId, selectedConditionId, data);
+    }
+);
+
+export const addPrescription = createAsyncThunk(
+    'medicalHistory/addPrescription',
+    async ({ conditionId, selectedPrescriptionId, data }: { conditionId: string, selectedPrescriptionId: string, data: any }) => {
+        return await medicalService.addPrescription(conditionId, selectedPrescriptionId, data);
     }
 );
 
@@ -37,7 +53,6 @@ export const updatePrescription = createAsyncThunk(
 export const deleteCondition = createAsyncThunk(
     'medicalHistory/deleteCondition',
     async (conditionId: string) => {
-        console.log("OMGOAMOPFASDKASDK");
         return await medicalService.deleteCondition(conditionId);
     }
 );
@@ -64,6 +79,15 @@ const medicalHistorySlice = createSlice({
             })
             .addCase(fetchMedicalHistory.rejected, (state) => {
                 state.status = 'failed';
+            })
+            .addCase(addCondition.fulfilled, (state, action) => {
+                state.conditions = action.payload.medicalConditions;
+            })
+            .addCase(addPrescription.fulfilled, (state, action) => {
+                const condition = state.conditions.find(c => c.id === action.meta.arg.conditionId);
+                if (condition) {
+                    condition.prescriptions.push(action.payload);
+                }
             })
             .addCase(updateCondition.fulfilled, (state, action) => {
                 const index = state.conditions.findIndex(c => c.userConditionId === action.payload.userConditionId);

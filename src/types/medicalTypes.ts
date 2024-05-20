@@ -1,15 +1,14 @@
 // src/types/medicalTypes.ts
 export interface MedicalTerm {
-    id: string;
-    termType: 'CONDITION' | 'PRESCRIPTION' | 'GENERAL';
+    medicalTermId: number;
+    medicalTermType: 'CONDITION' | 'PRESCRIPTION' | 'GENERAL';
     name: string;
     description: string;
-    url?: string;
-    synonyms: { synonym: string; language: string }[];
+    medicalTermLinks: any[]; // Define the correct type if you have more details about the links
 }
 
 export interface PatientCondition {
-    id: string;
+    userConditionId: string;
     medicalTerm: MedicalTerm;
     status: string;
     diagnosisDate: string;
@@ -18,7 +17,7 @@ export interface PatientCondition {
 }
 
 export interface PatientPrescription {
-    id: string;
+    userPrescriptionId: string;
     medicalTerm: MedicalTerm;
     dosage: string;
     prescriptionDate: string;

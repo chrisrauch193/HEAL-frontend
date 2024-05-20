@@ -1,9 +1,9 @@
-// src/screens/PatientHistoryScreen.tsx
 import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator, FlatList, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, ActivityIndicator, FlatList, Pressable } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { fetchMedicalHistory, deleteCondition, deletePrescription, updateCondition, updatePrescription } from '../store/slices/medicalHistorySlice';
+import { fetchMedicalHistory, deleteCondition, deletePrescription } from '../store/slices/medicalHistorySlice';
+import { fetchMedicalTerms } from '../store/slices/medicalTermsSlice';
 import { useTranslation } from 'react-i18next';
 import { PatientCondition } from '../types/medicalTypes';
 import { PatientHistoryScreenStyles } from '../styles/PatientHistoryScreenStyles';
@@ -23,6 +23,10 @@ const PatientHistoryScreen = ({ route, navigation }) => {
         }, [dispatch, patientId])
     );
 
+    useEffect(() => {
+        dispatch(fetchMedicalTerms(currentUser.language));
+    }, [dispatch]);
+
     const handleEditCondition = (conditionId: string) => {
         navigation.navigate('EditConditionScreen', { conditionId, patientId });
     };
@@ -37,6 +41,14 @@ const PatientHistoryScreen = ({ route, navigation }) => {
 
     const handleDeletePrescription = (prescriptionId: string) => {
         dispatch(deletePrescription(prescriptionId));
+    };
+
+    const handleAddCondition = () => {
+        navigation.navigate('AddConditionScreen', { patientId });
+    };
+
+    const handleAddPrescription = (conditionId: string) => {
+        navigation.navigate('AddPrescriptionScreen', { conditionId, patientId });
     };
 
     const renderCondition = ({ item }: { item: PatientCondition }) => (
@@ -73,6 +85,14 @@ const PatientHistoryScreen = ({ route, navigation }) => {
                     )}
                 </View>
             ))}
+            {currentUser?.type === 'DOCTOR' && (
+                <>
+                    <Pressable style={[GlobalStyles.button, { backgroundColor: 'green'}]} onPress={() => handleAddPrescription(item.userConditionId)}>
+                        <Text style={GlobalStyles.buttonText}>{t('addPrescription')}</Text>
+                    </Pressable>
+                </>
+            )}
+
         </View>
     );
 
@@ -81,11 +101,20 @@ const PatientHistoryScreen = ({ route, navigation }) => {
     }
 
     if (status === 'failed') {
-        return <Text style={PatientHistoryScreenStyles.errorText}>{t('errorFetchingHistory')}</Text>;
+        return <Text style={GlobalStyles.errorText}>{t('errorFetchingHistory')}</Text>;
     }
 
     if (!conditions || conditions.length === 0) {
-        return <Text style={PatientHistoryScreenStyles.noHistoryText}>{t('noMedicalHistory')}</Text>;
+        return (
+            <View style={PatientHistoryScreenStyles.noHistoryContainer}>
+                <Text style={PatientHistoryScreenStyles.noHistoryText}>{t('noMedicalHistory')}</Text>
+                {currentUser?.type === 'DOCTOR' && (
+                    <Pressable style={[GlobalStyles.button, { backgroundColor: 'green'}]} onPress={handleAddCondition}>
+                        <Text style={GlobalStyles.buttonText}>{t('addCondition')}</Text>
+                    </Pressable>
+                )}
+            </View>
+        );
     }
 
     return (
@@ -93,7 +122,12 @@ const PatientHistoryScreen = ({ route, navigation }) => {
             contentContainerStyle={PatientHistoryScreenStyles.container}
             data={conditions}
             renderItem={renderCondition}
-            keyExtractor={(item) => item.userConditionId.toString()}
+            keyExtractor={(item) => item.userConditionId?.toString()}
+            ListFooterComponent={currentUser?.type === 'DOCTOR' ? (
+                <Pressable style={[GlobalStyles.button, { backgroundColor: 'green'}]} onPress={handleAddCondition}>
+                    <Text style={GlobalStyles.buttonText}>{t('addCondition')}</Text>
+                </Pressable>
+            ) : null}
         />
     );
 };

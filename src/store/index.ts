@@ -4,13 +4,15 @@ import chatReducer from './slices/chatSlice';
 import userReducer from './slices/userSlice';
 import medicalProfilesReducer from './slices/medicalProfilesSlice';
 import medicalHistoryReducer from './slices/medicalHistorySlice';
+import medicalTermsReducer from './slices/medicalTermsSlice';
 
 const store = configureStore({
   reducer: {
     chat: chatReducer,
     user: userReducer,
     medicalProfiles: medicalProfilesReducer,
-    medicalHistory: medicalHistoryReducer
+    medicalHistory: medicalHistoryReducer,
+    medicalTerms: medicalTermsReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,

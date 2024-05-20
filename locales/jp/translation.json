@@ -82,5 +82,10 @@
     "confirmDeletePrescription": "この処方箋を削除してもよろしいですか？",
     "editPrescription": "処方箋を編集",
     "save": "保存",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+
+    "addCondition": "状態を追加",
+    "selectCondition": "状態を選択",
+    "addPrescription": "処方箋を追加",
+    "selectPrescription": "処方箋を選択"
 }

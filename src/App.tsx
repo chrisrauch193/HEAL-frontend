@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AddConditionScreen from './screens/AddConditionScreen';
+import AddPrescriptionScreen from './screens/AddPrescriptionScreen';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import ChatScreen from './screens/ChatScreen';
 import EditConditionScreen from './screens/EditConditionScreen';
@@ -35,6 +37,8 @@ const App: React.FC = () => {
     <I18nextProvider i18n={i18n}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="AuthLoadingScreen" screenOptions={{ cardStyle: { flex: 1 } }}>
+          <Stack.Screen name="AddConditionScreen" component={AddConditionScreen} />
+          <Stack.Screen name="AddPrescriptionScreen" component={AddPrescriptionScreen} />
           <Stack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: t('consultations') }} />
           <Stack.Screen name="EditConditionScreen" component={EditConditionScreen} />
