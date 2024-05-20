@@ -19,9 +19,9 @@ const AuthLoadingScreen = ({ navigation }) => {
 
     useEffect(() => {
         if (status === 'idle' && currentUserProfile) {
-            navigation.navigate('ChatScreen');
+            navigation.replace('ChatScreen');
         } else if (status === 'failed') {
-            navigation.navigate('LoginScreen');
+            navigation.replace('LoginScreen');
         }
     }, [status, currentUserProfile, navigation]);
 
