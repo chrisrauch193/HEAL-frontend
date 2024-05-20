@@ -3,7 +3,7 @@ import axiosInstance from '../api/axiosInstance';
 
 export const getMedicalHistory = async (patientId: string) => {
     const response = await axiosInstance.get(`/patients/${patientId}/medical-history`);
-    return response.data;
+    return response.data.medicalConditions;
 };
 
 export const addCondition = async (patientId: string, medicalTermId: string, data: any) => {
@@ -11,8 +11,8 @@ export const addCondition = async (patientId: string, medicalTermId: string, dat
     return response.data;
 };
 
-export const updateCondition = async (conditionId: string, medicalTermId: string, data: any) => {
-    const response = await axiosInstance.put(`/patients/conditions/${conditionId}/${medicalTermId}`, data);
+export const updateCondition = async (conditionId: string, status: string) => {
+    const response = await axiosInstance.put(`/patients/conditions/${conditionId}`, { status });
     return response.data;
 };
 
@@ -26,8 +26,8 @@ export const addPrescription = async (conditionId: string, medicalTermId: string
     return response.data;
 };
 
-export const updatePrescription = async (prescriptionId: string, data: any) => {
-    const response = await axiosInstance.put(`/patients/prescriptions/${prescriptionId}`, data);
+export const updatePrescription = async (prescriptionId: string, dosage: string, frequency: string) => {
+    const response = await axiosInstance.put(`/patients/prescriptions/${prescriptionId}`, { dosage, frequency });
     return response.data;
 };
 

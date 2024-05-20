@@ -74,5 +74,13 @@
     "errorFetchingHistory": "履歴の取得エラー",
     "viewMedicalHistory": "病歴を見る",
     "status": "状態",
-    "noMedicalHistory": "病歴がありません"
+    "noMedicalHistory": "病歴がありません",
+    "deleteCondition": "状態を削除",
+    "confirmDeleteCondition": "この状態を削除してもよろしいですか？",
+    "editCondition": "状態を編集",
+    "deletePrescription": "処方箋を削除",
+    "confirmDeletePrescription": "この処方箋を削除してもよろしいですか？",
+    "editPrescription": "処方箋を編集",
+    "save": "保存",
+    "cancel": "キャンセル"
 }

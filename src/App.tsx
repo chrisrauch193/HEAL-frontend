@@ -7,6 +7,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import ChatScreen from './screens/ChatScreen';
+import EditConditionScreen from './screens/EditConditionScreen';
+import EditPrescriptionScreen from './screens/EditPrescriptionScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
 import LoginScreen from './screens/LoginScreen';
 import MessagingScreen from './screens/MessagingScreen';
@@ -35,6 +37,8 @@ const App: React.FC = () => {
         <Stack.Navigator initialRouteName="AuthLoadingScreen" screenOptions={{ cardStyle: { flex: 1 } }}>
           <Stack.Screen name="AuthLoadingScreen" component={AuthLoadingScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ title: t('consultations') }} />
+          <Stack.Screen name="EditConditionScreen" component={EditConditionScreen} />
+          <Stack.Screen name="EditPrescriptionScreen" component={EditPrescriptionScreen} />
           <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{ title: t('editProfile') }} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: t('login') }} />
           <Stack.Screen name="MessagingScreen" component={MessagingScreen} options={{ title: t('consultations') }} />

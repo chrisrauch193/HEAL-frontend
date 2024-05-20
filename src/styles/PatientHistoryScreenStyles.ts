@@ -1,6 +1,6 @@
 // src/styles/PatientHistoryScreenStyles.ts
 import { StyleSheet, Platform } from 'react-native';
-import { spacing, colors, fonts } from './GlobalStyles';
+import GlobalStyles, { spacing, colors, fonts } from './GlobalStyles';
 
 export const PatientHistoryScreenStyles = StyleSheet.create({
     container: {
@@ -58,6 +58,25 @@ export const PatientHistoryScreenStyles = StyleSheet.create({
         fontSize: fonts.text,
         color: colors.text,
         marginBottom: spacing.small,
+    },
+    editButton: {
+        backgroundColor: colors.primary,
+        padding: spacing.small,
+        borderRadius: 4,
+        alignItems: 'center',
+        marginVertical: spacing.small,
+    },
+    deleteButton: {
+        backgroundColor: 'red',
+        padding: spacing.small,
+        borderRadius: 4,
+        alignItems: 'center',
+        marginVertical: spacing.small,
+    },
+    buttonText: {
+        color: colors.white,
+        fontSize: fonts.text,
+        fontWeight: 'bold',
     },
 });
 

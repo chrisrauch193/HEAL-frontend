@@ -74,5 +74,13 @@
     "errorFetchingHistory": "Error fetching history",
     "viewMedicalHistory": "View Medical History",
     "status": "Status",
-    "noMedicalHistory": "No medical history available"
+    "noMedicalHistory": "No medical history available",
+    "deleteCondition": "Delete Condition",
+    "confirmDeleteCondition": "Are you sure you want to delete this condition?",
+    "editCondition": "Edit Condition",
+    "deletePrescription": "Delete Prescription",
+    "confirmDeletePrescription": "Are you sure you want to delete this prescription?",
+    "editPrescription": "Edit Prescription",
+    "save": "Save",
+    "cancel": "Cancel"
 }
