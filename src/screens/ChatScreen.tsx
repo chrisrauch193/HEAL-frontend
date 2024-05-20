@@ -4,10 +4,11 @@ import { View, Text, Pressable, SafeAreaView, FlatList, ActivityIndicator } from
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { fetchRooms } from '../store/slices/chatSlice';
+import { fetchRooms, addOptimisticRoom } from '../store/slices/chatSlice';
 import { RootState } from '../store';
 import ChatComponent from "../components/ChatComponent";
 import { ChatScreenStyles } from "../styles/ChatScreenStyles";
+import { createChatRoom } from "../services/chatService";
 
 import { useTranslation } from 'react-i18next';
 
@@ -17,14 +18,18 @@ const ChatScreen = () => {
     const navigation = useNavigation();
     const { rooms, status } = useSelector((state: RootState) => state.chat);
     const currentUserProfile = useSelector((state: RootState) => state.user.currentUserProfile);
-    const [modalVisible, setModalVisible] = React.useState(false);
 
     useEffect(() => {
         dispatch(fetchRooms(currentUserProfile?.userId));
     }, [dispatch]);
 
-    const handleCreateGroup = () => {
-        setModalVisible(true);
+    const handleCreateGroup = async () => {
+        try {
+            const newRoom = await createChatRoom();
+            dispatch(addOptimisticRoom(newRoom));
+        } catch (error) {
+            console.error('Failed to create new chat room:', error);
+        }
     };
 
     const handleNavigateProfile = () => {

@@ -47,6 +47,9 @@ export const chatSlice = createSlice({
             }
             state.messages[roomId].push(message);
         },
+        addOptimisticRoom: (state, action: PayloadAction<ChatRoom>) => {
+            state.rooms.push(action.payload);
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -89,5 +92,5 @@ export const chatSlice = createSlice({
     }
 });
 
-export const { receivedMessage, addOptimisticMessage } = chatSlice.actions;
+export const { receivedMessage, addOptimisticMessage, addOptimisticRoom } = chatSlice.actions;
 export default chatSlice.reducer;
