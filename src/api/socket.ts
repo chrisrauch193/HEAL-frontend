@@ -8,7 +8,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const localHostIP = '10.231.136.48'; // Your local network IP, change as necessary
 
 const backendUrl = isDev ? `http://${localHostIP}:8888` : Platform.select({
-  web: '/api',
+  web: '/socket.io',
   default: 'http://13.208.164.92:8888'
 });
 
