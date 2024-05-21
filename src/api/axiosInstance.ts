@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 
 // Define backendUrl based on the platform and environment
 const isDev = process.env.NODE_ENV === 'development';
-const localHostIP = '172.20.10.5'; // Your local network IP, change as necessary
+const localHostIP = '10.231.136.48'; // Your local network IP, change as necessary
 
 const backendUrl = isDev ? `http://${localHostIP}:8888` : Platform.select({
   web: '/api',
