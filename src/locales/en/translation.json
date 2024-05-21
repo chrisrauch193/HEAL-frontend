@@ -62,5 +62,8 @@
     "spanish": "Spanish (Español)",
     "chinese": "Chinese (中文)",
     "arabic": "Arabic (العربية)",
-    "russian": "Russian (Русский)"
+    "russian": "Russian (Русский)",
+
+    "heal": "HEAL",
+    "healLong": "- Healthcare Empowerment through AI Linguistics -"
 }

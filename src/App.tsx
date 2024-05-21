@@ -46,7 +46,7 @@ const App: React.FC = () => {
           <Stack.Screen name="EditConditionScreen" component={EditConditionScreen} />
           <Stack.Screen name="EditPrescriptionScreen" component={EditPrescriptionScreen} />
           <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} options={{ title: t('editProfile') }} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: t('login') }} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: "" }} />
           <Stack.Screen name="MessagingScreen" component={MessagingScreen} options={{ title: t('consultations') }} />
           <Stack.Screen name="PatientHistoryScreen" component={PatientHistoryScreen} options={{ title: t('medicalHistory') }} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} options={{ title: t('profile') }} />

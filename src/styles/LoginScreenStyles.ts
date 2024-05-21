@@ -17,6 +17,14 @@ export const LoginScreenStyles = StyleSheet.create({
         color: colors.text,
         fontWeight: 'bold',
         marginBottom: spacing.medium,
+        textAlign: 'center'
+    },
+    subheading: {
+        fontSize: fonts.subtitle,  // フォントサイズを小さくする
+        color: colors.text,  // 色を同じにする
+        fontWeight: 'normal',  // フォントウェイトを通常にする
+        marginBottom: spacing.small,  // マージンを調整する
+        textAlign: 'center'  // テキストの位置を同じにする
     },
     input: {
         ...GlobalStyles.input,
@@ -34,6 +42,11 @@ export const LoginScreenStyles = StyleSheet.create({
         color: colors.secondary,
         marginTop: spacing.small,
         textAlign: 'center',
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        alignSelf: 'center',
     },
 });
 
